@@ -57,6 +57,7 @@ font-family:inherit}
 #searchResults .hit-ctx{display:block;color:#5b7290;font-size:11.5px;line-height:1.5;
 margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #searchResults .hit-vol{color:#7dd3fc;font-size:11px;margin-right:4px}
+mark{background:rgba(255,212,59,.24);color:#ffe58a;border-radius:3px;padding:0 2px}
 #searchEmpty{color:#5b7290;font-size:12.5px;padding:10px}
 .nav-group{color:#5b7290;font-size:11.5px;letter-spacing:2.5px;padding:14px 10px 6px}
 #sidebar a.item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:9px;
@@ -253,12 +254,12 @@ placeholder="搜索章节标题或正文…"></div>
 <h2>一、常用动词：程序做的“动作”</h2>
 <div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>run</td><td>运行</td><td>让程序跑起来（第 1 章）</td></tr><tr><td>print</td><td>打印</td><td>把内容显示到屏幕（第 1 章）</td></tr><tr><td>input</td><td>输入</td><td>接收用户的输入（第 9 章）</td></tr><tr><td>open / close</td><td>打开 / 关闭</td><td>文件操作（第 16 章）</td></tr><tr><td>read / write</td><td>读 / 写</td><td>文件读写（第 16 章）</td></tr><tr><td>define</td><td>定义</td><td><code>def</code> 定义函数（第 13 章）</td></tr><tr><td>return</td><td>返回、交回</td><td>函数交回结果（第 13 章）</td></tr><tr><td>import</td><td>导入</td><td>引入模块（第 14 章）</td></tr><tr><td>install</td><td>安装</td><td>安装 Python 和库（第 2、14 章）</td></tr><tr><td>convert</td><td>转换</td><td>类型转换（第 5 章）</td></tr><tr><td>append</td><td>追加</td><td>列表末尾添加（第 10 章）</td></tr><tr><td>insert</td><td>插入</td><td>插到指定位置（第 10 章）</td></tr><tr><td>extend</td><td>扩展</td><td>列表拼接（第 10 章）</td></tr><tr><td>remove</td><td>移除</td><td>按值删除（第 10 章）</td></tr><tr><td>delete</td><td>删除</td><td><code>del</code> 删除（第 11 章）</td></tr><tr><td>pop</td><td>弹出</td><td>取出并删除（第 10 章）</td></tr><tr><td>sort</td><td>排序</td><td>列表排序（第 10 章）</td></tr><tr><td>reverse</td><td>反转</td><td>顺序倒过来（第 10 章）</td></tr><tr><td>find</td><td>查找</td><td>找子串位置（第 12 章）</td></tr><tr><td>replace</td><td>替换</td><td>字符串替换（第 12 章）</td></tr><tr><td>split</td><td>分割</td><td>拆成列表（第 12 章）</td></tr><tr><td>join</td><td>连接</td><td>粘成字符串（第 12 章）</td></tr><tr><td>strip</td><td>剥去</td><td>去掉两端空格（第 12 章）</td></tr><tr><td>break</td><td>打断</td><td>终止循环（第 8 章）</td></tr><tr><td>continue</td><td>继续</td><td>跳过本轮（第 8 章）</td></tr></tbody></table></div>
 <h2>二、常用名词：程序里的“东西”</h2>
-<div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>code</td><td>代码</td><td>全书</td></tr><tr><td>program</td><td>程序</td><td>全书</td></tr><tr><td>variable</td><td>变量</td><td>第 5 章</td></tr><tr><td>value</td><td>值</td><td>第 5 章</td></tr><tr><td>type</td><td>类型</td><td>第 5 章</td></tr><tr><td>integer</td><td>整数</td><td>缩写 <code>int</code>（第 5 章）</td></tr><tr><td>float</td><td>浮点数</td><td>“浮动”的小数点（第 5 章）</td></tr><tr><td>string</td><td>字符串</td><td>缩写 <code>str</code>（第 5 章）</td></tr><tr><td>boolean</td><td>布尔值</td><td>缩写 <code>bool</code>，源自数学家 Boole（第 5 章）</td></tr><tr><td>constant</td><td>常量</td><td>全大写命名（第 5 章）</td></tr><tr><td>condition</td><td>条件</td><td><code>if</code> 的判断依据（第 7 章）</td></tr><tr><td>loop</td><td>循环</td><td>第 8 章</td></tr><tr><td>function</td><td>函数</td><td>第 13 章</td></tr><tr><td>parameter / argument</td><td>形参 / 实参</td><td>第 13 章</td></tr><tr><td>list</td><td>列表</td><td>第 10 章</td></tr><tr><td>tuple</td><td>元组</td><td>第 10 章</td></tr><tr><td>dictionary</td><td>字典</td><td>缩写 <code>dict</code>（第 11 章）</td></tr><tr><td>set</td><td>集合</td><td>第 11 章</td></tr><tr><td>key / value</td><td>键 / 值</td><td>第 11 章</td></tr><tr><td>index</td><td>索引</td><td>第 10 章</td></tr><tr><td>slice</td><td>切片</td><td>第 10 章</td></tr><tr><td>element / item</td><td>元素 / 项</td><td>第 10 章</td></tr><tr><td>sequence</td><td>序列</td><td>第 10、12 章</td></tr><tr><td>module</td><td>模块</td><td>第 14 章</td></tr><tr><td>library</td><td>库</td><td>标准库 / 第三方库（第 14 章）</td></tr><tr><td>package</td><td>包</td><td>pip 安装的对象（第 14 章）</td></tr><tr><td>file</td><td>文件</td><td>第 16 章</td></tr><tr><td>directory</td><td>目录（文件夹）</td><td>命令 <code>dir</code></td></tr><tr><td>path</td><td>路径</td><td>第 12、16 章</td></tr><tr><td>error</td><td>错误</td><td>全书的报错</td></tr><tr><td>exception</td><td>异常</td><td>第 15 章</td></tr><tr><td>comment</td><td>注释</td><td>第 4 章</td></tr><tr><td>indentation</td><td>缩进</td><td>第 4 章</td></tr><tr><td>syntax</td><td>语法</td><td><code>SyntaxError</code>（第 4 章）</td></tr><tr><td>expression</td><td>表达式</td><td>第 6 章</td></tr><tr><td>operator</td><td>运算符</td><td>第 6 章</td></tr><tr><td>class / object / method</td><td>类 / 对象 / 方法</td><td>第 17 章</td></tr><tr><td>default</td><td>默认</td><td>默认参数（第 13 章）</td></tr><tr><td>scope</td><td>作用域</td><td>第 13 章</td></tr><tr><td>global / local</td><td>全局 / 局部</td><td>第 13 章</td></tr><tr><td>environment</td><td>环境</td><td>IDE 里的 E（第 3 章）；虚拟环境见第 14 章</td></tr><tr><td>version</td><td>版本</td><td>第 2 章</td></tr><tr><td>extension</td><td>扩展名 / 插件</td><td>本章、第 3 章</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>code</td><td>代码</td><td>全书</td></tr><tr><td>program</td><td>程序</td><td>全书</td></tr><tr><td>variable</td><td>变量</td><td>第 5 章</td></tr><tr><td>value</td><td>值</td><td>第 5 章</td></tr><tr><td>type</td><td>类型</td><td>第 5 章</td></tr><tr><td>integer</td><td>整数</td><td>缩写 <code>int</code>（第 5 章）</td></tr><tr><td>float</td><td>浮点数</td><td>“浮动”的小数点（第 5 章）</td></tr><tr><td>string</td><td>字符串</td><td>缩写 <code>str</code>（第 5 章）</td></tr><tr><td>boolean</td><td>布尔值</td><td>缩写 <code>bool</code>，源自数学家 Boole（第 5 章）</td></tr><tr><td>constant</td><td>常量</td><td>全大写命名（第 5 章）</td></tr><tr><td>condition</td><td>条件</td><td><code>if</code> 的判断依据（第 7 章）</td></tr><tr><td>loop</td><td>循环</td><td>第 8 章</td></tr><tr><td>function</td><td>函数</td><td>第 13 章</td></tr><tr><td>parameter / argument</td><td>形参 / 实参</td><td>第 13 章</td></tr><tr><td>list</td><td>列表</td><td>第 10 章</td></tr><tr><td>tuple</td><td>元组</td><td>第 10 章</td></tr><tr><td>dictionary</td><td>字典</td><td>缩写 <code>dict</code>（第 11 章）</td></tr><tr><td>set</td><td>集合</td><td>第 11 章</td></tr><tr><td>key / value</td><td>键 / 值</td><td>第 11 章</td></tr><tr><td>index</td><td>索引</td><td>第 10 章</td></tr><tr><td>slice</td><td>切片</td><td>第 10 章</td></tr><tr><td>element / item</td><td>元素 / 项</td><td>第 10 章</td></tr><tr><td>sequence</td><td>序列</td><td>第 10、12 章</td></tr><tr><td>module</td><td>模块</td><td>第 14 章</td></tr><tr><td>library</td><td>库</td><td>标准库 / 第三方库（第 14 章）</td></tr><tr><td>package</td><td>包</td><td>pip 安装的对象（第 14 章）</td></tr><tr><td>file</td><td>文件</td><td>第 16 章</td></tr><tr><td>directory</td><td>目录（文件夹）</td><td>命令 <code>dir</code></td></tr><tr><td>path</td><td>路径</td><td>第 12、16 章（第 16 章用 <code>Path</code> 处理它）</td></tr><tr><td>error</td><td>错误</td><td>全书的报错</td></tr><tr><td>exception</td><td>异常</td><td>第 15 章</td></tr><tr><td>comment</td><td>注释</td><td>第 4 章</td></tr><tr><td>indentation</td><td>缩进</td><td>第 4 章</td></tr><tr><td>syntax</td><td>语法</td><td><code>SyntaxError</code>（第 4 章）</td></tr><tr><td>expression</td><td>表达式</td><td>第 6 章</td></tr><tr><td>operator</td><td>运算符</td><td>第 6 章</td></tr><tr><td>class / object / method</td><td>类 / 对象 / 方法</td><td>第 17 章</td></tr><tr><td>default</td><td>默认</td><td>默认参数（第 13 章）</td></tr><tr><td>scope</td><td>作用域</td><td>第 13 章</td></tr><tr><td>global / local</td><td>全局 / 局部</td><td>第 13 章</td></tr><tr><td>environment</td><td>环境</td><td>IDE 里的 E（第 3 章）；虚拟环境见第 14 章</td></tr><tr><td>version</td><td>版本</td><td>第 2 章</td></tr><tr><td>extension</td><td>扩展名 / 插件</td><td>本章、第 3 章</td></tr></tbody></table></div>
 <h2>三、缩写对照表（重点收藏）</h2>
 <div class="table-wrap"><table><thead><tr><th>缩写</th><th>全称</th><th>中文</th><th>你会在哪见到</th></tr></thead><tbody><tr><td>int</td><td>integer</td><td>整数</td><td>类型名（第 5 章）</td></tr><tr><td>str</td><td>string</td><td>字符串</td><td>类型名（第 5 章）</td></tr><tr><td>bool</td><td>boolean</td><td>布尔值</td><td>类型名（第 5 章）</td></tr><tr><td>def</td><td>define</td><td>定义</td><td>定义函数（第 13 章）</td></tr><tr><td>elif</td><td>else if</td><td>否则如果</td><td>多分支（第 7 章）</td></tr><tr><td>dict</td><td>dictionary</td><td>字典</td><td>类型名（第 11 章）</td></tr><tr><td>del</td><td>delete</td><td>删除</td><td>删除语句（第 11 章）</td></tr><tr><td>len</td><td>length</td><td>长度</td><td>内置函数（第 10 章）</td></tr><tr><td>max / min</td><td>maximum / minimum</td><td>最大值 / 最小值</td><td>内置函数（第 10 章）</td></tr><tr><td>dir</td><td>directory</td><td>目录</td><td>命令行命令</td></tr><tr><td>src</td><td>source</td><td>源（代码）</td><td>文件夹命名</td></tr><tr><td>var</td><td>variable</td><td>变量</td><td>各类资料</td></tr><tr><td>args</td><td>arguments</td><td>实参</td><td>报错信息</td></tr><tr><td>IDE</td><td>Integrated Development Environment</td><td>集成开发环境</td><td>第 3 章</td></tr><tr><td>IDLE</td><td>Integrated Development and Learning Environment</td><td>Python 自带的简易 IDE</td><td>第 3 章</td></tr><tr><td>REPL</td><td>Read-Eval-Print Loop</td><td>读取-求值-打印循环</td><td>交互模式（第 2 章）</td></tr><tr><td>PEP</td><td>Python Enhancement Proposal</td><td>Python 增强提案</td><td>PEP 8 风格指南（第 4 章）</td></tr><tr><td>pip</td><td>Pip Installs Packages</td><td>包安装工具</td><td>第 14 章</td></tr><tr><td>venv</td><td>virtual environment</td><td>虚拟环境</td><td>隔离项目依赖（第 14 章）</td></tr><tr><td>OOP</td><td>Object-Oriented Programming</td><td>面向对象编程</td><td>第 17 章</td></tr><tr><td>exe</td><td>executable</td><td>可执行文件</td><td>python.exe（第 3 章）</td></tr><tr><td>cmd</td><td>command</td><td>命令</td><td>Windows 命令行</td></tr><tr><td>CPU</td><td>Central Processing Unit</td><td>中央处理器</td><td>第 2 章</td></tr><tr><td>OS</td><td>Operating System</td><td>操作系统</td><td>第 2 章</td></tr><tr><td>csv</td><td>Comma-Separated Values</td><td>逗号分隔值</td><td>第 12 章</td></tr></tbody></table></div>
 <h2>四、关键字的本意（理解着记）</h2>
 <p>关键字是 Python 保留的英文词。<strong>知道本意，语法就好记了</strong>：</p>
-<div class="table-wrap"><table><thead><tr><th>关键字</th><th>英文本意</th><th>作用</th></tr></thead><tbody><tr><td>if</td><td>如果</td><td>条件判断（第 7 章）</td></tr><tr><td>else</td><td>否则</td><td>条件分支（第 7 章）</td></tr><tr><td>and / or / not</td><td>且 / 或 / 非</td><td>逻辑组合（第 7 章）</td></tr><tr><td>in</td><td>在……里</td><td>成员判断、遍历（第 8、10 章）</td></tr><tr><td>while</td><td>当……的时候</td><td>条件循环（第 8 章）</td></tr><tr><td>for</td><td>对于（每一个）</td><td>遍历循环（第 8 章）</td></tr><tr><td>True / False</td><td>真 / 假</td><td>布尔值（第 5 章）</td></tr><tr><td>None</td><td>一个都没有</td><td>空值（第 11 章）</td></tr><tr><td>pass</td><td>通过、跳过</td><td>占位语句（第 13 章）</td></tr><tr><td>import</td><td>进口、引入</td><td>导入模块（第 14 章）</td></tr><tr><td>try / except</td><td>尝试 / 把……排除在外</td><td>异常处理（第 15 章）</td></tr><tr><td>with</td><td>带着</td><td>打开文件（第 16 章）</td></tr><tr><td>class</td><td>类别</td><td>定义类（第 17 章）</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>关键字</th><th>英文本意</th><th>作用</th></tr></thead><tbody><tr><td>if</td><td>如果</td><td>条件判断（第 7 章）</td></tr><tr><td>else</td><td>否则</td><td>条件分支（第 7 章）</td></tr><tr><td>and / or / not</td><td>且 / 或 / 非</td><td>逻辑组合（第 7 章）</td></tr><tr><td>in</td><td>在……里</td><td>成员判断、遍历（第 8、10 章）</td></tr><tr><td>while</td><td>当……的时候</td><td>条件循环（第 8 章）</td></tr><tr><td>for</td><td>对于（每一个）</td><td>遍历循环（第 8 章）</td></tr><tr><td>True / False</td><td>真 / 假</td><td>布尔值（第 5 章）</td></tr><tr><td>None</td><td>一个都没有</td><td>空值（第 11 章）</td></tr><tr><td>pass</td><td>通过、跳过</td><td>占位语句（第 13 章）</td></tr><tr><td>import</td><td>进口、引入</td><td>导入模块（第 14 章）</td></tr><tr><td>try / except</td><td>尝试 / 把……排除在外</td><td>异常处理（第 15 章）</td></tr><tr><td>with</td><td>带着</td><td>打开文件（第 16 章）</td></tr><tr><td>class</td><td>类别</td><td>定义类（第 17 章）</td></tr><tr><td>lambda</td><td>λ（无名函数）</td><td>临时用一次的小函数（第 10 章）</td></tr><tr><td>assert</td><td>断言、断定</td><td>调试自测时的检查（第 15 章）</td></tr><tr><td>raise</td><td>举起、抛出</td><td>主动抛出异常（第 15 章）</td></tr><tr><td>finally</td><td>最后、终于</td><td>无论如何都要执行的收尾（第 15 章）</td></tr></tbody></table></div>
 <p>比如 <code>3 in scores</code> 直译就是“3 在 scores 里吗？”——懂了本意，代码就能像句子一样读出来。</p>
 <h2>五、必要的电脑小知识</h2>
 <h3>1. 中英文标点：先防住新手第一大坑</h3>
@@ -878,7 +879,7 @@ a.extend(b)       <span class="cm"># 把 b 的元素逐个塞进 a，效果类�
 <span class="bi">print</span>(scores[:<span class="nu">2</span>])     <span class="cm"># [90, 85] —— 从头开始取</span>
 <span class="bi">print</span>(scores[<span class="nu">2</span>:])     <span class="cm"># [77, 100, 66] —— 一直取到结尾</span></code></pre>
 <p>规则和 <code>range</code> 一致：<strong>含头不含尾</strong>。切片还有第三个参数<strong>步长</strong>：<code>scores[::2]</code> 每两个取一个，得到 <code>[90, 77, 66]</code>；步长为 -1 时，<code>scores[::-1]</code> 就是整个列表倒过来。</p>
-<blockquote><p><strong>重要细节：赋值不是复制</strong>。<code>b = scores</code> 并不会复制列表，只是给<strong>同一个列表</strong>多贴了一个标签——通过 <code>b</code> 做的修改，<code>scores</code> 看得一清二楚。想要真正独立的副本，用切片：<code>b = scores[:]</code>。这是新手最容易踩的隐性坑，本章挑战作业会用到它。</p></blockquote>
+<blockquote><p><strong>重要细节：赋值不是复制</strong>。<code>b = scores</code> 并不会复制列表，只是给<strong>同一个列表</strong>多贴了一个标签——通过 <code>b</code> 做的修改，<code>scores</code> 看得一清二楚。想要一个副本，用切片：<code>b = scores[:]</code>。这是新手最容易踩的隐性坑，本章挑战作业会用到它。<br><strong>但要留个心眼</strong>：切片复制的是<strong>最外面那一层</strong>。如果列表里装的还是列表或字典（下一章会学），<code>b = a[:]</code> 之后改 <code>b[0]</code> 里面的东西，<code>a[0]</code> 照样跟着变——因为两个列表的第 0 项指向的还是同一个内层容器。<strong>一层数据（数字、字符串）用切片就够；嵌套数据要复制得更彻底</strong>，等用到时再说。</p></blockquote>
 <h2>常用统计与成员判断</h2>
 <pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
 
@@ -1113,6 +1114,16 @@ answer = answer.strip().lower()
 <span class="kw">else</span>:
     <span class="bi">print</span>(<span class="st">"已取消"</span>)</code></pre>
 <p>无论用户输入 <code>" YES "</code>、<code>"Yes"</code> 还是 <code>"yes"</code>，都能正确识别。<strong>处理用户输入前先 <code>strip()</code> + <code>lower()</code></strong>，是很实用的好习惯。</p>
+<h3>选学：一次读入多个值</h3>
+<p><code>split()</code> 和 <code>input()</code> 放在一起，能一次读进好几个值——写脚本和刷题时天天用：</p>
+<pre><code><span class="cm"># 假如用户输入：3 5</span>
+a, b = <span class="bi">input</span>(<span class="st">"请输入两个数，用空格隔开："</span>).split()
+<span class="bi">print</span>(a, b)          <span class="cm"># 3 5 —— 注意，它们现在还是【字符串】</span>
+
+a, b = <span class="bi">int</span>(a), <span class="bi">int</span>(b)
+<span class="bi">print</span>(a + b)         <span class="cm"># 8</span></code></pre>
+<p>读法：<code>input()</code> 拿到整行 <code>"3 5"</code>，<code>.split()</code>（不填参数时按空白拆）把它拆成 <code>["3", "5"]</code>，再用上一章学的<strong>解包</strong>分给 <code>a</code> 和 <code>b</code>。</p>
+<blockquote><p><strong>两个要点</strong>：拆出来的一律是字符串，要算数得自己转；如果输入的个数和左边变量数对不上，会报 <code>ValueError</code>。所以真正写工具时，更稳妥的写法是先 <code>parts = input().split()</code>，判断完长度再取用。</p></blockquote>
 <h2>本章挑战作业</h2>
 <p><strong>密码合规检查器</strong>。注册账号时网站会实时检查密码强度——现在你知道怎么实现了，<strong>没有参考答案</strong>：</p>
 <pre><code>password = <span class="st">"ab 123"</span>      <span class="cm"># 可以随意替换成别的密码来测试</span></code></pre>
@@ -1162,6 +1173,24 @@ greet(<span class="st">"小明"</span>, <span class="st">"早上好"</span>)    
 <p>调用时还可以“指名道姓”地传参——<strong>关键字参数</strong>：</p>
 <pre><code>greet(greeting=<span class="st">"早上好"</span>, name=<span class="st">"小明"</span>)    <span class="cm"># 早上好，小明！—— 顺序随意</span></code></pre>
 <p>参数一多时，关键字参数能明显减少传错顺序的概率。</p>
+<h3>一个必须提前知道的坑：默认值别用可变对象</h3>
+<p>默认值只在<strong>定义函数时算一次</strong>，之后每次调用用的都是同一个。如果默认值是列表，就会看到很诡异的现象：</p>
+<pre><code><span class="kw">def</span> add_item(item, box=[]):      <span class="cm"># ❌ 默认值是个列表</span>
+    box.append(item)
+    <span class="kw">return</span> box
+
+<span class="bi">print</span>(add_item(<span class="st">"a"</span>))    <span class="cm"># ['a']</span>
+<span class="bi">print</span>(add_item(<span class="st">"b"</span>))    <span class="cm"># ['a', 'b'] —— 上一次的结果还在！</span></code></pre>
+<p>原因：<code>box=[]</code> 只创建了一次，两次调用共用同一个列表。正确写法是把默认值设成 <code>None</code>，进了函数再建：</p>
+<pre><code><span class="kw">def</span> add_item(item, box=<span class="kw">None</span>):
+    <span class="kw">if</span> box <span class="kw">is</span> <span class="kw">None</span>:
+        box = []
+    box.append(item)
+    <span class="kw">return</span> box
+
+<span class="bi">print</span>(add_item(<span class="st">"a"</span>))    <span class="cm"># ['a']</span>
+<span class="bi">print</span>(add_item(<span class="st">"b"</span>))    <span class="cm"># ['b'] —— 互不影响</span></code></pre>
+<p>一句话结论：<strong>默认值用数字、字符串、<code>True / False</code>、<code>None</code> 这类不会变的东西</strong>；要用列表或字典，就照上面的写法绕一下。</p>
 <h2>返回值：把结果交回去</h2>
 <p>函数可以把计算结果<strong>返回</strong>给调用处：</p>
 <pre><code><span class="kw">def</span> add(a, b):
@@ -1268,14 +1297,28 @@ pip install requests                  # 3. 之后的 pip 都会装进这个环�
     <span class="kw">if</span> again != <span class="st">"y"</span>:
         <span class="kw">break</span></code></pre>
 <p><code>while + break</code>（第八章）、<code>input</code>（第九章）、random（本章）——八行代码串起三章知识。</p>
+<h3>选学：写自己的模块</h3>
+<p>前面用的都是别人的模块。其实<strong>你自己写的 <code>.py</code> 文件本身就是一个模块</strong>——把函数放进去，另一个文件就能 <code>import</code> 它。</p>
+<p>新建 <code>mytool.py</code>：</p>
+<pre><code><span class="kw">def</span> greet(name):
+    <span class="kw">return</span> <span class="st">"你好，"</span> + name + <span class="st">"！"</span></code></pre>
+<p>再新建 <code>main.py</code>，跟它放在<strong>同一个文件夹</strong>里：</p>
+<pre><code><span class="kw">import</span> mytool                        <span class="cm"># 文件名去掉 .py，就是模块名</span>
+
+<span class="bi">print</span>(mytool.greet(<span class="st">"小明"</span>))           <span class="cm"># 你好，小明！</span>
+
+<span class="kw">from</span> mytool <span class="kw">import</span> greet             <span class="cm"># 也可以只导入其中一样</span>
+<span class="bi">print</span>(greet(<span class="st">"小红"</span>))                  <span class="cm"># 你好，小红！</span></code></pre>
+<p>这才是“模块”这个词真正的含义：<strong>一个 <code>.py</code> 文件，就是一个能被别人拿来用的模块</strong>。标准库里的 <code>math</code>、<code>random</code>，无非是别人写好的、随 Python 一起装好的 <code>.py</code> 文件而已。</p>
+<blockquote><p><strong>注意</strong>：<code>import</code> 只在<strong>同一个文件夹</strong>和 Python 的安装目录里找模块。项目大起来以后，代码会按文件夹分层组织，那就是“包（package）”的话题了，进阶篇再讲。</p></blockquote>
 <h2>选学：<code>if __name__ == "__main__":</code></h2>
-<p>你可能在别人的代码里见过这一行，看着像咒语，删掉好像也不报错。它和“模块”直接相关。</p>
-<p>在任何一个 Python 文件里，<code>__name__</code> 都是一个自动存在的变量：<strong>直接运行这个文件时，它的值是 <code>"__main__"</code></strong>；被别人 <code>import</code> 时，它的值是模块名（文件名去掉 <code>.py</code>）。所以下面这个套路的意思是“只在直接运行本文件时才执行这一段”：</p>
+<p>上一节说过，<code>import mytool</code> 会把 <code>mytool.py</code> 从头到尾执行一遍。如果那个文件里除了函数定义，还写了些“自己测试用”的代码，别人一 <code>import</code> 就会顺带跑起来——这通常不是你想要的。</p>
+<p><code>__name__</code> 就是用来区分这两种情况的。它是每个文件里都自动存在的变量：<strong>直接运行这个文件时，它的值是 <code>"__main__"</code></strong>；被别人 <code>import</code> 时，它的值是模块名（文件名去掉 <code>.py</code>）。所以下面这个套路的意思是“只在直接运行本文件时才执行这一段”：</p>
 <pre><code><span class="bi">print</span>(__name__)          <span class="cm"># 直接运行本文件时，输出 __main__</span>
 
 <span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:
     <span class="bi">print</span>(<span class="st">"我是被直接运行的，不是被 import 的"</span>)</code></pre>
-<p>它常用来把“给别人用的函数”和“给自己测试的代码”放进同一个文件：别人 <code>import</code> 你的模块时，只会拿到函数，不会顺带执行你的测试代码。</p>
+<p>有了它，就能把“给别人用的函数”和“给自己测试的代码”放进同一个文件：别人 <code>import</code> 你的模块时，只会拿到函数，不会顺带执行你的测试代码。</p>
 <h2>本章挑战作业</h2>
 <p><strong>石头剪刀布</strong>。和电脑对战，赢了它算你本事，<strong>没有参考答案</strong>：</p>
 <p>功能要求：</p>
@@ -1332,6 +1375,23 @@ pip install requests                  # 3. 之后的 pip 都会装进这个环�
 <span class="kw">assert</span> age &gt;= <span class="nu">18</span>, <span class="st">"年龄必须满 18"</span>    <span class="cm"># 不成立就报错，并带上这句说明</span>
 <span class="bi">print</span>(<span class="st">"断言通过"</span>)</code></pre>
 <p>它适合写在<strong>调试和自测</strong>里（比如验证自己的函数返回值对不对），不适合用来处理用户输入错误——用户乱输要用 <code>try / except</code>，那才是本章前面讲的正事。</p>
+<h3>选学：主动抛出异常（raise）</h3>
+<p>前面都是“异常发生了，我去接住”。反过来，你也可以<strong>主动抛出</strong>异常：当调用者给的参数根本不合理时，与其让它悄悄算出个错结果，不如当场喊停。</p>
+<pre><code><span class="kw">def</span> set_age(age):
+    <span class="kw">if</span> age &lt; <span class="nu">0</span> <span class="kw">or</span> age &gt; <span class="nu">150</span>:
+        <span class="kw">raise</span> ValueError(<span class="st">"年龄必须在 0 到 150 之间，收到的是 "</span> + <span class="bi">str</span>(age))
+    <span class="kw">return</span> age
+
+<span class="bi">print</span>(set_age(<span class="nu">18</span>))       <span class="cm"># 18</span>
+
+<span class="kw">try</span>:
+    set_age(-<span class="nu">5</span>)
+<span class="kw">except</span> ValueError <span class="kw">as</span> e:
+    <span class="bi">print</span>(<span class="st">"ValueError:"</span>, e)</code></pre>
+<p><code>raise</code> 后面跟一个异常对象。好处是：错误在<strong>发生的地方</strong>就被明确指出，而不是拖到很远的地方，才暴露成一个看不懂的结果。</p>
+<p>三者的分工可以这样记：</p>
+<div class="table-wrap"><table><thead><tr><th>手段</th><th>用在哪</th><th>出问题说明什么</th></tr></thead><tbody><tr><td><code>assert</code></td><td>调试、自测</td><td><strong>你自己的代码</strong>写错了</td></tr><tr><td><code>raise</code></td><td>正式逻辑</td><td><strong>调用你的人</strong>用错了</td></tr><tr><td><code>try / except</code></td><td>正式逻辑</td><td>外部世界（用户输入、文件）不可控</td></tr></tbody></table></div>
+<p>想在项目里定义自己的异常类型，只要继承 <code>Exception</code> 就行（继承的概念第十七章会讲）：<code>class MyError(Exception): pass</code>。进阶篇再展开。</p>
 <h2>常见异常速查表</h2>
 <p>前面各章见过的报错，在这里全部对上号：</p>
 <div class="table-wrap"><table><thead><tr><th>异常</th><th>触发场景</th><th>首次出现在</th></tr></thead><tbody><tr><td><code>SyntaxError</code></td><td>语法写错（如少冒号）</td><td>第四章</td></tr><tr><td><code>IndentationError</code></td><td>缩进不一致</td><td>第四章</td></tr><tr><td><code>NameError</code></td><td>使用了未定义的变量</td><td>第十三章</td></tr><tr><td><code>TypeError</code></td><td>类型不匹配（如 <code>"5" + 5</code>）</td><td>第五、六章</td></tr><tr><td><code>ValueError</code></td><td>类型对但值不合适（如 <code>int("abc")</code>）</td><td>本章</td></tr><tr><td><code>IndexError</code></td><td>列表索引越界</td><td>第十章</td></tr><tr><td><code>KeyError</code></td><td>字典键不存在</td><td>第十一章</td></tr><tr><td><code>ZeroDivisionError</code></td><td>除数为 0</td><td>本章</td></tr><tr><td><code>FileNotFoundError</code></td><td>文件不存在</td><td>下一章</td></tr></tbody></table></div>
@@ -1589,6 +1649,14 @@ a.addEventListener("click",closeDrawer);});
 const searchBox=document.getElementById("searchBox");
 const searchResults=document.getElementById("searchResults");
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");}
+/* 先把关键词包进 <mark>：两边都走 esc()，偏移量才一致 */
+function hl(text,q){
+const e=esc(text);
+if(!q)return e;
+try{return e.replace(new RegExp(escRe(esc(q)),"gi"),m=>"<mark>"+m+"</mark>");}
+catch(err){return e;}
+}
 function clearSearch(){
 searchBox.value="";
 searchResults.hidden=true;
@@ -1628,9 +1696,9 @@ return;
 }
 searchResults.innerHTML=hits.map(h=>
 '<a class="item" href="#'+h.vol+'-ch'+h.num+'"><span class="n">'+h.num+'</span>'+
-'<span class="t">'+esc(h.title)+
+'<span class="t">'+hl(h.title,q)+
 '<span class="hit-ctx"><span class="hit-vol">'+esc(VOLNAMES[h.vol]||"")+'</span>'+
-esc(h.ctx)+'</span></span></a>').join("");
+hl(h.ctx,q)+'</span></span></a>').join("");
 searchResults.hidden=false;
 }
 searchBox.addEventListener("input",runSearch);

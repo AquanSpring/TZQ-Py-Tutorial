@@ -127,3 +127,20 @@ finally:
 age = 18
 assert age >= 18, "年龄必须满 18"    # 不成立就报错，并带上这句说明
 print("断言通过")
+
+
+# ---------------------------------------------------------------
+# 选学：主动抛出异常（raise）
+# ---------------------------------------------------------------
+
+def set_age(age):
+    if age < 0 or age > 150:
+        raise ValueError("年龄必须在 0 到 150 之间，收到的是 " + str(age))
+    return age
+
+print(set_age(18))       # 18
+
+try:
+    set_age(-5)
+except ValueError as e:
+    print("ValueError:", e)

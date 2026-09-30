@@ -203,14 +203,43 @@ for vol in VOLUMES:
     if not os.path.isdir(folder):
         continue
     md_files = [f for f in os.listdir(folder) if f.endswith(".md")]
-    if not md_files:
+
+    # 只认「（数字）标题.md」。不符合命名的文件跳过并提示——
+    # 不要因为有人往章节目录里丢了个 README.md，就让整个构建崩掉。
+    numbered, skipped = [], []
+    for f in md_files:
+        m = re.search(r"（(\d+)）", f)
+        if m:
+            numbered.append((int(m.group(1)), f))
+        else:
+            skipped.append(f)
+    for f in skipped:
+        print("  [跳过] %s/%s —— 文件名里没有（数字），不参与构建" % (vol["name"], f))
+    if not numbered:
+        if skipped:
+            raise SystemExit(
+                "篇章「%s」里的 md 都不符合「（数字）标题.md」命名，无法确定章节顺序：%s"
+                % (vol["name"], "、".join(sorted(skipped))))
         continue
-    md_files.sort(key=lambda f: int(re.search(r"（(\d+)）", f).group(1)))
+
+    numbered.sort()
+    seen = {}
+    for num, fname in numbered:
+        if num in seen:
+            raise SystemExit(
+                "篇章「%s」里有两章编号相同（第 %d 章）：%s 和 %s，请改成不同编号"
+                % (vol["name"], num, seen[num], fname))
+        seen[num] = fname
+
     chapters, titles = {}, {}
-    for fname in md_files:
-        num = int(re.search(r"（(\d+)）", fname).group(1))
+    for num, fname in numbered:
         text = open(os.path.join(folder, fname), encoding="utf-8").read()
-        title = re.search(r"(?m)^# (.+)$", text).group(1).strip()
+        tm = re.search(r"(?m)^# (.+)$", text)
+        if not tm:
+            raise SystemExit(
+                "篇章「%s」的 %s 里找不到一级标题（## 之前那行 `# 标题`），无法确定章节名"
+                % (vol["name"], fname))
+        title = tm.group(1).strip()
         titles[num] = title.split("：")[0]
         body = convert_md(text)
         body = re.sub(r"<h1>.+?</h1>", "", body, count=1)
@@ -303,7 +332,6 @@ SAMPLE = (
     'else:\n'
     '    print(f"猜对了！答案是 {secret}")')
 hero_code = highlight_py(SAMPLE)
-n_code = sum(chunk.count("<pre>") for chunk in sections_all) + 1  # +1 主页示例
 
 # ---------------- 页面模板 ----------------
 
@@ -366,6 +394,7 @@ font-family:inherit}
 #searchResults .hit-ctx{display:block;color:#5b7290;font-size:11.5px;line-height:1.5;
 margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 #searchResults .hit-vol{color:#7dd3fc;font-size:11px;margin-right:4px}
+mark{background:rgba(255,212,59,.24);color:#ffe58a;border-radius:3px;padding:0 2px}
 #searchEmpty{color:#5b7290;font-size:12.5px;padding:10px}
 .nav-group{color:#5b7290;font-size:11.5px;letter-spacing:2.5px;padding:14px 10px 6px}
 #sidebar a.item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:9px;
@@ -573,6 +602,14 @@ a.addEventListener("click",closeDrawer);});
 const searchBox=document.getElementById("searchBox");
 const searchResults=document.getElementById("searchResults");
 function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");}
+/* 先把关键词包进 <mark>：两边都走 esc()，偏移量才一致 */
+function hl(text,q){
+const e=esc(text);
+if(!q)return e;
+try{return e.replace(new RegExp(escRe(esc(q)),"gi"),m=>"<mark>"+m+"</mark>");}
+catch(err){return e;}
+}
 function clearSearch(){
 searchBox.value="";
 searchResults.hidden=true;
@@ -612,9 +649,9 @@ return;
 }
 searchResults.innerHTML=hits.map(h=>
 '<a class="item" href="#'+h.vol+'-ch'+h.num+'"><span class="n">'+h.num+'</span>'+
-'<span class="t">'+esc(h.title)+
+'<span class="t">'+hl(h.title,q)+
 '<span class="hit-ctx"><span class="hit-vol">'+esc(VOLNAMES[h.vol]||"")+'</span>'+
-esc(h.ctx)+'</span></span></a>').join("");
+hl(h.ctx,q)+'</span></span></a>').join("");
 searchResults.hidden=false;
 }
 searchBox.addEventListener("input",runSearch);
@@ -682,7 +719,7 @@ page = (TEMPLATE
         .replace("@@FIRST_SLUG@@", first["slug"])
         .replace("@@FIRST_NUM@@", str(min(chapters_all[first["slug"]]))))
 
-with open(OUT, "w", encoding="utf-8") as f:
+with open(OUT, "w", encoding="utf-8", newline="\n") as f:
     f.write(page)
 
 print("篇章:", ", ".join("%s(%d章)" % (v["name"], len(chapters_all[v["slug"]])) for v in available))
