@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="TZQ-Py-Tutorial —— 写给初学者的 Python 图文教程">
+<meta name="description" content="TZQ-Py-Tutorial —— 写给初学者的 Python 基础教程">
 <title>TZQ-Py-Tutorial</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
 <style>
@@ -257,11 +257,11 @@ placeholder="搜索章节标题或正文…"></div>
 <p>反过来，这些词里有不少是<strong>英文单词的缩写</strong>（比如 <code>int</code> 是 integer 的缩写、<code>elif</code> 是 else if 的缩写），只认识缩写、不知道全称，记忆会事倍功半。本章把本教程会用到的英语一次性列出来，配好中文和缩写来源，当“小词典”用——<strong>不用背，混个脸熟，随时回来查</strong>。</p>
 <p>除了单词，这一章还补几样上手之前最好知道的电脑小知识：中英文标点与输入法、键盘符号怎么打、文件扩展名、命令行。</p>
 <h2>一、常用动词：程序做的“动作”</h2>
-<div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>run</td><td>运行</td><td>让程序跑起来（第 1 章）</td></tr><tr><td>print</td><td>打印</td><td>把内容显示到屏幕（第 1 章）</td></tr><tr><td>input</td><td>输入</td><td>接收用户的输入（第 9 章）</td></tr><tr><td>open / close</td><td>打开 / 关闭</td><td>文件操作（第 16 章）</td></tr><tr><td>read / write</td><td>读 / 写</td><td>文件读写（第 16 章）</td></tr><tr><td>define</td><td>定义</td><td><code>def</code> 定义函数（第 13 章）</td></tr><tr><td>return</td><td>返回、交回</td><td>函数交回结果（第 13 章）</td></tr><tr><td>import</td><td>导入</td><td>引入模块（第 14 章）</td></tr><tr><td>install</td><td>安装</td><td>安装 Python 和库（第 2、14 章）</td></tr><tr><td>convert</td><td>转换</td><td>类型转换（第 5 章）</td></tr><tr><td>append</td><td>追加</td><td>列表末尾添加（第 10 章）</td></tr><tr><td>insert</td><td>插入</td><td>插到指定位置（第 10 章）</td></tr><tr><td>extend</td><td>扩展</td><td>列表拼接（第 10 章）</td></tr><tr><td>remove</td><td>移除</td><td>按值删除（第 10 章）</td></tr><tr><td>delete</td><td>删除</td><td><code>del</code> 删除（第 11 章）</td></tr><tr><td>pop</td><td>弹出</td><td>取出并删除（第 10 章）</td></tr><tr><td>sort</td><td>排序</td><td>列表排序（第 10 章）</td></tr><tr><td>reverse</td><td>反转</td><td>顺序倒过来（第 10 章）</td></tr><tr><td>find</td><td>查找</td><td>找子串位置（第 12 章）</td></tr><tr><td>replace</td><td>替换</td><td>字符串替换（第 12 章）</td></tr><tr><td>split</td><td>分割</td><td>拆成列表（第 12 章）</td></tr><tr><td>join</td><td>连接</td><td>粘成字符串（第 12 章）</td></tr><tr><td>strip</td><td>剥去</td><td>去掉两端空格（第 12 章）</td></tr><tr><td>break</td><td>打断</td><td>终止循环（第 8 章）</td></tr><tr><td>continue</td><td>继续</td><td>跳过本轮（第 8 章）</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>run</td><td>运行</td><td>让程序跑起来（第 1 章）</td></tr><tr><td>print</td><td>打印</td><td>把内容显示到屏幕（第 1 章）</td></tr><tr><td>input</td><td>输入</td><td>接收用户的输入（第 9 章）</td></tr><tr><td>open / close</td><td>打开 / 关闭</td><td>文件操作（第 16 章）</td></tr><tr><td>read / write</td><td>读 / 写</td><td>文件读写（第 16 章）</td></tr><tr><td>define</td><td>定义</td><td><code>def</code> 定义函数（第 13 章）</td></tr><tr><td>return</td><td>返回、交回</td><td>函数交回结果（第 13 章）</td></tr><tr><td>import</td><td>导入</td><td>引入模块（第 14 章）</td></tr><tr><td>install</td><td>安装</td><td>安装 Python 和库（第 2、14 章）</td></tr><tr><td>convert</td><td>转换</td><td>类型转换（第 5 章）</td></tr><tr><td>append</td><td>追加</td><td>列表末尾添加（第 10 章）</td></tr><tr><td>insert</td><td>插入</td><td>插到指定位置（第 10 章）</td></tr><tr><td>extend</td><td>扩展</td><td>列表拼接（第 10 章）</td></tr><tr><td>remove</td><td>移除</td><td>按值删除（第 10 章）</td></tr><tr><td>delete</td><td>删除</td><td><code>del</code> 删除（第 10 章）</td></tr><tr><td>pop</td><td>弹出</td><td>取出并删除（第 10 章）</td></tr><tr><td>sort</td><td>排序</td><td>列表排序（第 10 章）</td></tr><tr><td>reverse</td><td>反转</td><td>顺序倒过来（第 10 章）</td></tr><tr><td>find</td><td>查找</td><td>找子串位置（第 12 章）</td></tr><tr><td>replace</td><td>替换</td><td>字符串替换（第 12 章）</td></tr><tr><td>split</td><td>分割</td><td>拆成列表（第 12 章）</td></tr><tr><td>join</td><td>连接</td><td>粘成字符串（第 12 章）</td></tr><tr><td>strip</td><td>剥去</td><td>去掉两端空格（第 12 章）</td></tr><tr><td>break</td><td>打断</td><td>终止循环（第 8 章）</td></tr><tr><td>continue</td><td>继续</td><td>跳过本轮（第 8 章）</td></tr></tbody></table></div>
 <h2>二、常用名词：程序里的“东西”</h2>
 <div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>code</td><td>代码</td><td>全书</td></tr><tr><td>program</td><td>程序</td><td>全书</td></tr><tr><td>variable</td><td>变量</td><td>第 5 章</td></tr><tr><td>value</td><td>值</td><td>第 5 章</td></tr><tr><td>type</td><td>类型</td><td>第 5 章</td></tr><tr><td>integer</td><td>整数</td><td>缩写 <code>int</code>（第 5 章）</td></tr><tr><td>float</td><td>浮点数</td><td>“浮动”的小数点（第 5 章）</td></tr><tr><td>string</td><td>字符串</td><td>缩写 <code>str</code>（第 5 章）</td></tr><tr><td>boolean</td><td>布尔值</td><td>缩写 <code>bool</code>，源自数学家 Boole（第 5 章）</td></tr><tr><td>constant</td><td>常量</td><td>全大写命名（第 5 章）</td></tr><tr><td>condition</td><td>条件</td><td><code>if</code> 的判断依据（第 7 章）</td></tr><tr><td>loop</td><td>循环</td><td>第 8 章</td></tr><tr><td>function</td><td>函数</td><td>第 13 章</td></tr><tr><td>parameter / argument</td><td>形参 / 实参</td><td>第 13 章</td></tr><tr><td>list</td><td>列表</td><td>第 10 章</td></tr><tr><td>tuple</td><td>元组</td><td>第 10 章</td></tr><tr><td>dictionary</td><td>字典</td><td>缩写 <code>dict</code>（第 11 章）</td></tr><tr><td>set</td><td>集合</td><td>第 11 章</td></tr><tr><td>key / value</td><td>键 / 值</td><td>第 11 章</td></tr><tr><td>index</td><td>索引</td><td>第 10 章</td></tr><tr><td>slice</td><td>切片</td><td>第 10 章</td></tr><tr><td>element / item</td><td>元素 / 项</td><td>第 10 章</td></tr><tr><td>sequence</td><td>序列</td><td>第 10、12 章</td></tr><tr><td>module</td><td>模块</td><td>第 14 章</td></tr><tr><td>library</td><td>库</td><td>标准库 / 第三方库（第 14 章）</td></tr><tr><td>package</td><td>包</td><td>pip 装的“包”；也是一组模块的文件夹（第 14 章）</td></tr><tr><td>file</td><td>文件</td><td>第 16 章</td></tr><tr><td>directory</td><td>目录（文件夹）</td><td>命令 <code>dir</code></td></tr><tr><td>path</td><td>路径</td><td>第 12、16 章（第 16 章用 <code>Path</code> 处理它）</td></tr><tr><td>error</td><td>错误</td><td>全书的报错</td></tr><tr><td>exception</td><td>异常</td><td>第 15 章</td></tr><tr><td>comment</td><td>注释</td><td>第 4 章</td></tr><tr><td>indentation</td><td>缩进</td><td>第 4 章</td></tr><tr><td>syntax</td><td>语法</td><td><code>SyntaxError</code>（第 4 章）</td></tr><tr><td>expression</td><td>表达式</td><td>第 6 章</td></tr><tr><td>operator</td><td>运算符</td><td>第 6 章</td></tr><tr><td>class / object / method</td><td>类 / 对象 / 方法</td><td>第 17 章</td></tr><tr><td>default</td><td>默认</td><td>默认参数（第 13 章）</td></tr><tr><td>scope</td><td>作用域</td><td>第 13 章</td></tr><tr><td>global / local</td><td>全局 / 局部</td><td>第 13 章</td></tr><tr><td>environment</td><td>环境</td><td>IDE 里的 E（第 3 章）；虚拟环境见第 14 章</td></tr><tr><td>version</td><td>版本</td><td>第 2 章</td></tr><tr><td>extension</td><td>扩展名 / 插件</td><td>本章、第 3 章</td></tr></tbody></table></div>
 <h2>三、缩写对照表（重点收藏）</h2>
-<div class="table-wrap"><table><thead><tr><th>缩写</th><th>全称</th><th>中文</th><th>你会在哪见到</th></tr></thead><tbody><tr><td>int</td><td>integer</td><td>整数</td><td>类型名（第 5 章）</td></tr><tr><td>str</td><td>string</td><td>字符串</td><td>类型名（第 5 章）</td></tr><tr><td>bool</td><td>boolean</td><td>布尔值</td><td>类型名（第 5 章）</td></tr><tr><td>def</td><td>define</td><td>定义</td><td>定义函数（第 13 章）</td></tr><tr><td>elif</td><td>else if</td><td>否则如果</td><td>多分支（第 7 章）</td></tr><tr><td>dict</td><td>dictionary</td><td>字典</td><td>类型名（第 11 章）</td></tr><tr><td>del</td><td>delete</td><td>删除</td><td>删除语句（第 11 章）</td></tr><tr><td>len</td><td>length</td><td>长度</td><td>内置函数（第 10 章）</td></tr><tr><td>max / min</td><td>maximum / minimum</td><td>最大值 / 最小值</td><td>内置函数（第 10 章）</td></tr><tr><td>dir</td><td>directory</td><td>目录</td><td>命令行命令</td></tr><tr><td>src</td><td>source</td><td>源（代码）</td><td>文件夹命名</td></tr><tr><td>var</td><td>variable</td><td>变量</td><td>各类资料</td></tr><tr><td>args</td><td>arguments</td><td>实参</td><td>报错信息</td></tr><tr><td>IDE</td><td>Integrated Development Environment</td><td>集成开发环境</td><td>第 3 章</td></tr><tr><td>IDLE</td><td>Integrated Development and Learning Environment</td><td>Python 自带的简易 IDE</td><td>第 3 章</td></tr><tr><td>REPL</td><td>Read-Eval-Print Loop</td><td>读取-求值-打印循环</td><td>交互模式（第 2 章）</td></tr><tr><td>PEP</td><td>Python Enhancement Proposal</td><td>Python 增强提案</td><td>PEP 8 风格指南（第 4 章）</td></tr><tr><td>pip</td><td>Pip Installs Packages</td><td>包安装工具</td><td>第 14 章</td></tr><tr><td>venv</td><td>virtual environment</td><td>虚拟环境</td><td>隔离项目依赖（第 14 章）</td></tr><tr><td>OOP</td><td>Object-Oriented Programming</td><td>面向对象编程</td><td>第 17 章</td></tr><tr><td>exe</td><td>executable</td><td>可执行文件</td><td>python.exe（第 3 章）</td></tr><tr><td>cmd</td><td>command</td><td>命令</td><td>Windows 命令行</td></tr><tr><td>CPU</td><td>Central Processing Unit</td><td>中央处理器</td><td>第 2 章</td></tr><tr><td>OS</td><td>Operating System</td><td>操作系统</td><td>第 2 章</td></tr><tr><td>csv</td><td>Comma-Separated Values</td><td>逗号分隔值</td><td>第 12 章</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>缩写</th><th>全称</th><th>中文</th><th>你会在哪见到</th></tr></thead><tbody><tr><td>int</td><td>integer</td><td>整数</td><td>类型名（第 5 章）</td></tr><tr><td>str</td><td>string</td><td>字符串</td><td>类型名（第 5 章）</td></tr><tr><td>bool</td><td>boolean</td><td>布尔值</td><td>类型名（第 5 章）</td></tr><tr><td>def</td><td>define</td><td>定义</td><td>定义函数（第 13 章）</td></tr><tr><td>elif</td><td>else if</td><td>否则如果</td><td>多分支（第 7 章）</td></tr><tr><td>dict</td><td>dictionary</td><td>字典</td><td>类型名（第 11 章）</td></tr><tr><td>del</td><td>delete</td><td>删除</td><td>删除语句（第 10 章）</td></tr><tr><td>len</td><td>length</td><td>长度</td><td>内置函数（第 10 章）</td></tr><tr><td>max / min</td><td>maximum / minimum</td><td>最大值 / 最小值</td><td>内置函数（第 10 章）</td></tr><tr><td>dir</td><td>directory</td><td>目录</td><td>命令行命令</td></tr><tr><td>src</td><td>source</td><td>源（代码）</td><td>文件夹命名</td></tr><tr><td>var</td><td>variable</td><td>变量</td><td>各类资料</td></tr><tr><td>args</td><td>arguments</td><td>实参</td><td>报错信息</td></tr><tr><td>IDE</td><td>Integrated Development Environment</td><td>集成开发环境</td><td>第 3 章</td></tr><tr><td>IDLE</td><td>Integrated Development and Learning Environment</td><td>Python 自带的简易 IDE</td><td>第 3 章</td></tr><tr><td>REPL</td><td>Read-Eval-Print Loop</td><td>读取-求值-打印循环</td><td>交互模式（第 2 章）</td></tr><tr><td>PEP</td><td>Python Enhancement Proposal</td><td>Python 增强提案</td><td>PEP 8 风格指南（第 4 章）</td></tr><tr><td>pip</td><td>Pip Installs Packages</td><td>包安装工具</td><td>第 14 章</td></tr><tr><td>venv</td><td>virtual environment</td><td>虚拟环境</td><td>隔离项目依赖（第 14 章）</td></tr><tr><td>OOP</td><td>Object-Oriented Programming</td><td>面向对象编程</td><td>第 17 章</td></tr><tr><td>exe</td><td>executable</td><td>可执行文件</td><td>python.exe（第 3 章）</td></tr><tr><td>cmd</td><td>command</td><td>命令</td><td>Windows 命令行</td></tr><tr><td>CPU</td><td>Central Processing Unit</td><td>中央处理器</td><td>第 2 章</td></tr><tr><td>OS</td><td>Operating System</td><td>操作系统</td><td>第 2 章</td></tr><tr><td>csv</td><td>Comma-Separated Values</td><td>逗号分隔值</td><td>第 12 章</td></tr></tbody></table></div>
 <h2>四、关键字的本意（理解着记）</h2>
 <p>关键字是 Python 保留的英文词。<strong>知道本意，语法就好记了</strong>：</p>
 <div class="table-wrap"><table><thead><tr><th>关键字</th><th>英文本意</th><th>作用</th></tr></thead><tbody><tr><td>if</td><td>如果</td><td>条件判断（第 7 章）</td></tr><tr><td>else</td><td>否则</td><td>条件分支（第 7 章）</td></tr><tr><td>and / or / not</td><td>且 / 或 / 非</td><td>逻辑组合（第 7 章）</td></tr><tr><td>in</td><td>在……里</td><td>成员判断、遍历（第 8、10 章）</td></tr><tr><td>while</td><td>当……的时候</td><td>条件循环（第 8 章）</td></tr><tr><td>for</td><td>对于（每一个）</td><td>遍历循环（第 8 章）</td></tr><tr><td>True / False</td><td>真 / 假</td><td>布尔值（第 5 章）</td></tr><tr><td>None</td><td>一个都没有</td><td>空值（第 11 章）</td></tr><tr><td>pass</td><td>通过、跳过</td><td>占位语句（第 13 章）</td></tr><tr><td>import</td><td>进口、引入</td><td>导入模块（第 14 章）</td></tr><tr><td>try / except</td><td>尝试 / 把……排除在外</td><td>异常处理（第 15 章）</td></tr><tr><td>with</td><td>带着</td><td>打开文件（第 16 章）</td></tr><tr><td>class</td><td>类别</td><td>定义类（第 17 章）</td></tr><tr><td>lambda</td><td>λ（无名函数）</td><td>临时用一次的小函数（第 10 章）</td></tr><tr><td>assert</td><td>断言、断定</td><td>调试自测时的检查（第 15 章）</td></tr><tr><td>raise</td><td>举起、抛出</td><td>主动抛出异常（第 15 章）</td></tr><tr><td>finally</td><td>最后、终于</td><td>无论如何都要执行的收尾（第 15 章）</td></tr></tbody></table></div>
@@ -1109,19 +1109,19 @@ b = {<span class="nu">3</span>, <span class="nu">4</span>, <span class="nu">5</s
 <div class="table-wrap"><table><thead><tr><th>容器</th><th>符号</th><th>特点</th><th>典型用途</th></tr></thead><tbody><tr><td>列表 list</td><td><code>[ ]</code></td><td>有序、可修改</td><td>一串会变化的数据</td></tr><tr><td>元组 tuple</td><td><code>( )</code></td><td>有序、不可修改</td><td>固定不变的一组值</td></tr><tr><td>字典 dict</td><td><code>{键: 值}</code></td><td>键值对、按键存取</td><td>按名字管理数据</td></tr><tr><td>集合 set</td><td><code>{1, 2, 3}</code></td><td>不重复、无序</td><td>去重、成员判断（空集合要写 <code>set()</code>）</td></tr></tbody></table></div>
 <h2>选学：列表推导式</h2>
 <p>有一类循环特别常见——“把每个元素变换一下，收集成新列表”：</p>
-<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">55</span>]    <span class="cm"># 最后一个是 55 分，留着看下面筛选的效果</span>
 
 bonus = []
 <span class="kw">for</span> s <span class="kw">in</span> scores:
     bonus.append(s + <span class="nu">5</span>)
 
-<span class="bi">print</span>(bonus)    <span class="cm"># [95, 90, 82, 105, 71]</span></code></pre>
+<span class="bi">print</span>(bonus)    <span class="cm"># [95, 90, 82, 105, 60]</span></code></pre>
 <p>Python 为这个固定模式提供了紧凑写法——<strong>列表推导式</strong>：</p>
 <pre><code>bonus = [s + <span class="nu">5</span> <span class="kw">for</span> s <span class="kw">in</span> scores]
-<span class="bi">print</span>(bonus)    <span class="cm"># [95, 90, 82, 105, 71]</span></code></pre>
+<span class="bi">print</span>(bonus)    <span class="cm"># [95, 90, 82, 105, 60]</span></code></pre>
 <p>还能带上 <code>if</code> 做<strong>筛选</strong>：</p>
 <pre><code>passed = [s <span class="kw">for</span> s <span class="kw">in</span> scores <span class="kw">if</span> s &gt;= <span class="nu">60</span>]
-<span class="bi">print</span>(passed)    <span class="cm"># [90, 85, 77, 100]</span></code></pre>
+<span class="bi">print</span>(passed)    <span class="cm"># [90, 85, 77, 100] —— 55 分没及格，被筛掉了</span></code></pre>
 <p>读法：“对 <code>scores</code> 里的每个 <code>s</code>，若满足 <code>s &gt;= 60</code>，就把 <code>s</code> 收进新列表”。本篇只要求<strong>能看懂</strong>别人的推导式；自己写时拿不准，就老老实实写 for 循环——两者完全等价，清晰永远优先。</p>
 <p>同样的形状对字典和集合也成立，各看一个例子就够：</p>
 <pre><code><span class="cm"># 字典推导式：把分数映射成等级</span>
@@ -1595,7 +1595,9 @@ pip install requests                  # 3. 之后的 pip 都会装进这个环�
 <h2>选学：从“读报错”到“调试”</h2>
 <p>到这里你已经会读报错了。但如果程序<strong>不报错、只是结果不对</strong>呢？这时需要<strong>调试（Debug）</strong>——主动去观察程序运行中每一步的真实情况。</p>
 <p><strong>第一步：缩小范围。</strong> 在可疑的位置插一句 <code>print()</code>，把中间变量的值打出来，看它是不是你以为的那个值。这是最朴素也最有效的手段，写十年代码也还在用：</p>
-<pre><code>total = <span class="nu">0</span>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]    <span class="cm"># 假设这是程序里已有的数据</span>
+
+total = <span class="nu">0</span>
 <span class="kw">for</span> s <span class="kw">in</span> scores:
     total += s
     <span class="bi">print</span>(<span class="st">f"加上 {s} 后，total = {total}"</span>)     <span class="cm"># 每一步都摊开看</span></code></pre>
@@ -1637,6 +1639,15 @@ pip install requests                  # 3. 之后的 pip 都会装进这个环�
 <p><strong>打开模式速查</strong>：</p>
 <div class="table-wrap"><table><thead><tr><th>模式</th><th>含义</th><th>注意</th></tr></thead><tbody><tr><td><code>r</code></td><td>读</td><td>文件不存在会报 <code>FileNotFoundError</code></td></tr><tr><td><code>w</code></td><td>写（清空重写）</td><td><strong>会清空文件原有内容！</strong></td></tr><tr><td><code>a</code></td><td>追加</td><td>在文件末尾续写，不清空</td></tr></tbody></table></div>
 <blockquote><p><strong>常见事故</strong>：想给文件“补充”几行，却用了 <code>"w"</code> 模式——旧内容被全部清空。往已有文件续写，用 <code>"a"</code> 模式。</p></blockquote>
+<h3>为什么总要写 encoding="utf-8"</h3>
+<p>不写 <code>encoding</code> 时，Python 会用<strong>操作系统的默认编码</strong>去读写文件。这个默认值并不统一：</p>
+<div class="table-wrap"><table><thead><tr><th>系统</th><th>常见的默认编码</th></tr></thead><tbody><tr><td>Windows（中文环境）</td><td>GBK</td></tr><tr><td>macOS / Linux</td><td>UTF-8</td></tr></tbody></table></div>
+<p>后果是：<strong>同一段代码换台电脑就可能读出乱码，甚至直接抛 <code>UnicodeDecodeError</code></strong>。它还属于最难排查的那一类问题——文件看起来像“坏了”，实际只是写和读用了不同的编码。</p>
+<p>所以请养成一条纪律：<strong>只要写 <code>open()</code>，就顺手写上 <code>encoding="utf-8"</code></strong>。</p>
+<pre><code><span class="kw">with</span> <span class="bi">open</span>(<span class="st">"diary.txt"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    f.write(<span class="st">"第一天：学了变量\n"</span>)</code></pre>
+<p>多打这几下不花什么成本，却能让文件在任何电脑上读出来都是原样。</p>
+<p>想亲眼看它出问题，可以运行本章的配套示例脚本：那段“默认编码”演示会先用 <code>utf-8</code> 写一份中文文件，再故意用系统默认编码读回来，把真实结果打印给你看——在 Windows 中文环境下，它常常就是一句 <code>UnicodeDecodeError</code>。</p>
 <h2>逐行读取</h2>
 <p>文件很大时，<code>f.read()</code> 一次读完可能吃力，更常用逐行遍历——循环又来了：</p>
 <pre><code><span class="kw">with</span> <span class="bi">open</span>(<span class="st">"diary.txt"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
@@ -1678,6 +1689,23 @@ p = Path(<span class="st">"data"</span>) / <span class="st">"diary.txt"</span>  
 <span class="bi">print</span>(p.name)                       <span class="cm"># diary.txt —— 只要文件名</span>
 <span class="bi">print</span>(p.suffix)                     <span class="cm"># .txt —— 只要扩展名</span></code></pre>
 <p><code>p.exists()</code> 能在打开文件<strong>之前</strong>先问一句“你在不在”，很多场合比 <code>try / except</code> 更顺手。本章的记账本作业用 <code>try / except</code> 完全够用，等你开始处理多层目录时再回来用它。</p>
+<h3>选学：文件到底被写到哪儿了</h3>
+<p>这是新手最容易困惑的一个坑：<code>open("diary.txt", "w")</code> 里的 <code>"diary.txt"</code> 是<strong>相对路径</strong>，它相对于你<strong>运行程序时所在的目录</strong>——而不是 <code>.py</code> 文件所在的目录。于是“代码和文件明明在同一个文件夹里”，运行却报 <code>FileNotFoundError</code>。</p>
+<p>想知道相对路径是从哪儿算起的，用 <code>pathlib</code> 问一句当前目录：</p>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="bi">print</span>(Path.cwd())     <span class="cm"># 当前工作目录，所有相对路径都从这里算起</span></code></pre>
+<p>两个实用结论：</p>
+<ul><li>在 VS Code 里按 F5 运行，当前目录通常是<strong>你打开的那个项目文件夹</strong>；而在命令行里 <code>cd</code> 到别处再运行同一个脚本，文件就会写到那个“别处”去；</li><li>找不到自己刚写的文件时，先 <code>print(Path.cwd())</code>，再顺着这个目录去找。</li></ul>
+<p>如果希望文件<strong>一定</strong>待在脚本旁边，可以用 <code>Path(__file__).parent</code> 拿到脚本自己的目录（第十四章认识过 <code>__name__</code>，<code>__file__</code> 是同族的自动变量）：</p>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+here = Path(__file__).parent        <span class="cm"># 本脚本所在目录，与从哪儿运行无关</span>
+target = here / <span class="st">"diary.txt"</span>
+
+<span class="kw">with</span> <span class="bi">open</span>(target, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    f.write(<span class="st">"这次一定写在脚本旁边\n"</span>)</code></pre>
+<p>在 VS Code 里点“运行”时，当前目录到底是项目根还是脚本目录，各版本行为可能不同——与其猜，不如用 <code>Path.cwd()</code> 看一眼真实的值。这正好呼应上一章那句话：<strong>不要靠猜，去看真实的值。</strong></p>
 <h2>本章挑战作业</h2>
 <p><strong>简易记账本</strong>。做一个“每次运行都记得上一次”的支出记录程序——这是文件最典型的用途，<strong>没有参考答案</strong>：</p>
 <p>功能要求：</p>
@@ -1687,7 +1715,7 @@ p = Path(<span class="st">"data"</span>) / <span class="st">"diary.txt"</span>  
 <blockquote><p><strong>提示</strong>：历史总额需要“读文件时累加”——准备一个 <code>total</code> 变量，循环累加（第八章的套路）。本次新增笔数是另一个独立计数器。两种计数器谁在循环外初始化、谁每轮归零，想清楚这一点，程序就对了。</p></blockquote>
 <p><strong>自测标准</strong>：运行程序记三笔账退出，再运行一次——历史账目和总额都在，而且新账接着旧账记，没有被清空。</p>
 <h2>本章小结</h2>
-<ul><li><code>open()</code> + <code>with</code> 读写文件，代码块结束自动关闭。</li><li>三种模式：<code>r</code> 读、<code>w</code> 写（会清空！）、<code>a</code> 追加；写中文加 <code>encoding="utf-8"</code>。</li><li><code>f.read()</code> 整体读，<code>for line in f</code> 逐行读；<code>f.write()</code> 只能写字符串。</li><li>文件不存在会报 <code>FileNotFoundError</code>，用 <code>try / except</code> 接住。</li></ul>
+<ul><li><code>open()</code> + <code>with</code> 读写文件，代码块结束自动关闭。</li><li>三种模式：<code>r</code> 读、<code>w</code> 写（会清空！）、<code>a</code> 追加；写中文加 <code>encoding="utf-8"</code>。</li><li>不写 <code>encoding</code> 就用系统默认编码（Windows 中文环境常见是 GBK），换台电脑就可能乱码——所以每次都顺手写上 <code>utf-8</code>。</li><li><code>f.read()</code> 整体读，<code>for line in f</code> 逐行读；<code>f.write()</code> 只能写字符串。</li><li>文件不存在会报 <code>FileNotFoundError</code>，用 <code>try / except</code> 接住。</li><li>相对路径相对于<strong>运行程序时的当前目录</strong>，不是脚本所在目录；用 <code>Path.cwd()</code> 确认，用 <code>Path(__file__).parent</code> 锚定脚本目录。</li></ul>
 <p><strong>下一章预告</strong>：变量、列表、函数都学了，怎么把它们组织成更大的程序？下一章进入<strong>面向对象编程入门</strong>——用“类”把数据和操作装在一起。</p>
 <div class="pager"><a class="pg" href="#basics-ch15">← 第 15 章 · 异常处理</a><a class="pg next" href="#basics-ch17">第 17 章 · 面向对象编程入门 →</a></div>
 </section>

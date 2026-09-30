@@ -154,19 +154,19 @@ print(students[0]["name"])     # 小明
 # 选学：列表推导式
 # ---------------------------------------------------------------
 
-scores = [90, 85, 77, 100, 66]
+scores = [90, 85, 77, 100, 55]    # 最后一个是 55 分，留着看下面筛选的效果
 
 bonus = []
 for s in scores:
     bonus.append(s + 5)
 
-print(bonus)    # [95, 90, 82, 105, 71]
+print(bonus)    # [95, 90, 82, 105, 60]
 
 bonus = [s + 5 for s in scores]
-print(bonus)    # [95, 90, 82, 105, 71] —— 和上面的 for 循环完全等价
+print(bonus)    # [95, 90, 82, 105, 60] —— 和上面的 for 循环完全等价
 
 passed = [s for s in scores if s >= 60]
-print(passed)    # [90, 85, 77, 100] —— 带 if 的筛选
+print(passed)    # [90, 85, 77, 100] —— 带 if 的筛选：55 分没及格，被筛掉了
 
 
 # ---------------------------------------------------------------
@@ -188,6 +188,9 @@ print(sorted({w[0] for w in words}))    # ['a', 'b'] —— 用 sorted 让输出
 # ---------------------------------------------------------------
 
 # 和推导式很搭：它们吃的正是“一串 True / False”
+# 这里换一组“全部及格”的分数，方便看出 all() 什么时候为 True
+scores = [90, 85, 77, 100, 66]
+
 print(any(s >= 100 for s in scores))    # True  —— 有没有一个满足
 print(all(s >= 60 for s in scores))     # True  —— 是不是全都满足
 print(all(s >= 80 for s in scores))     # False —— 有一个不满足就不行

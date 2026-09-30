@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+
+# 运行 python基础篇/examples/ch16_文件读写.py 会在当前目录留下的产物
+diary.txt
+scores.txt

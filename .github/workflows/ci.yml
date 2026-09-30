@@ -19,7 +19,10 @@ jobs:
           python-version: "3.11"
 
       - name: 编译检查全部示例代码
-        run: python -m compileall -q "python基础篇/examples" _build_index.py
+        run: python -m compileall -q "python基础篇/examples" _build_index.py _check_examples.py
+
+      - name: 校验示例代码可运行，且输出与注释一致
+        run: python -X utf8 _check_examples.py
 
       - name: 重新构建 index.html
         run: python -X utf8 _build_index.py

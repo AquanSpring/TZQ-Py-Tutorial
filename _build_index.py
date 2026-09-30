@@ -376,7 +376,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="TZQ-Py-Tutorial —— 写给初学者的 Python 图文教程">
+<meta name="description" content="TZQ-Py-Tutorial —— 写给初学者的 Python 基础教程">
 <title>TZQ-Py-Tutorial</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
 <style>
