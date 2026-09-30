@@ -69,7 +69,9 @@ HL = re.compile(
     r'|(?P<kw>\b(?:False|None|True|and|as|assert|break|class|continue|def|del|elif|else'
     r'|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return'
     r'|try|while|with|yield)\b)'
-    r'|(?P<bi>\b(?:print|input|len|int|str|float|bool|type|range|sum|max|min|sorted|open)\b)'
+    r'|(?P<bi>\b(?:print|input|len|int|str|float|bool|type|range|sum|max|min'
+    r'|sorted|open|list|dict|set|tuple|enumerate|zip|reversed|abs|any|all'
+    r'|round|map|filter)\b)'
 )
 CLASSES = {"comment": "cm", "string": "st", "number": "nu", "kw": "kw", "bi": "bi"}
 

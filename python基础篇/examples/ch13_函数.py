@@ -69,6 +69,8 @@ print(add_item("a"))    # ['a']
 print(add_item("b"))    # ['a', 'b'] —— 上一次的结果还在！
 
 # 正确写法：默认设成 None，进了函数再建
+# （正文里这两段是各自独立的代码块、都叫 add_item；放进同一个文件后
+#   后一个改名 add_item_ok，免得覆盖前面的定义）
 def add_item_ok(item, box=None):
     if box is None:
         box = []
@@ -151,6 +153,8 @@ except NameError as e:
 # 那想在函数里改外面的变量呢？（global）
 # ---------------------------------------------------------------
 
+# 正文这三段也都叫 add_one（各自独立的代码块）；同一个文件里要并存，
+# 后两个分别改名 add_one_ok 和 plus_one，其余与正文完全一致。
 # ❌ 函数里给外面的变量赋值，Python 会认为你在建一个新的局部变量
 count = 0
 
