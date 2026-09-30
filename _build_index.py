@@ -13,6 +13,8 @@ TZQ-Py-Tutorial 构建脚本（多篇章版）。
   2. 只支持 **粗体**，不支持 *斜体*，写单星号会原样显示出来；
   3. 标题最多到 ###，#### 会退化成普通段落；
   4. 代码块内部的 markdown 一律原样显示（比如 # 注释里写 **粗体**，读者会看到星号本身）。
+
+这几种写法构建时会自动检查（lint_md），发现即报错退出、不出页面，不会静默出错。
 """
 import html
 import json
@@ -105,13 +107,14 @@ def render_table(header, rows):
 
 
 def render_list(items):
-    parts, cur, nested = [], None, False
+    # 嵌套列表必须用它自己开出来的标签闭合，不能拿下一个顶层项的 marker 来猜
+    parts, cur, nested = [], None, None   # cur: 顶层列表标签  nested: 嵌套列表标签
     for indent, marker, text in items:
         tag = "ol" if marker == "1." else "ul"
         if indent == 0:
-            if nested:
-                parts.append("</%s></li>" % ("ol" if marker == "1." else "ul"))
-                nested = False
+            if nested is not None:
+                parts.append("</%s></li>" % nested)
+                nested = None
             elif cur is not None:
                 parts.append("</li>")
             if cur != tag:
@@ -121,12 +124,12 @@ def render_list(items):
                 cur = tag
             parts.append("<li>%s" % inline(text))
         else:
-            if not nested:
+            if nested is None:
                 parts.append("<%s>" % tag)
-                nested = True
+                nested = tag
             parts.append("<li>%s</li>" % inline(text))
-    if nested:
-        parts.append("</ul>")
+    if nested is not None:
+        parts.append("</%s>" % nested)
     if cur is not None:
         parts.append("</li></%s>" % cur)
     return "".join(parts)
@@ -192,10 +195,39 @@ def convert_md(text):
         out.append("<p>%s</p>" % inline("".join(para)))
     return "\n".join(out)
 
+# ---------------- 写作规范检查 ----------------
+# 转换器支持的 md 是个受控子集，写超了会“静默地原样输出”。构建时在这里拦下，
+# 把脚本头部声明的限制从口头约定变成机器检查，错误一处不修就不出页面。
+
+def lint_md(text, where):
+    errors = []
+    plain, in_code = [], False
+    for line in text.splitlines():
+        if line.startswith("```"):          # 围栏内外规则不同：代码里的 *、# 不是排版符号
+            in_code = not in_code
+            continue
+        if not in_code:
+            plain.append(line)
+    if in_code:
+        errors.append("代码围栏不配对：有一处 ``` 没有闭合，它之后的内容都不会被转换")
+    outside = "\n".join(plain)
+    if re.search(r"(?m)^#{4,} ", outside):
+        errors.append("出现了 #### 及更深的标题——转换器最多支持 ###，请降一级或改用粗体")
+    # 行内代码里的 * 不是排版符号，先整体挖掉再查斜体；* 前后贴空格的是乘号不是斜体
+    m = re.search(r"(?<!\*)\*(?!\s|\*)[^*\n]+?(?<!\s)\*(?!\*)",
+                  re.sub(r"`[^`\n]*`", "", outside))
+    if m:
+        errors.append("出现了单星号斜体（如 %s）——转换器只支持 **粗体**，单星号会原样显示"
+                      % m.group(0)[:20])
+    if re.search(r"(?m)^>\s*```", outside):
+        errors.append("引用块里放了代码围栏——不会被解析，代码会原样显示，请把代码块移出引用块")
+    return ["%s：%s" % (where, e) for e in errors]
+
 # ---------------- 逐篇章构建 ----------------
 
 chapters_all = {}      # (slug) -> {num: (title, body)}
 ch_titles_all = {}     # (slug) -> {num: 短标题}
+lint_errors = []       # 所有篇章的写作规范问题，攒齐了一次性报出
 available = []
 
 for vol in VOLUMES:
@@ -234,6 +266,7 @@ for vol in VOLUMES:
     chapters, titles = {}, {}
     for num, fname in numbered:
         text = open(os.path.join(folder, fname), encoding="utf-8").read()
+        lint_errors.extend(lint_md(text, "%s/%s" % (vol["folder"], fname)))
         tm = re.search(r"(?m)^# (.+)$", text)
         if not tm:
             raise SystemExit(
@@ -250,6 +283,9 @@ for vol in VOLUMES:
 
 if not available:
     raise SystemExit("没有任何篇章可构建：请先在篇章文件夹中放入 md 文件。")
+
+if lint_errors:
+    raise SystemExit("md 写作规范检查未通过，请先修正：\n" + "\n".join(lint_errors))
 
 # 每卷：章节 section（含翻页器）+ 侧边栏导航 + 章节胶囊
 sections_all, nav_all, cards = [], [], []
@@ -299,8 +335,8 @@ for vol in available:
             % (slug, n, n, n, html.escape(titles[n], quote=False)) for n in nums))
     nav_all.append('<div class="vol-nav" data-vol="%s">%s</div>' % (slug, "".join(group_html)))
 
-    pills = "".join('<a class="pill" href="#%s-ch%d">%s · 第 %d 章</a>'
-                    % (slug, n, name, n) for n in nums)
+    pills = "".join('<a class="pill" href="#%s-ch%d">第 %d 章 · %s</a>'
+                    % (slug, n, n, html.escape(titles[n], quote=False)) for n in nums)
     cards.append(
         '<div class="enter-card">'
         '<div><h2>Python %s</h2><p class="desc">%s</p>'
@@ -347,7 +383,7 @@ TEMPLATE = r"""<!DOCTYPE html>
 :root{--accent:#4B8BBE;--gold:#FFD43B;--bg:#0b1220;--card:#111a2c;--card2:#0d1526;
 --text:#dbe4f0;--muted:#8aa0b8;--border:#1e293b;--code-bg:#0a1020}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#223047 transparent}
+html{scrollbar-width:thin;scrollbar-color:#223047 transparent}
 body{margin:0;font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
 background:radial-gradient(1100px 480px at 75% -8%,rgba(75,139,190,.16),transparent),var(--bg);
 color:var(--text);line-height:1.9;font-size:16px;-webkit-tap-highlight-color:transparent}
@@ -410,8 +446,12 @@ font-size:12px;color:#5b7290;line-height:1.7}
 #sidebar .foot a{color:#7d93ad;text-decoration:none}
 #sidebar .foot a:hover{color:var(--gold)}
 main{margin-left:288px;padding:88px 40px 60px;max-width:1000px}
+/* 章节顶部位于 main 的 88px 顶栏留白之下。有了 scroll-margin，浏览器的原生锚点
+   滚动（比如直接带 #章节 链接打开页面时的补滚）会正好落在页面顶部，
+   而不是把页面往下顶 88px——和 route() 的归位不再打架 */
 section.chapter{display:none;background:var(--card);border:1px solid var(--border);
-border-radius:16px;padding:34px 42px;margin-bottom:32px;box-shadow:0 8px 24px rgba(2,6,17,.35)}
+border-radius:16px;padding:34px 42px;margin-bottom:32px;box-shadow:0 8px 24px rgba(2,6,17,.35);
+scroll-margin-top:88px}
 section.chapter.current{display:block}
 .chapter-badge{display:inline-block;background:linear-gradient(135deg,#306998,#4B8BBE);
 color:#fff;font-size:12.5px;padding:3px 13px;border-radius:999px;margin-bottom:8px;letter-spacing:1px}
@@ -493,7 +533,7 @@ border-radius:18px;padding:38px 42px;display:flex;justify-content:space-between;
 align-items:center;gap:34px;flex-wrap:wrap}
 .enter-card h2{margin:0 0 8px;font-size:23px;color:#f8fafc;border:none;padding:0}
 .enter-card .desc{color:#9fb3cc;margin:0 0 16px;font-size:14.5px}
-.pills-wrap{max-width:640px}
+.pills-wrap{max-width:820px}
 .pill{display:inline-block;margin:4px 6px 0 0;padding:4px 12px;border-radius:999px;
 background:#0d1526;border:1px solid #24344f;color:#9fb3cc;font-size:12.5px;
 text-decoration:none;transition:.15s}
@@ -507,7 +547,8 @@ footer.page-foot a{color:#7dd3fc}
 #sidebar.open{transform:none}
 main{margin-left:0;padding:84px 14px 50px}
 section.chapter{padding:24px 18px}
-.menu-btn{display:block}
+/* 主页有自己的篇章卡片导航，抽屉按钮只在教程页出现，避免点了只出遮罩不出抽屉 */
+body:not(.on-home) .menu-btn{display:block}
 .sub{display:none}
 .hero{padding:90px 20px 50px}
 .hero h1{font-size:34px}
@@ -660,8 +701,33 @@ if(e.key==="Escape"){clearSearch();searchBox.blur();}});
 /* 搜索结果里的链接是动态生成的，用事件委托关抽屉 */
 sidebar.addEventListener("click",e=>{
 if(e.target.closest&&e.target.closest('a[href^="#"]'))closeDrawer();});
+/* ---------- 接管站内锚点：掐掉浏览器原生的“滚动到章节”行为 ---------- */
+/* 章节定位全靠 route() 控制，原生锚点滚动只会捣乱：
+   - 点击 hash 与当前相同的链接不会触发 hashchange，浏览器却会把页面滚到那一章的
+     顶部（在顶栏之下几十像素处）——表现为“再点一下同一章，页面莫名下滑一小段”；
+   - 即使 hash 变了，部分浏览器也会在章节显示后补一次原生滚动，把 route() 的归位盖掉。
+   所以一律 preventDefault，改为手动路由：同 hash 直接重跑 route()，不同 hash 用
+   pushState 改地址（不触发原生滚动）再调 route()。 */
+document.addEventListener("click",e=>{
+if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+const a=e.target.closest&&e.target.closest('a[href^="#"]');
+if(!a||a.target==="_blank")return;
+const h=a.getAttribute("href");
+if(!h||h==="#")return;
+e.preventDefault();
+if(location.hash===h){route();}
+else{history.pushState(null,"",h);route();}
+});
+/* 回到顶部要连压三次：浏览器对带锚点的 URL 有可能延后补一次原生滚动
+   （比如直接带着 #章节 打开页面时），单次 scrollTo 会被它盖回去 */
+function forceTop(){
+window.scrollTo(0,0);
+requestAnimationFrame(()=>window.scrollTo(0,0));
+setTimeout(()=>window.scrollTo(0,0),60);}
 function route(){
 const m=location.hash.match(/^#([a-z]+)-ch(\d+)$/);
+/* 主页/教程页状态挂到 body 上：抽屉按钮只应在教程页出现 */
+document.body.classList.toggle("on-home",!(m&&VOLNAMES[m[1]]));
 if(m&&VOLNAMES[m[1]]){
 home.hidden=true;tut.hidden=false;
 sub.textContent="Python "+VOLNAMES[m[1]];
@@ -672,14 +738,14 @@ chapters.forEach(s=>s.classList.toggle("current",s.id===id));
 links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+id));
 document.querySelectorAll(".vol-nav").forEach(v=>v.hidden=(v.dataset.vol!==vol));
 document.querySelectorAll(".vol-chip").forEach(c=>c.classList.toggle("active",c.dataset.vol===vol));
-window.scrollTo(0,0);
+forceTop();
 closeDrawer();
 }else{
 tut.hidden=true;home.hidden=false;
 sub.textContent="从零开始的 Python 之旅";
 progress.style.width="0";
 clearSearch();
-window.scrollTo(0,0);
+forceTop();
 }
 }
 window.addEventListener("hashchange",route);

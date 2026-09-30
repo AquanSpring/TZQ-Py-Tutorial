@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 编译检查全部示例代码
+        run: python -m compileall -q "python基础篇/examples" _build_index.py
+
+      - name: 重新构建 index.html
+        run: python -X utf8 _build_index.py
+
+      - name: 校验 index.html 是最新构建
+        run: |
+          if ! git diff --exit-code index.html; then
+            echo "::error::index.html 不是最新构建——改了 md 或 _build_index.py 后，请运行 python -X utf8 _build_index.py 并提交新的 index.html"
+            exit 1
+          fi

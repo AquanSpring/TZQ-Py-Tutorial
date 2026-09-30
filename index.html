@@ -10,7 +10,7 @@
 :root{--accent:#4B8BBE;--gold:#FFD43B;--bg:#0b1220;--card:#111a2c;--card2:#0d1526;
 --text:#dbe4f0;--muted:#8aa0b8;--border:#1e293b;--code-bg:#0a1020}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#223047 transparent}
+html{scrollbar-width:thin;scrollbar-color:#223047 transparent}
 body{margin:0;font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
 background:radial-gradient(1100px 480px at 75% -8%,rgba(75,139,190,.16),transparent),var(--bg);
 color:var(--text);line-height:1.9;font-size:16px;-webkit-tap-highlight-color:transparent}
@@ -73,8 +73,12 @@ font-size:12px;color:#5b7290;line-height:1.7}
 #sidebar .foot a{color:#7d93ad;text-decoration:none}
 #sidebar .foot a:hover{color:var(--gold)}
 main{margin-left:288px;padding:88px 40px 60px;max-width:1000px}
+/* 章节顶部位于 main 的 88px 顶栏留白之下。有了 scroll-margin，浏览器的原生锚点
+   滚动（比如直接带 #章节 链接打开页面时的补滚）会正好落在页面顶部，
+   而不是把页面往下顶 88px——和 route() 的归位不再打架 */
 section.chapter{display:none;background:var(--card);border:1px solid var(--border);
-border-radius:16px;padding:34px 42px;margin-bottom:32px;box-shadow:0 8px 24px rgba(2,6,17,.35)}
+border-radius:16px;padding:34px 42px;margin-bottom:32px;box-shadow:0 8px 24px rgba(2,6,17,.35);
+scroll-margin-top:88px}
 section.chapter.current{display:block}
 .chapter-badge{display:inline-block;background:linear-gradient(135deg,#306998,#4B8BBE);
 color:#fff;font-size:12.5px;padding:3px 13px;border-radius:999px;margin-bottom:8px;letter-spacing:1px}
@@ -156,7 +160,7 @@ border-radius:18px;padding:38px 42px;display:flex;justify-content:space-between;
 align-items:center;gap:34px;flex-wrap:wrap}
 .enter-card h2{margin:0 0 8px;font-size:23px;color:#f8fafc;border:none;padding:0}
 .enter-card .desc{color:#9fb3cc;margin:0 0 16px;font-size:14.5px}
-.pills-wrap{max-width:640px}
+.pills-wrap{max-width:820px}
 .pill{display:inline-block;margin:4px 6px 0 0;padding:4px 12px;border-radius:999px;
 background:#0d1526;border:1px solid #24344f;color:#9fb3cc;font-size:12.5px;
 text-decoration:none;transition:.15s}
@@ -170,7 +174,8 @@ footer.page-foot a{color:#7dd3fc}
 #sidebar.open{transform:none}
 main{margin-left:0;padding:84px 14px 50px}
 section.chapter{padding:24px 18px}
-.menu-btn{display:block}
+/* 主页有自己的篇章卡片导航，抽屉按钮只在教程页出现，避免点了只出遮罩不出抽屉 */
+body:not(.on-home) .menu-btn{display:block}
 .sub{display:none}
 .hero{padding:90px 20px 50px}
 .hero h1{font-size:34px}
@@ -227,7 +232,7 @@ guess = <span class="bi">int</span>(<span class="bi">input</span>(<span class="s
 </div>
 </section>
 <section class="vols">
-<div class="enter-card"><div><h2>Python 基础篇</h2><p class="desc">环境搭建 → 语法规则 → 流程控制 → 数据容器 → 函数与模块 → 异常与文件 → 面向对象入门。</p><div class="pills-wrap"><a class="pill" href="#basics-ch0">基础篇 · 第 0 章</a><a class="pill" href="#basics-ch1">基础篇 · 第 1 章</a><a class="pill" href="#basics-ch2">基础篇 · 第 2 章</a><a class="pill" href="#basics-ch3">基础篇 · 第 3 章</a><a class="pill" href="#basics-ch4">基础篇 · 第 4 章</a><a class="pill" href="#basics-ch5">基础篇 · 第 5 章</a><a class="pill" href="#basics-ch6">基础篇 · 第 6 章</a><a class="pill" href="#basics-ch7">基础篇 · 第 7 章</a><a class="pill" href="#basics-ch8">基础篇 · 第 8 章</a><a class="pill" href="#basics-ch9">基础篇 · 第 9 章</a><a class="pill" href="#basics-ch10">基础篇 · 第 10 章</a><a class="pill" href="#basics-ch11">基础篇 · 第 11 章</a><a class="pill" href="#basics-ch12">基础篇 · 第 12 章</a><a class="pill" href="#basics-ch13">基础篇 · 第 13 章</a><a class="pill" href="#basics-ch14">基础篇 · 第 14 章</a><a class="pill" href="#basics-ch15">基础篇 · 第 15 章</a><a class="pill" href="#basics-ch16">基础篇 · 第 16 章</a><a class="pill" href="#basics-ch17">基础篇 · 第 17 章</a><a class="pill" href="#basics-ch18">基础篇 · 第 18 章</a></div></div><a class="btn btn-primary" href="#basics-ch0">进入基础篇 →</a></div>
+<div class="enter-card"><div><h2>Python 基础篇</h2><p class="desc">环境搭建 → 语法规则 → 流程控制 → 数据容器 → 函数与模块 → 异常与文件 → 面向对象入门。</p><div class="pills-wrap"><a class="pill" href="#basics-ch0">第 0 章 · 学前基础</a><a class="pill" href="#basics-ch1">第 1 章 · Python 简介</a><a class="pill" href="#basics-ch2">第 2 章 · Python 解释器</a><a class="pill" href="#basics-ch3">第 3 章 · Python、解释器与 IDE 的区别</a><a class="pill" href="#basics-ch4">第 4 章 · 代码的基本结构与规则</a><a class="pill" href="#basics-ch5">第 5 章 · 变量与数据类型</a><a class="pill" href="#basics-ch6">第 6 章 · 运算符与表达式</a><a class="pill" href="#basics-ch7">第 7 章 · 条件语句</a><a class="pill" href="#basics-ch8">第 8 章 · 循环语句</a><a class="pill" href="#basics-ch9">第 9 章 · 输入与输出</a><a class="pill" href="#basics-ch10">第 10 章 · 列表与元组</a><a class="pill" href="#basics-ch11">第 11 章 · 字典与集合</a><a class="pill" href="#basics-ch12">第 12 章 · 字符串进阶</a><a class="pill" href="#basics-ch13">第 13 章 · 函数</a><a class="pill" href="#basics-ch14">第 14 章 · 模块与标准库</a><a class="pill" href="#basics-ch15">第 15 章 · 异常处理</a><a class="pill" href="#basics-ch16">第 16 章 · 文件读写</a><a class="pill" href="#basics-ch17">第 17 章 · 面向对象编程入门</a><a class="pill" href="#basics-ch18">第 18 章 · 结语</a></div></div><a class="btn btn-primary" href="#basics-ch0">进入基础篇 →</a></div>
 </section>
 <footer class="page-foot">TZQ-Py-Tutorial · <a href="https://github.com/AquanSpring/TZQ-Py-Tutorial" target="_blank" rel="noopener">GitHub 仓库</a> · <a href="https://github.com/AquanSpring" target="_blank" rel="noopener">作者主页 @AquanSpring</a></footer>
 </div>
@@ -1912,8 +1917,33 @@ if(e.key==="Escape"){clearSearch();searchBox.blur();}});
 /* 搜索结果里的链接是动态生成的，用事件委托关抽屉 */
 sidebar.addEventListener("click",e=>{
 if(e.target.closest&&e.target.closest('a[href^="#"]'))closeDrawer();});
+/* ---------- 接管站内锚点：掐掉浏览器原生的“滚动到章节”行为 ---------- */
+/* 章节定位全靠 route() 控制，原生锚点滚动只会捣乱：
+   - 点击 hash 与当前相同的链接不会触发 hashchange，浏览器却会把页面滚到那一章的
+     顶部（在顶栏之下几十像素处）——表现为“再点一下同一章，页面莫名下滑一小段”；
+   - 即使 hash 变了，部分浏览器也会在章节显示后补一次原生滚动，把 route() 的归位盖掉。
+   所以一律 preventDefault，改为手动路由：同 hash 直接重跑 route()，不同 hash 用
+   pushState 改地址（不触发原生滚动）再调 route()。 */
+document.addEventListener("click",e=>{
+if(e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+const a=e.target.closest&&e.target.closest('a[href^="#"]');
+if(!a||a.target==="_blank")return;
+const h=a.getAttribute("href");
+if(!h||h==="#")return;
+e.preventDefault();
+if(location.hash===h){route();}
+else{history.pushState(null,"",h);route();}
+});
+/* 回到顶部要连压三次：浏览器对带锚点的 URL 有可能延后补一次原生滚动
+   （比如直接带着 #章节 打开页面时），单次 scrollTo 会被它盖回去 */
+function forceTop(){
+window.scrollTo(0,0);
+requestAnimationFrame(()=>window.scrollTo(0,0));
+setTimeout(()=>window.scrollTo(0,0),60);}
 function route(){
 const m=location.hash.match(/^#([a-z]+)-ch(\d+)$/);
+/* 主页/教程页状态挂到 body 上：抽屉按钮只应在教程页出现 */
+document.body.classList.toggle("on-home",!(m&&VOLNAMES[m[1]]));
 if(m&&VOLNAMES[m[1]]){
 home.hidden=true;tut.hidden=false;
 sub.textContent="Python "+VOLNAMES[m[1]];
@@ -1924,14 +1954,14 @@ chapters.forEach(s=>s.classList.toggle("current",s.id===id));
 links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+id));
 document.querySelectorAll(".vol-nav").forEach(v=>v.hidden=(v.dataset.vol!==vol));
 document.querySelectorAll(".vol-chip").forEach(c=>c.classList.toggle("active",c.dataset.vol===vol));
-window.scrollTo(0,0);
+forceTop();
 closeDrawer();
 }else{
 tut.hidden=true;home.hidden=false;
 sub.textContent="从零开始的 Python 之旅";
 progress.style.width="0";
 clearSearch();
-window.scrollTo(0,0);
+forceTop();
 }
 }
 window.addEventListener("hashchange",route);
