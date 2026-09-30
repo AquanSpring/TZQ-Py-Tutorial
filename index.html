@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="TZQ-Py-Tutorial —— 写给初学者的 Python 图文教程">
+<title>TZQ-Py-Tutorial</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
+<style>
+:root{--accent:#4B8BBE;--gold:#FFD43B;--bg:#0b1220;--card:#111a2c;--card2:#0d1526;
+--text:#dbe4f0;--muted:#8aa0b8;--border:#1e293b;--code-bg:#0a1020}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:#223047 transparent}
+body{margin:0;font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+background:radial-gradient(1100px 480px at 75% -8%,rgba(75,139,190,.16),transparent),var(--bg);
+color:var(--text);line-height:1.9;font-size:16px;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#223047;border-radius:8px;border:2px solid #0b1220}
+::-webkit-scrollbar-thumb:hover{background:#2c3e5d}
+[hidden]{display:none!important}
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:70;
+background:linear-gradient(90deg,var(--accent),var(--gold))}
+header.topbar{position:fixed;top:0;left:0;right:0;height:62px;background:rgba(10,16,32,.92);
+-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transform:translateZ(0);
+border-bottom:1px solid var(--border);display:flex;
+align-items:center;gap:14px;padding:0 22px;z-index:50}
+#overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(2,6,17,.55);
+z-index:54;display:none}
+body.drawer-open #overlay{display:block}
+body.drawer-open{overflow:hidden}
+.logo{font-weight:700;font-size:19px;letter-spacing:.5px;white-space:nowrap;
+color:#f1f5f9;text-decoration:none}
+.logo .py{color:var(--gold)}
+.sub{color:var(--muted);font-size:13.5px;white-space:nowrap}
+.topbar .right{margin-left:auto;display:flex;gap:10px;align-items:center}
+.home-btn,.gh{color:#cbd5e1;font-size:13.5px;text-decoration:none;
+border:1px solid #2c3e5d;padding:5px 13px;border-radius:8px;white-space:nowrap}
+.home-btn:hover,.gh:hover{border-color:var(--gold);color:var(--gold)}
+.menu-btn{display:none;background:none;border:none;color:#fff;font-size:20px;cursor:pointer}
+#sidebar{position:fixed;top:62px;left:0;bottom:0;width:288px;background:#0d1524;
+border-right:1px solid var(--border);overflow-y:auto;overscroll-behavior:contain;
+padding:14px 12px 24px;z-index:55}
+.nav-brand{display:flex;align-items:center;gap:8px;color:#f1f5f9;font-weight:700;
+padding:6px 10px 12px;font-size:15px;border-bottom:1px solid var(--border);margin-bottom:10px}
+.vol-chips{display:flex;gap:8px;padding:2px 10px 12px;flex-wrap:wrap}
+.vol-chip{padding:4px 12px;border-radius:999px;background:#1b2942;color:#9fb3cc;
+font-size:12.5px;text-decoration:none;border:1px solid #24344f}
+.vol-chip.active{background:var(--gold);color:#0f172a;border-color:var(--gold);font-weight:700}
+#searchWrap{padding:0 10px 10px}
+#searchBox{width:100%;box-sizing:border-box;background:#0f1930;border:1px solid #24344f;
+color:#dbe4f0;border-radius:9px;padding:7px 10px;font-size:13.5px;outline:none;
+font-family:inherit}
+#searchBox::placeholder{color:#5b7290}
+#searchBox:focus{border-color:var(--gold)}
+#searchResults{padding:2px 0 8px}
+#searchResults .hit-ctx{display:block;color:#5b7290;font-size:11.5px;line-height:1.5;
+margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#searchResults .hit-vol{color:#7dd3fc;font-size:11px;margin-right:4px}
+#searchEmpty{color:#5b7290;font-size:12.5px;padding:10px}
+.nav-group{color:#5b7290;font-size:11.5px;letter-spacing:2.5px;padding:14px 10px 6px}
+#sidebar a.item{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:9px;
+color:#b9c9dd;text-decoration:none;font-size:14px;line-height:1.5;border-left:3px solid transparent}
+#sidebar a.item .n{flex:none;width:23px;height:23px;border-radius:7px;background:#1b2942;
+color:#7dd3fc;font-size:12px;display:grid;place-items:center;font-family:Consolas,monospace}
+#sidebar a.item:hover{background:#16223a;color:#fff}
+#sidebar a.item.active{background:rgba(255,212,59,.1);border-left-color:var(--gold)}
+#sidebar a.item.active .n{background:var(--gold);color:#0f172a;font-weight:700}
+#sidebar a.item.active .t{color:var(--gold)}
+#sidebar .foot{margin-top:16px;padding:12px 10px 0;border-top:1px solid var(--border);
+font-size:12px;color:#5b7290;line-height:1.7}
+#sidebar .foot a{color:#7d93ad;text-decoration:none}
+#sidebar .foot a:hover{color:var(--gold)}
+main{margin-left:288px;padding:88px 40px 60px;max-width:1000px}
+section.chapter{display:none;background:var(--card);border:1px solid var(--border);
+border-radius:16px;padding:34px 42px;margin-bottom:32px;box-shadow:0 8px 24px rgba(2,6,17,.35)}
+section.chapter.current{display:block}
+.chapter-badge{display:inline-block;background:linear-gradient(135deg,#306998,#4B8BBE);
+color:#fff;font-size:12.5px;padding:3px 13px;border-radius:999px;margin-bottom:8px;letter-spacing:1px}
+h1{font-size:27px;margin:6px 0 22px;color:#f8fafc}
+h2{font-size:21px;margin:34px 0 14px;padding-bottom:8px;border-bottom:1px solid #1e293b;color:#f1f5f9}
+h3{font-size:17.5px;margin:24px 0 10px;color:#e2e8f0}
+p{margin:10px 0}
+strong{color:#f1f5f9}
+a{color:#7dd3fc}
+blockquote{margin:16px 0;padding:12px 18px;background:rgba(125,211,252,.06);
+border-left:4px solid var(--accent);border-radius:0 10px 10px 0;color:#b9c9dd}
+blockquote p{margin:0}
+code{background:#1b2942;border:1px solid #24344f;padding:1px 6px;border-radius:5px;
+font-family:Consolas,"Courier New",monospace;font-size:.88em;color:#7dd3fc}
+pre{position:relative;background:var(--code-bg);color:#dbe4f0;border:1px solid #1e293b;
+padding:16px 18px;border-radius:12px;overflow-x:auto;margin:14px 0;font-size:14px;
+line-height:1.75;font-family:Consolas,"Courier New",monospace}
+pre code{background:none;border:none;color:inherit;padding:0;font-size:inherit}
+pre .cm{color:#64748b}
+pre .kw{color:#93c5fd}
+pre .bi{color:#7dd3fc}
+pre .st{color:#fbbf24}
+pre .nu{color:#f472b6}
+.copy-btn{position:absolute;top:8px;right:8px;background:#16223a;color:#8aa0b8;
+border:1px solid #2c3e5d;border-radius:6px;font-size:12px;padding:3px 10px;cursor:pointer}
+.copy-btn:hover{color:var(--gold);border-color:var(--gold)}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14.5px;background:#0f1930}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+th,td{border:1px solid #223047;padding:8px 12px;text-align:left;vertical-align:top}
+th{background:#16213a;color:#e2e8f0}
+tr:nth-child(even) td{background:#0d1728}
+ul,ol{padding-left:26px;margin:10px 0}
+li{margin:4px 0}
+.pager{display:flex;gap:12px;margin-top:30px;padding-top:18px;border-top:1px solid var(--border)}
+.pager a{flex:1;padding:12px 16px;border:1px solid #2c3e5d;border-radius:10px;color:#cbd5e1;
+text-decoration:none;font-size:14px;line-height:1.5}
+.pager a:hover{border-color:var(--gold);color:var(--gold)}
+.pager a.next{text-align:right;margin-left:auto}
+.pager a.home{flex:0 0 auto}
+footer.page-foot{color:var(--muted);font-size:13.5px;text-align:center;padding:10px 0 34px}
+footer.page-foot a{color:#7dd3fc}
+#backtop{position:fixed;right:26px;bottom:26px;width:44px;height:44px;border-radius:50%;
+background:var(--accent);color:#fff;border:none;font-size:18px;cursor:pointer;display:none;
+box-shadow:0 4px 14px rgba(2,6,17,.5);z-index:60}
+#backtop.show{display:block}
+#backtop:hover{background:#306998}
+/* ---------- 主页 ---------- */
+.hero{padding:110px 32px 70px;
+background:radial-gradient(800px 420px at 18% 10%,rgba(75,139,190,.28),transparent),
+linear-gradient(180deg,#0d1830 0%,var(--bg) 88%)}
+.hero-inner{max-width:1140px;margin:0 auto;display:grid;
+grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+.hero-tag{color:#7dd3fc;letter-spacing:3px;font-size:13px;margin-bottom:14px}
+.hero h1{font-size:46px;line-height:1.25;margin:0 0 16px;
+background:linear-gradient(95deg,#f8fafc 30%,var(--gold));
+-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{color:#9fb3cc;font-size:17px;margin:0 0 26px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;padding:12px 28px;border-radius:11px;font-size:16px;
+font-weight:600;text-decoration:none;transition:.2s}
+.btn-primary{background:linear-gradient(135deg,#306998,#4B8BBE);color:#fff;
+box-shadow:0 8px 24px rgba(48,105,152,.4)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(48,105,152,.55)}
+.btn-ghost{border:1px solid #2c3e5d;color:#cbd5e1}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.code-card{background:var(--code-bg);border:1px solid var(--border);border-radius:16px;
+overflow:hidden;box-shadow:0 24px 60px rgba(2,6,17,.55)}
+.code-card .dots{padding:11px 15px;background:#0d1526;display:flex;gap:6px;
+border-bottom:1px solid var(--border)}
+.code-card .dots i{width:11px;height:11px;border-radius:50%}
+.code-card .dots i:nth-child(1){background:#ff5f56}
+.code-card .dots i:nth-child(2){background:#ffbd2e}
+.code-card .dots i:nth-child(3){background:#27c93f}
+.code-card pre{margin:0;border:none;border-radius:0;background:transparent;
+padding:16px 20px 20px;font-size:13.5px}
+.vols{max-width:1140px;margin:20px auto 70px;padding:0 32px;display:grid;gap:22px}
+.enter-card{background:linear-gradient(135deg,#13253f,#0f1a2e);border:1px solid #24344f;
+border-radius:18px;padding:38px 42px;display:flex;justify-content:space-between;
+align-items:center;gap:34px;flex-wrap:wrap}
+.enter-card h2{margin:0 0 8px;font-size:23px;color:#f8fafc;border:none;padding:0}
+.enter-card .desc{color:#9fb3cc;margin:0 0 16px;font-size:14.5px}
+.pills-wrap{max-width:640px}
+.pill{display:inline-block;margin:4px 6px 0 0;padding:4px 12px;border-radius:999px;
+background:#0d1526;border:1px solid #24344f;color:#9fb3cc;font-size:12.5px;
+text-decoration:none;transition:.15s}
+.pill:hover{border-color:var(--gold);color:var(--gold)}
+footer.page-foot{color:var(--muted);font-size:13.5px;text-align:center;padding:10px 0 34px}
+footer.page-foot a{color:#7dd3fc}
+#backtop:hover{background:#306998}
+@media(max-width:1080px){.hero-inner{grid-template-columns:1fr;gap:38px}}
+@media(max-width:960px){
+#sidebar{transform:translateX(-105%);transition:transform .25s}
+#sidebar.open{transform:none}
+main{margin-left:0;padding:84px 14px 50px}
+section.chapter{padding:24px 18px}
+.menu-btn{display:block}
+.sub{display:none}
+.hero{padding:90px 20px 50px}
+.hero h1{font-size:34px}
+.vols{padding:0 20px}
+.enter-card{padding:28px 24px}
+}
+@media(max-width:640px){
+.home-btn{display:none}
+.gh{padding:5px 10px}
+}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="overlay"></div>
+<header class="topbar">
+<button class="menu-btn" id="menuBtn">☰</button>
+<a class="logo" href="#home">TZQ<span class="py">-Py</span>-Tutorial</a>
+<span class="sub" id="topbarSub">从零开始的 Python 之旅</span>
+<span class="right">
+<a class="home-btn" href="https://github.com/AquanSpring" target="_blank" rel="noopener">GitHub 主页</a>
+<a class="gh" href="https://github.com/AquanSpring/TZQ-Py-Tutorial" target="_blank" rel="noopener">GitHub 仓库</a>
+</span>
+</header>
+
+<div id="home" class="view">
+<section class="hero">
+<div class="hero-inner">
+<div class="hero-text">
+<div class="hero-tag">🐍 PYTHON TUTORIAL</div>
+<h1>TZQ-Py-Tutorial</h1>
+<p class="hero-sub">写给初学者的 Python 基础教程——<br>把每一条语法讲透，再配一道“跳一跳才够得着”的作业。</p>
+<div class="hero-btns">
+<a class="btn btn-primary" href="#basics-ch0">开始学习 →</a>
+<a class="btn btn-ghost" href="https://github.com/AquanSpring/TZQ-Py-Tutorial" target="_blank" rel="noopener">GitHub 仓库</a>
+</div>
+</div>
+<div class="hero-code">
+<div class="code-card">
+<div class="dots"><i></i><i></i><i></i></div>
+<pre><code><span class="kw">import</span> random
+
+secret = random.randint(<span class="nu">1</span>, <span class="nu">100</span>)
+guess = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"你猜："</span>))
+
+<span class="kw">if</span> guess &gt; secret:
+    <span class="bi">print</span>(<span class="st">"大了"</span>)
+<span class="kw">elif</span> guess &lt; secret:
+    <span class="bi">print</span>(<span class="st">"小了"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">f"猜对了！答案是 {secret}"</span>)</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="vols">
+<div class="enter-card"><div><h2>Python 基础篇</h2><p class="desc">环境搭建 → 语法规则 → 流程控制 → 数据容器 → 函数与模块 → 异常与文件 → 面向对象入门。</p><div class="pills-wrap"><a class="pill" href="#basics-ch0">基础篇 · 第 0 章</a><a class="pill" href="#basics-ch1">基础篇 · 第 1 章</a><a class="pill" href="#basics-ch2">基础篇 · 第 2 章</a><a class="pill" href="#basics-ch3">基础篇 · 第 3 章</a><a class="pill" href="#basics-ch4">基础篇 · 第 4 章</a><a class="pill" href="#basics-ch5">基础篇 · 第 5 章</a><a class="pill" href="#basics-ch6">基础篇 · 第 6 章</a><a class="pill" href="#basics-ch7">基础篇 · 第 7 章</a><a class="pill" href="#basics-ch8">基础篇 · 第 8 章</a><a class="pill" href="#basics-ch9">基础篇 · 第 9 章</a><a class="pill" href="#basics-ch10">基础篇 · 第 10 章</a><a class="pill" href="#basics-ch11">基础篇 · 第 11 章</a><a class="pill" href="#basics-ch12">基础篇 · 第 12 章</a><a class="pill" href="#basics-ch13">基础篇 · 第 13 章</a><a class="pill" href="#basics-ch14">基础篇 · 第 14 章</a><a class="pill" href="#basics-ch15">基础篇 · 第 15 章</a><a class="pill" href="#basics-ch16">基础篇 · 第 16 章</a><a class="pill" href="#basics-ch17">基础篇 · 第 17 章</a><a class="pill" href="#basics-ch18">基础篇 · 第 18 章</a></div></div><a class="btn btn-primary" href="#basics-ch0">进入基础篇 →</a></div>
+</section>
+<footer class="page-foot">TZQ-Py-Tutorial · <a href="https://github.com/AquanSpring/TZQ-Py-Tutorial" target="_blank" rel="noopener">GitHub 仓库</a> · <a href="https://github.com/AquanSpring" target="_blank" rel="noopener">作者主页 @AquanSpring</a></footer>
+</div>
+
+<div id="tutorial" class="view" hidden>
+<nav id="sidebar" data-vol="basics">
+<div class="nav-brand">🐍 TZQ-Py-Tutorial</div>
+<div id="searchWrap"><input id="searchBox" type="search" autocomplete="off"
+placeholder="搜索章节标题或正文…"></div>
+<div id="searchResults" hidden></div>
+
+<div class="vol-nav" data-vol="basics"><div class="nav-group">开始之前</div><a class="item" href="#basics-ch0" data-ch="0"><span class="n">0</span><span class="t">学前基础</span></a><div class="nav-group">认识 Python</div><a class="item" href="#basics-ch1" data-ch="1"><span class="n">1</span><span class="t">Python 简介</span></a><a class="item" href="#basics-ch2" data-ch="2"><span class="n">2</span><span class="t">Python 解释器</span></a><a class="item" href="#basics-ch3" data-ch="3"><span class="n">3</span><span class="t">Python、解释器与 IDE 的区别</span></a><div class="nav-group">基础语法</div><a class="item" href="#basics-ch4" data-ch="4"><span class="n">4</span><span class="t">代码的基本结构与规则</span></a><a class="item" href="#basics-ch5" data-ch="5"><span class="n">5</span><span class="t">变量与数据类型</span></a><a class="item" href="#basics-ch6" data-ch="6"><span class="n">6</span><span class="t">运算符与表达式</span></a><a class="item" href="#basics-ch7" data-ch="7"><span class="n">7</span><span class="t">条件语句</span></a><a class="item" href="#basics-ch8" data-ch="8"><span class="n">8</span><span class="t">循环语句</span></a><a class="item" href="#basics-ch9" data-ch="9"><span class="n">9</span><span class="t">输入与输出</span></a><div class="nav-group">数据结构</div><a class="item" href="#basics-ch10" data-ch="10"><span class="n">10</span><span class="t">列表与元组</span></a><a class="item" href="#basics-ch11" data-ch="11"><span class="n">11</span><span class="t">字典与集合</span></a><a class="item" href="#basics-ch12" data-ch="12"><span class="n">12</span><span class="t">字符串进阶</span></a><div class="nav-group">代码组织</div><a class="item" href="#basics-ch13" data-ch="13"><span class="n">13</span><span class="t">函数</span></a><a class="item" href="#basics-ch14" data-ch="14"><span class="n">14</span><span class="t">模块与标准库</span></a><div class="nav-group">健壮与持久</div><a class="item" href="#basics-ch15" data-ch="15"><span class="n">15</span><span class="t">异常处理</span></a><a class="item" href="#basics-ch16" data-ch="16"><span class="n">16</span><span class="t">文件读写</span></a><div class="nav-group">收官</div><a class="item" href="#basics-ch17" data-ch="17"><span class="n">17</span><span class="t">面向对象编程入门</span></a><a class="item" href="#basics-ch18" data-ch="18"><span class="n">18</span><span class="t">结语</span></a></div>
+<div class="foot">TZQ-Py-Tutorial · 初版<br>作者主页：<a href="https://github.com/AquanSpring" target="_blank" rel="noopener">github.com/AquanSpring</a></div>
+</nav>
+<main>
+<section class="chapter" id="basics-ch0" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 0 章</div>
+<h1>学前基础：开始之前的准备</h1>
+
+<h2>为什么要有这一章</h2>
+<p>很多初学者担心：我英语不好，能学编程吗？<strong>能。</strong> 编程不需要你“会英语”，只需要你认识一百来个高频词——而且它们会在后面每一章反复出现，见两次自然就熟了。</p>
+<p>反过来，这些词里有不少是<strong>英文单词的缩写</strong>（比如 <code>int</code> 是 integer 的缩写、<code>elif</code> 是 else if 的缩写），只认识缩写、不知道全称，记忆会事倍功半。本章把本教程会用到的英语一次性列出来，配好中文和缩写来源，当“小词典”用——<strong>不用背，混个脸熟，随时回来查</strong>。</p>
+<p>除了单词，这一章还补几样上手之前最好知道的电脑小知识：中英文标点与输入法、键盘符号怎么打、文件扩展名、命令行。</p>
+<h2>一、常用动词：程序做的“动作”</h2>
+<div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>run</td><td>运行</td><td>让程序跑起来（第 1 章）</td></tr><tr><td>print</td><td>打印</td><td>把内容显示到屏幕（第 1 章）</td></tr><tr><td>input</td><td>输入</td><td>接收用户的输入（第 9 章）</td></tr><tr><td>open / close</td><td>打开 / 关闭</td><td>文件操作（第 16 章）</td></tr><tr><td>read / write</td><td>读 / 写</td><td>文件读写（第 16 章）</td></tr><tr><td>define</td><td>定义</td><td><code>def</code> 定义函数（第 13 章）</td></tr><tr><td>return</td><td>返回、交回</td><td>函数交回结果（第 13 章）</td></tr><tr><td>import</td><td>导入</td><td>引入模块（第 14 章）</td></tr><tr><td>install</td><td>安装</td><td>安装 Python 和库（第 2、14 章）</td></tr><tr><td>convert</td><td>转换</td><td>类型转换（第 5 章）</td></tr><tr><td>append</td><td>追加</td><td>列表末尾添加（第 10 章）</td></tr><tr><td>insert</td><td>插入</td><td>插到指定位置（第 10 章）</td></tr><tr><td>extend</td><td>扩展</td><td>列表拼接（第 10 章）</td></tr><tr><td>remove</td><td>移除</td><td>按值删除（第 10 章）</td></tr><tr><td>delete</td><td>删除</td><td><code>del</code> 删除（第 11 章）</td></tr><tr><td>pop</td><td>弹出</td><td>取出并删除（第 10 章）</td></tr><tr><td>sort</td><td>排序</td><td>列表排序（第 10 章）</td></tr><tr><td>reverse</td><td>反转</td><td>顺序倒过来（第 10 章）</td></tr><tr><td>find</td><td>查找</td><td>找子串位置（第 12 章）</td></tr><tr><td>replace</td><td>替换</td><td>字符串替换（第 12 章）</td></tr><tr><td>split</td><td>分割</td><td>拆成列表（第 12 章）</td></tr><tr><td>join</td><td>连接</td><td>粘成字符串（第 12 章）</td></tr><tr><td>strip</td><td>剥去</td><td>去掉两端空格（第 12 章）</td></tr><tr><td>break</td><td>打断</td><td>终止循环（第 8 章）</td></tr><tr><td>continue</td><td>继续</td><td>跳过本轮（第 8 章）</td></tr></tbody></table></div>
+<h2>二、常用名词：程序里的“东西”</h2>
+<div class="table-wrap"><table><thead><tr><th>单词</th><th>中文</th><th>在本教程里</th></tr></thead><tbody><tr><td>code</td><td>代码</td><td>全书</td></tr><tr><td>program</td><td>程序</td><td>全书</td></tr><tr><td>variable</td><td>变量</td><td>第 5 章</td></tr><tr><td>value</td><td>值</td><td>第 5 章</td></tr><tr><td>type</td><td>类型</td><td>第 5 章</td></tr><tr><td>integer</td><td>整数</td><td>缩写 <code>int</code>（第 5 章）</td></tr><tr><td>float</td><td>浮点数</td><td>“浮动”的小数点（第 5 章）</td></tr><tr><td>string</td><td>字符串</td><td>缩写 <code>str</code>（第 5 章）</td></tr><tr><td>boolean</td><td>布尔值</td><td>缩写 <code>bool</code>，源自数学家 Boole（第 5 章）</td></tr><tr><td>constant</td><td>常量</td><td>全大写命名（第 5 章）</td></tr><tr><td>condition</td><td>条件</td><td><code>if</code> 的判断依据（第 7 章）</td></tr><tr><td>loop</td><td>循环</td><td>第 8 章</td></tr><tr><td>function</td><td>函数</td><td>第 13 章</td></tr><tr><td>parameter / argument</td><td>形参 / 实参</td><td>第 13 章</td></tr><tr><td>list</td><td>列表</td><td>第 10 章</td></tr><tr><td>tuple</td><td>元组</td><td>第 10 章</td></tr><tr><td>dictionary</td><td>字典</td><td>缩写 <code>dict</code>（第 11 章）</td></tr><tr><td>set</td><td>集合</td><td>第 11 章</td></tr><tr><td>key / value</td><td>键 / 值</td><td>第 11 章</td></tr><tr><td>index</td><td>索引</td><td>第 10 章</td></tr><tr><td>slice</td><td>切片</td><td>第 10 章</td></tr><tr><td>element / item</td><td>元素 / 项</td><td>第 10 章</td></tr><tr><td>sequence</td><td>序列</td><td>第 10、12 章</td></tr><tr><td>module</td><td>模块</td><td>第 14 章</td></tr><tr><td>library</td><td>库</td><td>标准库 / 第三方库（第 14 章）</td></tr><tr><td>package</td><td>包</td><td>pip 安装的对象（第 14 章）</td></tr><tr><td>file</td><td>文件</td><td>第 16 章</td></tr><tr><td>directory</td><td>目录（文件夹）</td><td>命令 <code>dir</code></td></tr><tr><td>path</td><td>路径</td><td>第 12、16 章</td></tr><tr><td>error</td><td>错误</td><td>全书的报错</td></tr><tr><td>exception</td><td>异常</td><td>第 15 章</td></tr><tr><td>comment</td><td>注释</td><td>第 4 章</td></tr><tr><td>indentation</td><td>缩进</td><td>第 4 章</td></tr><tr><td>syntax</td><td>语法</td><td><code>SyntaxError</code>（第 4 章）</td></tr><tr><td>expression</td><td>表达式</td><td>第 6 章</td></tr><tr><td>operator</td><td>运算符</td><td>第 6 章</td></tr><tr><td>class / object / method</td><td>类 / 对象 / 方法</td><td>第 17 章</td></tr><tr><td>default</td><td>默认</td><td>默认参数（第 13 章）</td></tr><tr><td>scope</td><td>作用域</td><td>第 13 章</td></tr><tr><td>global / local</td><td>全局 / 局部</td><td>第 13 章</td></tr><tr><td>environment</td><td>环境</td><td>IDE 里的 E（第 3 章）；虚拟环境见第 14 章</td></tr><tr><td>version</td><td>版本</td><td>第 2 章</td></tr><tr><td>extension</td><td>扩展名 / 插件</td><td>本章、第 3 章</td></tr></tbody></table></div>
+<h2>三、缩写对照表（重点收藏）</h2>
+<div class="table-wrap"><table><thead><tr><th>缩写</th><th>全称</th><th>中文</th><th>你会在哪见到</th></tr></thead><tbody><tr><td>int</td><td>integer</td><td>整数</td><td>类型名（第 5 章）</td></tr><tr><td>str</td><td>string</td><td>字符串</td><td>类型名（第 5 章）</td></tr><tr><td>bool</td><td>boolean</td><td>布尔值</td><td>类型名（第 5 章）</td></tr><tr><td>def</td><td>define</td><td>定义</td><td>定义函数（第 13 章）</td></tr><tr><td>elif</td><td>else if</td><td>否则如果</td><td>多分支（第 7 章）</td></tr><tr><td>dict</td><td>dictionary</td><td>字典</td><td>类型名（第 11 章）</td></tr><tr><td>del</td><td>delete</td><td>删除</td><td>删除语句（第 11 章）</td></tr><tr><td>len</td><td>length</td><td>长度</td><td>内置函数（第 10 章）</td></tr><tr><td>max / min</td><td>maximum / minimum</td><td>最大值 / 最小值</td><td>内置函数（第 10 章）</td></tr><tr><td>dir</td><td>directory</td><td>目录</td><td>命令行命令</td></tr><tr><td>src</td><td>source</td><td>源（代码）</td><td>文件夹命名</td></tr><tr><td>var</td><td>variable</td><td>变量</td><td>各类资料</td></tr><tr><td>args</td><td>arguments</td><td>实参</td><td>报错信息</td></tr><tr><td>IDE</td><td>Integrated Development Environment</td><td>集成开发环境</td><td>第 3 章</td></tr><tr><td>IDLE</td><td>Integrated Development and Learning Environment</td><td>Python 自带的简易 IDE</td><td>第 3 章</td></tr><tr><td>REPL</td><td>Read-Eval-Print Loop</td><td>读取-求值-打印循环</td><td>交互模式（第 2 章）</td></tr><tr><td>PEP</td><td>Python Enhancement Proposal</td><td>Python 增强提案</td><td>PEP 8 风格指南（第 4 章）</td></tr><tr><td>pip</td><td>Pip Installs Packages</td><td>包安装工具</td><td>第 14 章</td></tr><tr><td>venv</td><td>virtual environment</td><td>虚拟环境</td><td>隔离项目依赖（第 14 章）</td></tr><tr><td>OOP</td><td>Object-Oriented Programming</td><td>面向对象编程</td><td>第 17 章</td></tr><tr><td>exe</td><td>executable</td><td>可执行文件</td><td>python.exe（第 3 章）</td></tr><tr><td>cmd</td><td>command</td><td>命令</td><td>Windows 命令行</td></tr><tr><td>CPU</td><td>Central Processing Unit</td><td>中央处理器</td><td>第 2 章</td></tr><tr><td>OS</td><td>Operating System</td><td>操作系统</td><td>第 2 章</td></tr><tr><td>csv</td><td>Comma-Separated Values</td><td>逗号分隔值</td><td>第 12 章</td></tr></tbody></table></div>
+<h2>四、关键字的本意（理解着记）</h2>
+<p>关键字是 Python 保留的英文词。<strong>知道本意，语法就好记了</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>关键字</th><th>英文本意</th><th>作用</th></tr></thead><tbody><tr><td>if</td><td>如果</td><td>条件判断（第 7 章）</td></tr><tr><td>else</td><td>否则</td><td>条件分支（第 7 章）</td></tr><tr><td>and / or / not</td><td>且 / 或 / 非</td><td>逻辑组合（第 7 章）</td></tr><tr><td>in</td><td>在……里</td><td>成员判断、遍历（第 8、10 章）</td></tr><tr><td>while</td><td>当……的时候</td><td>条件循环（第 8 章）</td></tr><tr><td>for</td><td>对于（每一个）</td><td>遍历循环（第 8 章）</td></tr><tr><td>True / False</td><td>真 / 假</td><td>布尔值（第 5 章）</td></tr><tr><td>None</td><td>一个都没有</td><td>空值（第 11 章）</td></tr><tr><td>pass</td><td>通过、跳过</td><td>占位语句（第 13 章）</td></tr><tr><td>import</td><td>进口、引入</td><td>导入模块（第 14 章）</td></tr><tr><td>try / except</td><td>尝试 / 把……排除在外</td><td>异常处理（第 15 章）</td></tr><tr><td>with</td><td>带着</td><td>打开文件（第 16 章）</td></tr><tr><td>class</td><td>类别</td><td>定义类（第 17 章）</td></tr></tbody></table></div>
+<p>比如 <code>3 in scores</code> 直译就是“3 在 scores 里吗？”——懂了本意，代码就能像句子一样读出来。</p>
+<h2>五、必要的电脑小知识</h2>
+<h3>1. 中英文标点：先防住新手第一大坑</h3>
+<p>写代码必须用<strong>英文半角标点</strong>，而中文输入法打出来的是全角标点——肉眼几乎一样，计算机完全不认（第四章细讲）。先记住切换方法：</p>
+<ul><li><strong>Windows</strong>：单独按 <code>Shift</code> = 中英切换（多数输入法默认）；<code>Win + 空格</code> = 切换输入法；</li><li><strong>macOS</strong>：按 <code>Caps Lock</code>，或点菜单栏顶部的输入法图标切换。</li></ul>
+<p>写代码前，瞄一眼输入法状态栏是“英”还是“中”。中英标点对照：</p>
+<div class="table-wrap"><table><thead><tr><th>中文（❌ 代码里不能用）</th><th>，</th><th>。</th><th>：</th><th>；</th><th>（ ）</th><th>“ ”</th><th>？！</th></tr></thead><tbody><tr><td><strong>英文（✅ 代码用这个）</strong></td><td><code>,</code></td><td><code>.</code></td><td><code>:</code></td><td><code>;</code></td><td><code>( )</code></td><td><code>" "</code></td><td><code>? !</code></td></tr></tbody></table></div>
+<h3>2. 键盘上的符号怎么打</h3>
+<p>以最常见的<strong>美式键盘、英文输入模式</strong>为准（不同键盘可能略有差异）：</p>
+<div class="table-wrap"><table><thead><tr><th>符号</th><th>名称</th><th>按法</th></tr></thead><tbody><tr><td>( )</td><td>圆括号</td><td>Shift + 9 / Shift + 0</td></tr><tr><td>[ ]</td><td>方括号</td><td>直接按（回车键左侧）</td></tr><tr><td>{ }</td><td>花括号</td><td>Shift + [ / Shift + ]</td></tr><tr><td>: ;</td><td>冒号 / 分号</td><td>Shift + ; / 直接按</td></tr><tr><td>" '</td><td>双引号 / 单引号</td><td>Shift + ' / 直接按</td></tr><tr><td>, .</td><td>逗号 / 句点</td><td>直接按</td></tr><tr><td>&lt; &gt;</td><td>尖括号</td><td>Shift + , / Shift + .</td></tr><tr><td>/ ?</td><td>斜杠 / 问号</td><td>直接按 / Shift + /</td></tr><tr><td>\</td><td>反斜杠</td><td>直接按（回车上方）</td></tr><tr><td>|</td><td>竖线</td><td>Shift + \</td></tr><tr><td>- _</td><td>减号 / 下划线</td><td>直接按 / Shift + -</td></tr><tr><td>+ =</td><td>加号 / 等号</td><td>Shift + = / 直接按</td></tr><tr><td>*</td><td>星号</td><td>Shift + 8</td></tr><tr><td>#</td><td>井号</td><td>Shift + 3</td></tr><tr><td>%</td><td>百分号</td><td>Shift + 5</td></tr><tr><td>!</td><td>感叹号</td><td>Shift + 1</td></tr><tr><td>@ $ ^ &amp;</td><td>其他常用符号</td><td>Shift + 2 / 4 / 6 / 7</td></tr></tbody></table></div>
+<h3>3. 文件扩展名：别让 hello.py.txt 坑了你</h3>
+<ul><li><strong>扩展名</strong>是文件名最后的“姓氏”：<code>.py</code> 是 Python 源代码、<code>.txt</code> 是文本文件、<code>.csv</code> 是表格数据、<code>.exe</code> 是可执行程序；</li><li>Windows 默认<strong>隐藏</strong>扩展名——你新建的 <code>hello.py</code> 实际可能是 <code>hello.py.txt</code>，怎么运行都不对，还查不出原因。先让它显示出来：<ul><li><strong>Win11</strong>：文件资源管理器 → 顶部“查看” → “显示” → 勾选“文件扩展名”；</li><li><strong>Win10</strong>：资源管理器 → “查看”选项卡 → 勾选“文件扩展名”；</li></ul></li><li>macOS 默认显示，不用设置。</li></ul>
+<h3>4. 命令行：和计算机“打字对话”的窗口</h3>
+<p>第二章你会在命令行里敲出第一条命令。它是“用打字代替点击”的工具，先学会打开它：</p>
+<ul><li><strong>Windows</strong>：点开始菜单，直接输入 <code>cmd</code> 或 <code>powershell</code>，回车，出现 <code>C:\Users\你&gt;</code> 这样的提示符；</li><li><strong>macOS</strong>：打开“终端”（Terminal），提示符以 <code>$</code> 结尾。</li></ul>
+<p>看到提示符就说明它在等你打字，不用怕。</p>
+<h3>5. 常用快捷键</h3>
+<div class="table-wrap"><table><thead><tr><th>快捷键</th><th>作用</th></tr></thead><tbody><tr><td>Ctrl + C / Ctrl + V</td><td>复制 / 粘贴</td></tr><tr><td>Ctrl + X</td><td>剪切</td></tr><tr><td>Ctrl + S</td><td>保存（写代码要常按！）</td></tr><tr><td>Ctrl + Z</td><td>撤销</td></tr><tr><td>Ctrl + C（在命令行里）</td><td>强制停止卡住的程序——第 8 章的“救命键”</td></tr></tbody></table></div>
+<h2>本章小结</h2>
+<ul><li>不用背单词：动词、名词、缩写、关键字四张表当词典用，遇到不认识的海量词，回这里查。</li><li>关键字都有英文本意，“理解本意 → 记住语法”，比死记硬背强得多。</li><li>三件小事提前做好：写代码切英文输入法、让扩展名显示出来、会打开命令行——能帮你在前几章少踩一半的坑。</li></ul>
+<p><strong>下一章预告</strong>：准备就绪！下一章我们正式认识主角 <strong>Python</strong>——它是谁、从哪来、凭什么这么受欢迎。</p>
+<div class="pager"><a class="pg home" href="#home">⌂ 返回主页</a><a class="pg next" href="#basics-ch1">第 1 章 · Python 简介 →</a></div>
+</section>
+<section class="chapter" id="basics-ch1" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 1 章</div>
+<h1>Python 简介</h1>
+
+<h2>认识 Python：优雅、强大的现代编程语言</h2>
+<p><strong>Python</strong> 是一门高层次的通用编程语言，由荷兰程序员吉多·范罗苏姆（Guido van Rossum）于 1989 年圣诞节期间开始编写，并于 1991 年正式发布第一个版本。它的核心设计理念是“优雅、明确、简单”，语法非常贴近自然英语，代码具有极高的可读性。此外，Python 开源、免费，可以在 Windows、macOS、Linux 等主流操作系统上运行。</p>
+<blockquote><p><strong>小趣闻</strong>：Python 这个名字并不是来自蟒蛇，而是取自 Guido 钟爱的英国喜剧团体 <strong>Monty Python</strong>（蒙提·派森）。他希望这门语言能像这部喜剧一样，让编程变得有趣。</p></blockquote>
+<h2>为什么选择 Python？</h2>
+<ul><li><strong>极简易读</strong>：使用缩进来定义代码块，省去了复杂的括号与分号，学习曲线平缓，是公认最适合初学者入门的编程语言之一。</li><li><strong>功能全面</strong>：拥有“开箱即用”的标准库，以及数以万计的第三方库（如 NumPy、Pandas、PyTorch、Django），能极大提高开发效率。</li><li><strong>应用极其广泛</strong>：<ul><li><strong>人工智能与数据科学</strong>：机器学习、深度学习、数据挖掘与可视化的首选语言之一。</li><li><strong>网络爬虫与自动化办公</strong>：快速抓取网页数据，批量处理 Excel、PDF 与日常重复任务。</li><li><strong>后端与网络开发</strong>：驱动 Instagram、Reddit 等大型服务的后端系统。</li><li><strong>运维自动化与脚本编写</strong>：跨平台运行，快速搞定系统管理任务。</li></ul></li></ul>
+<h2>你的第一行代码</h2>
+<p>在 Python 中，打印经典的欢迎语句只需要一行：</p>
+<pre><code><span class="bi">print</span>(<span class="st">"Hello, World!"</span>)</code></pre>
+<p>这行代码的含义是：调用 Python 内置的 <code>print()</code> 函数，把括号中的内容输出到屏幕上。现在你还不能运行它，但已经能直观感受到 Python 语法的简洁——<strong>没有分号，没有大括号，读起来就像一句英语</strong>。</p>
+<blockquote><p><strong>说明</strong>：本教程基于 <strong>Python 3.x</strong>（当前的主流版本）。早期的 Python 2 已于 2020 年停止维护，查阅资料时请注意区分版本。</p></blockquote>
+<h2>本章小结</h2>
+<ul><li>Python 由 Guido van Rossum 创建，设计理念是“优雅、明确、简单”。</li><li>它语法简洁、生态丰富，广泛应用于人工智能、数据科学、Web 开发和自动化等领域。</li><li>一行 <code>print("Hello, World!")</code> 就能完成输出，但“去哪里运行它”，正是下一章要解决的问题。</li></ul>
+<p><strong>下一章预告</strong>：要运行 Python 代码，离不开 <strong>Python 解释器</strong>。下一章我们将了解它的工作原理，并亲手把它安装好，让第一行代码真正跑起来。</p>
+<div class="pager"><a class="pg" href="#basics-ch0">← 第 0 章 · 学前基础</a><a class="pg next" href="#basics-ch2">第 2 章 · Python 解释器 →</a></div>
+</section>
+<section class="chapter" id="basics-ch2" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 2 章</div>
+<h1>Python 解释器</h1>
+
+<h2>什么是 Python 解释器？</h2>
+<p>可以将 <strong>Python 解释器（Python Interpreter）</strong> 简单理解为一个“实时翻译官”。</p>
+<p>计算机的 CPU 只能读懂由 <code>0</code> 和 <code>1</code> 组成的机器指令（机器码），无法直接理解人类编写的 Python 源代码（如 <code>print("Hello")</code>）。解释器的核心职责，就是<strong>将你编写的 Python 代码翻译成计算机硬件能够执行的机器语言，并执行它</strong>。</p>
+<blockquote><p><strong>概念澄清</strong>：我们平时说的“Python 解释器”，默认指官方实现 <strong>CPython</strong>（由 C 语言编写）。除此之外还有 PyPy、Jython 等其他实现，初学阶段使用官方的 CPython 即可。</p></blockquote>
+<h2>解释器是如何工作的？</h2>
+<p>当你运行一段 <code>.py</code> 代码时，解释器内部主要经历两个步骤：</p>
+<pre><code>你的代码 (.py)
+      ↓
+[1. 编译为字节码]  →  生成与操作系统无关的中间代码（字节码）
+      ↓
+[2. 虚拟机执行]    →  Python 虚拟机（PVM）逐条将字节码翻译为 CPU 指令并运行</code></pre>
+<ol><li><strong>编译为字节码（Bytecode）</strong>：解释器先对源代码进行语法检查，再把它编译成一种更接近底层、但与操作系统无关的中间代码——字节码。字节码通常只缓存在内存中，被 <code>import</code> 导入的模块才会生成 <code>.pyc</code> 文件保存到磁盘。</li><li><strong>虚拟机执行（PVM，Python Virtual Machine）</strong>：解释器内部的虚拟机逐条读取字节码，将其翻译成当前机器的 CPU 指令并立即执行。</li></ol>
+<h3>解释型语言与编译型语言</h3>
+<p>按照传统的分类方式，编程语言有两大阵营：</p>
+<ul><li><strong>编译型语言</strong>（如 C、C++）：好比“先把整本书翻译完再出版”。代码必须先由编译器整体编译成机器码，之后才能运行。优点是运行速度快，缺点是换一个操作系统往往需要重新编译。</li><li><strong>解释型语言</strong>（如 Python）：好比“同声传译”，由解释器边翻译边执行。优点是跨平台、开发效率高。</li></ul>
+<p>需要说明的是，Python 并不是严格意义上的“逐行翻译”——它同样会先做一次整体编译（生成字节码），再交给虚拟机执行。因此更准确的说法是：<strong>Python 是先编译为字节码、再解释执行的高级语言</strong>。</p>
+<h2>安装并使用解释器</h2>
+<h3>第一步：安装 Python</h3>
+<ol><li>访问官网下载页 <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">python.org/downloads</a>，下载最新的 Python 3.x 安装包。</li><li><strong>Windows 用户注意</strong>：在安装的第一个界面，务必勾选 <strong>Add python.exe to PATH</strong>（旧版安装器显示为 “Add Python 3.x to PATH”），否则无法在命令行中直接使用 <code>python</code> 命令。</li><li>macOS 用户按照安装向导操作即可，命令行中使用 <code>python3</code> 命令。</li></ol>
+<h3>第二步：确认安装成功</h3>
+<p>打开命令行（Windows 的 CMD 或 PowerShell，macOS 的“终端”），输入以下命令：</p>
+<pre><code>python --version</code></pre>
+<p>如果输出以 <code>Python 3.</code> 开头的版本号（如 <code>Python 3.14.0</code>），说明安装成功。具体小版本号不必和这里一致，只要是 3.x 就行。</p>
+<blockquote><p><strong>常见问题</strong>：提示 <code>“python” 不是内部或外部命令</code>？多数是安装时没有勾选 Add to PATH，重新运行安装程序并勾选该选项即可。</p></blockquote>
+<h3>第三步：运行你的第一行代码</h3>
+<p>解释器提供了两种运行代码的方式，都可以让第一章的 <code>Hello, World!</code> 真正跑起来。</p>
+<p><strong>方式一：交互模式（REPL）</strong>。在命令行输入 <code>python</code>（macOS 输入 <code>python3</code>），看到 <code>&gt;&gt;&gt;</code> 提示符后，输入一行代码就会立即执行一行，非常适合初学者随时试验。输入 <code>exit()</code> 可以退出。</p>
+<pre><code>&gt;&gt;&gt; print("Hello, World!")
+Hello, World!</code></pre>
+<p><strong>方式二：运行脚本文件</strong>。把代码保存为一个 <code>.py</code> 文件（如 <code>hello.py</code>），然后在命令行中执行：</p>
+<pre><code>python hello.py
+Hello, World!</code></pre>
+<p>交互模式适合做小实验、验证语法；而实际开发中，我们通常把代码写在 <code>.py</code> 文件里运行。</p>
+<h2>本章小结</h2>
+<ul><li>解释器负责把 Python 源代码翻译成机器能够执行的指令；通常所说的解释器指官方实现 CPython。</li><li>工作流程：源代码 → 编译为字节码 → 由 Python 虚拟机（PVM）执行。</li><li>Python 是“先编译为字节码、再解释执行”的语言，兼顾跨平台与开发效率。</li><li>运行代码有两种方式：交互模式（REPL）和运行 <code>.py</code> 脚本文件。</li></ul>
+<p><strong>下一章预告</strong>：你可能还常听到 PyCharm、VS Code 这些名字——它们和 Python 是什么关系？下一章我们将分清 <strong>Python 语言、Python 解释器和 IDE</strong> 这三个最容易混淆的概念。</p>
+<div class="pager"><a class="pg" href="#basics-ch1">← 第 1 章 · Python 简介</a><a class="pg next" href="#basics-ch3">第 3 章 · Python、解释器与 IDE 的区别 →</a></div>
+</section>
+<section class="chapter" id="basics-ch3" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 3 章</div>
+<h1>Python、解释器与 IDE 的区别</h1>
+
+<h2>一个常见的困惑</h2>
+<p>学到这里，你可能已经见过一串相似的名字：Python、Python 解释器、PyCharm、VS Code……很多初学者都会卡在这些问题上：</p>
+<ul><li>“我下载安装的到底是 Python，还是 PyCharm？”</li><li>“装好了 PyCharm，为什么运行代码时还要让我选择‘解释器’？”</li><li>“Python 和 PyCharm，到底谁包含谁？”</li></ul>
+<p>这一章就把这三个最容易混淆的概念彻底分清。一句话概括：<strong>Python 是语言，解释器是真正运行代码的程序，IDE 是帮你编写代码的工具</strong>。</p>
+<h2>用一个比喻看懂三者</h2>
+<p>延续第二章“翻译官”的比喻，我们把这三者放进同一个场景：</p>
+<ul><li><strong>Python 语言</strong>：相当于一门语言本身（比如英语的语法和词汇）。它是一套“约定”，规定了变量怎么定义、语句怎么写。你正在学习的，就是这门语言。</li><li><strong>Python 解释器</strong>：第二章介绍过的“翻译官”，一个真正运行的程序（Windows 上就是 <code>python.exe</code>）。它能听懂用 Python 语言写成的代码并执行。从 python.org 下载的“Python 安装包”，装的其实就是它，外加标准库和 pip 等配套工具。</li><li><strong>IDE（集成开发环境，Integrated Development Environment）</strong>：像给作家配的“智能写作台”。常见的 IDE 有 PyCharm、VS Code 等，提供语法高亮、自动补全、错误提示、一键运行等功能，让你写得更快、错得更少。<strong>本教程全程使用 VS Code</strong>：它免费开源、轻量流畅、插件生态丰富，既适合初学者，也是众多专业开发者的主力工具。</li></ul>
+<p>特别注意 IDE 的定位：<strong>IDE 负责“写”，解释器负责“跑”</strong>。IDE 本身并不会执行 Python 代码——当你点击“运行”按钮时，是 IDE 在背后替你调用了 Python 解释器。</p>
+<pre><code>你
+  │ 在 IDE 中编写代码
+  ↓
+IDE（写作台）
+  │ 点击"运行"时，IDE 调用解释器
+  ↓
+Python 解释器（翻译官）
+  │ 翻译为机器指令
+  ↓
+CPU 执行，结果显示在屏幕上</code></pre>
+<h2>三者对比一览</h2>
+<div class="table-wrap"><table><thead><tr><th>对比项</th><th>Python 语言</th><th>Python 解释器</th><th>IDE</th></tr></thead><tbody><tr><td>它是什么</td><td>一套语法约定</td><td>一个可执行程序</td><td>一款编辑器软件</td></tr><tr><td>它的职责</td><td>规定“代码怎么写”</td><td>真正翻译并执行代码</td><td>帮你“写得快、错得少”</td></tr><tr><td>代表</td><td>Python 3.x</td><td>CPython（<code>python.exe</code>）</td><td>PyCharm、VS Code、IDLE</td></tr><tr><td>从哪里获得</td><td>你正在学的就是它</td><td>python.org 安装包</td><td>各自官网，需单独安装</td></tr><tr><td>没有它行不行</td><td>——</td><td>绝对不行，代码无法运行</td><td>可以，但开发效率低</td></tr></tbody></table></div>
+<h2>常见疑问解答</h2>
+<p><strong>Q1：装了 PyCharm，还需要单独安装 Python 吗？</strong></p>
+<p>需要。PyCharm 只是“写作台”，真正的“翻译官”（解释器）必须另外准备。这也是为什么新建 PyCharm 项目时它会让你“指定 Python 解释器（Interpreter）”——它就是在问：“你的翻译官在哪里？”（新版本 PyCharm 也提供帮你自动下载安装解释器的选项，但本质上两者是独立的软件。）</p>
+<p><strong>Q2：第二章只用命令行就把代码跑起来了，IDE 是不是必需品？</strong></p>
+<p>不是必需品。记事本加命令行理论上就能开发 Python，第二章你已经实践过了。但 IDE 的补全、纠错、调试功能能大幅提高效率，实际开发中几乎人人都在用。</p>
+<p><strong>Q3：安装 Python 后，开始菜单里出现的 IDLE 是什么？</strong></p>
+<p>IDLE 是随解释器一起安装的简易 IDE，功能比较简单。可以拿来尝鲜，但很快你就会想换用更强大的 IDE——本教程推荐 <strong>VS Code</strong>。</p>
+<h2>本章小结</h2>
+<ul><li>Python 是一门语言（一套语法约定），解释器是执行它的程序，IDE 是辅助编写的工具，三者层次分明。</li><li>IDE 不执行代码，它只是在你点击“运行”时调用解释器。</li><li>从 python.org 安装的是解释器及配套工具；PyCharm、VS Code 需要单独安装，并指向已装好的解释器。</li><li>没有 IDE 也能写 Python，但没有解释器代码一定跑不起来。</li><li>本教程使用 <strong>VS Code</strong> 作为开发工具，请在下方的“动手环节”中完成安装与配置。</li></ul>
+<h2>动手环节：装好你的“写作台”</h2>
+<p>在开始写代码之前，请先跟着视频完成开发环境的搭建。这一步不需要自己摸索——观看 B 站视频《【教程】VScode中配置Python运行环境》（UP 主：火星动力猿，约 6 分钟），一步步跟着操作：<a href="https://www.bilibili.com/video/BV1tF411M7hy" target="_blank" rel="noopener">https://www.bilibili.com/video/BV1tF411M7hy</a></p>
+<p>看完视频，你会完成两件事：<strong>安装 VS Code</strong>、<strong>在 VS Code 中配置好 Python 解释器</strong>。从下一章开始，我们就在 VS Code 里写代码。</p>
+<blockquote><p><strong>提示</strong>：视频发布于 2022 年，个别界面可能与最新版略有差异，但整体流程一致。</p></blockquote>
+<blockquote><p><strong>视频看不成了怎么办？</strong> 视频是最省事的路径，但不是唯一路径。下面这份文字版步骤同样能走通，视频失效时照做即可。</p></blockquote>
+<ol><li>访问 <code>code.visualstudio.com</code>，下载并安装 VS Code（安装时一路默认即可）；</li><li>打开 VS Code，点左侧的“扩展”图标（或按 <code>Ctrl + Shift + X</code>），搜索 <code>Python</code>，安装 Microsoft 出品的那个；</li><li>新建一个专门放代码的文件夹（比如 <code>python-study</code>），在 VS Code 里用“文件 → 打开文件夹”打开它；</li><li>在这个文件夹里新建 <code>hello.py</code>，输入 <code>print("Hello, World!")</code> 并保存（<code>Ctrl + S</code>）；</li><li>点右上角的 ▷ 运行按钮。若弹出“选择解释器”，选你第二章安装的那个 Python 3。</li></ol>
+<p>走完这五步，效果和看完视频是一样的。</p>
+<blockquote><p><strong>配套示例代码</strong>：本教程每一章都配了一份可以直接运行的示例，放在 GitHub 仓库 <a href="https://github.com/AquanSpring/TZQ-Py-Tutorial" target="_blank" rel="noopener">AquanSpring/TZQ-Py-Tutorial</a> 的 <code>python基础篇/examples/</code> 目录里，文件名形如 <code>ch04_代码的基本结构与规则.py</code>。从下一章开始，你可以一边读正文、一边把它运行起来对照——正文里那些“故意写错”的代码，示例里都做了标注和说明。注意：示例只包含正文讲到的内容，<strong>不含任何挑战作业的答案</strong>。</p></blockquote>
+<p><strong>下一章预告</strong>：万事俱备。下一章我们正式开始写代码，先学习 Python 最基本的“游戏规则”——代码如何逐行执行、缩进为什么是语法、注释怎么写，以及新手最常踩的中英文标点大坑。</p>
+<div class="pager"><a class="pg" href="#basics-ch2">← 第 2 章 · Python 解释器</a><a class="pg next" href="#basics-ch4">第 4 章 · 代码的基本结构与规则 →</a></div>
+</section>
+<section class="chapter" id="basics-ch4" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 4 章</div>
+<h1>代码的基本结构与规则</h1>
+
+<h2>开始之前</h2>
+<p>上一章的“动手环节”里，你已经装好了 VS Code 并配置好 Python 解释器。从这一章起，我们正式开始写代码。</p>
+<p>写代码就像学一门新语言，先要掌握它的基本“游戏规则”。本章的四条规则会贯穿你整个编程生涯，请务必亲手把每个例子敲一遍——<strong>编程是练出来的，不是看出来的</strong>。</p>
+<h2>规则一：代码自上而下，逐行执行</h2>
+<p>程序默认从第一行开始，一行接一行地往下执行：上一行执行完毕，才会执行下一行。这建立了程序的<strong>时序概念</strong>——代码的书写顺序，就是它的执行顺序。</p>
+<p>在 VS Code 中新建文件 <code>demo.py</code>，输入以下代码并运行：</p>
+<pre><code><span class="bi">print</span>(<span class="st">"我先执行"</span>)
+<span class="bi">print</span>(<span class="st">"我后执行"</span>)
+<span class="bi">print</span>(<span class="st">"我最后执行"</span>)</code></pre>
+<p>运行结果：</p>
+<pre><code>我先执行
+我后执行
+我最后执行</code></pre>
+<p>输出的顺序和代码的书写顺序完全一致。试着把三行代码调换位置再运行一次，观察输出顺序的变化，你会更直观地感受到“逐行执行”。</p>
+<blockquote><p><strong>提前说明</strong>：以后学到条件语句和循环，你会发现代码也可以“跳着执行”或“重复执行”，但“从上到下”始终是最基本的默认规则。</p></blockquote>
+<h2>规则二：缩进（Indentation）即语法</h2>
+<p>大多数语言用花括号 <code>{}</code> 来划分代码块，Python 不一样——<strong>它用缩进来表示代码的层次和归属</strong>。缩进相同的连续语句，属于同一个代码块。</p>
+<p>先看一个例子（<code>if</code> 语句现在不用完全理解，后面章节会详细讲，这里只感受缩进的作用）：</p>
+<pre><code>age = <span class="nu">18</span>
+
+<span class="kw">if</span> age &gt;= <span class="nu">18</span>:
+    <span class="bi">print</span>(<span class="st">"你已成年"</span>)      <span class="cm"># 缩进了 4 格：属于 if，条件成立才执行</span>
+    <span class="bi">print</span>(<span class="st">"欢迎注册"</span>)      <span class="cm"># 缩进了 4 格：属于 if，条件成立才执行</span>
+
+<span class="bi">print</span>(<span class="st">"我不受 if 控制"</span>)     <span class="cm"># 没有缩进：不属于 if，总会执行</span></code></pre>
+<p>前两个 <code>print</code> 前面有 4 个空格的缩进，说明它们“从属”于上面的 <code>if</code>；最后一行没有缩进，就跳出了这个代码块。</p>
+<p><strong>动手改一改</strong>：把 <code>age</code> 改成 <code>16</code> 再运行——你会发现前两行消失了，只有没缩进的那一行还在输出。这就是缩进决定的“归属关系”。</p>
+<blockquote><p><strong>规范</strong>：Python 官方风格指南 PEP 8 建议<strong>每一级缩进用 4 个空格</strong>。VS Code 默认就是 4 空格缩进，直接按 Tab 键输入即可。切记不要空格和 Tab 混用，否则会报出难以排查的 <code>IndentationError</code>（缩进错误）。</p></blockquote>
+<h2>规则三：注释——写给人看的说明</h2>
+<p>以 <code>#</code> 开头的内容是<strong>注释（Comment）</strong>。解释器会完全忽略它，注释只给人看：</p>
+<pre><code><span class="cm"># 这一行是注释，不会被执行</span>
+<span class="bi">print</span>(<span class="st">"Hello, Python!"</span>)  <span class="cm"># 这也是注释，可以写在代码后面</span></code></pre>
+<p>注释的常见用途：</p>
+<ul><li>解释一段代码<strong>为什么这么写</strong>（思路、原因、注意事项）；</li><li>给长代码<strong>做分节标记</strong>，方便阅读；</li><li><strong>暂时禁用</strong>某行代码（俗称“注释掉”），调试时非常有用。</li></ul>
+<blockquote><p><strong>好习惯</strong>：代码是写给人看的，只是顺便让机器执行。合理的注释能让未来的你和你的同事快速看懂这段代码。但也不要每行都注释——代码本身能表达清楚的，不必啰嗦。</p></blockquote>
+<h2>规则四：严格区分大小写，只用英文字符</h2>
+<p><strong>1. Python 严格区分大小写（Case-sensitive）</strong>。<code>name</code> 和 <code>Name</code> 是两个完全不同的名字，写错一个字母就会报错：</p>
+<pre><code><span class="bi">print</span>(<span class="st">"Hello"</span>)   <span class="cm"># ✅ 正确</span>
+Print(<span class="st">"Hello"</span>)   <span class="cm"># ❌ 报错！print 的 p 不能大写</span></code></pre>
+<p><strong>2. 代码中的符号必须是英文半角</strong>。括号 <code>( )</code>、引号 <code>" "</code>、冒号 <code>:</code>、逗号 <code>,</code> 这些符号都必须用<strong>英文半角</strong>。中文符号长得几乎一样，但解释器完全不认识——这是初学者报错率最高的错误，没有之一：</p>
+<pre><code><span class="bi">print</span>（<span class="st">"Hello"</span>）    <span class="cm"># ❌ 用了中文括号（）</span>
+<span class="bi">print</span>(“Hello”)     <span class="cm"># ❌ 用了中文引号“”</span>
+<span class="bi">print</span>(<span class="st">"你好，世界"</span>)   <span class="cm"># ✅ 中文出现在引号内部，完全没问题</span></code></pre>
+<p>注意最后一句：<strong>中文内容可以写在引号里面，但不能把符号本身写成中文的</strong>。</p>
+<div class="table-wrap"><table><thead><tr><th>符号</th><th>英文半角 ✅</th><th>中文全角 ❌</th></tr></thead><tbody><tr><td>括号</td><td>( )</td><td>（ ）</td></tr><tr><td>引号</td><td>" " 或 ' '</td><td>“ ” ‘ ’</td></tr><tr><td>冒号</td><td>:</td><td>：</td></tr><tr><td>逗号</td><td>,</td><td>，</td></tr></tbody></table></div>
+<blockquote><p><strong>排查技巧</strong>：如果报错信息里出现 <code>SyntaxError: invalid character '（' (U+FF08)</code>，括号里的字符编号就是中文标点的“身份证号”，说明你用了中文符号。写代码时把输入法切到英文模式，能避开绝大多数这类问题（切换方法见第 0 章）。</p></blockquote>
+<h2>本章挑战作业</h2>
+<p>这一章能用的工具只有 <code>print</code>，但把简单工具用得精准，正是打基础。本作业<strong>没有参考答案</strong>——先自己挣扎 30 分钟再求助，卡住时回到对应小节重读。</p>
+<p><strong>任务一：字符金字塔</strong>。只用 <code>print</code> 和字符串，输出下面这个五行金字塔（星号数依次为 1、3、5、7、9，整体居中）：</p>
+<pre><code>    *
+   ***
+  *****
+ *******
+*********</code></pre>
+<p>要求：</p>
+<ol><li>每行代码末尾加一条注释，说明这是金字塔的第几行；</li><li>完成后把金字塔改成<strong>倒过来</strong>的五层，体会“逐行执行”和你的书写顺序的关系。</li></ol>
+<p><strong>任务二：亲手制造一次报错</strong>。故意把某一行的一个括号写成中文的，运行程序；把报错<strong>最后一行</strong>的内容抄进注释里保存，然后用一句话（注释形式）写下你对这个报错的理解，最后把代码修好。</p>
+<blockquote><p><strong>提示</strong>：每行由“空格 + 星号”组成。动手数一数：第 1 行有几个空格、第 2 行有几个？规律找出来了，五行就是五次 <code>print</code>。</p></blockquote>
+<p><strong>自测标准</strong>：程序一次运行通过；金字塔居中对齐；注释里留有你与报错“交锋”的记录。</p>
+<h2>本章小结</h2>
+<ul><li>代码自上而下逐行执行，书写顺序就是执行顺序。</li><li>Python 用缩进（推荐 4 个空格）划分代码块，缩进本身就是语法。</li><li><code>#</code> 开头的内容是注释，只给人看、不被执行；写注释是好习惯。</li><li>Python 严格区分大小写；代码符号必须用英文半角，中文只能出现在字符串内容里。</li></ul>
+<p><strong>下一章预告</strong>：规则已经掌握。下一章我们学习编程的第一块基石——<strong>变量与数据类型</strong>，让你的程序真正“记住”数据。</p>
+<div class="pager"><a class="pg" href="#basics-ch3">← 第 3 章 · Python、解释器与 IDE 的区别</a><a class="pg next" href="#basics-ch5">第 5 章 · 变量与数据类型 →</a></div>
+</section>
+<section class="chapter" id="basics-ch5" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 5 章</div>
+<h1>变量与数据类型</h1>
+
+<h2>为什么需要变量？</h2>
+<p>到目前为止，我们的代码都是“执行完就忘”：<code>print</code> 输出一句话，程序结束，什么也没留下。而真实的程序需要<strong>记住</strong>数据——你的游戏等级、购物车里的商品、银行账户的余额。</p>
+<p><strong>变量（Variable）</strong> 就是程序用来“记住”数据的工具。这一章我们学习两件事：怎么用变量记住数据，以及数据本身有哪些“种类”（数据类型）。</p>
+<h2>什么是变量</h2>
+<p>可以把变量理解成<strong>贴在数据上的标签</strong>：数据本身放在内存里，变量名就是指向它的标签，你通过标签随时找到这份数据。</p>
+<p>给变量赋值的写法是：<code>变量名 = 数据</code>，中间的 <code>=</code> 叫<strong>赋值号</strong>：</p>
+<pre><code>name = <span class="st">"小明"</span>    <span class="cm"># 把字符串 "小明" 贴上 name 这个标签</span>
+age = <span class="nu">18</span>         <span class="cm"># 把整数 18 贴上 age 这个标签</span>
+
+<span class="bi">print</span>(name)      <span class="cm"># 小明</span>
+<span class="bi">print</span>(age)       <span class="cm"># 18</span></code></pre>
+<blockquote><p><strong>注意</strong>：<code>=</code> 不是数学里的“相等”，而是“把右边的值赋给左边”。读作“把 18 赋给 age”，而不是“age 等于 18”。</p></blockquote>
+<p>变量最大的特点是“变”——它的值可以随时更新：</p>
+<pre><code>score = <span class="nu">60</span>
+score = score + <span class="nu">40</span>    <span class="cm"># 先算右边的 60 + 40，再把结果 100 赋回 score</span>
+<span class="bi">print</span>(score)          <span class="cm"># 100</span></code></pre>
+<p>第二行是理解赋值的关键：<strong>Python 总是先算等号右边，再把结果赋给左边</strong>。如果 <code>=</code> 真的是“相等”，这行代码在数学上根本不成立——这正是它不是等号的证明。</p>
+<h2>给变量起名字</h2>
+<p>变量名不是随便起的，它有两套约束。</p>
+<p><strong>硬性规则</strong>（违反会直接报错）：</p>
+<ol><li>只能由<strong>字母、数字、下划线</strong>组成，如 <code>name</code>、<code>age2</code>、<code>student_score</code>；</li><li>不能以<strong>数字</strong>开头（<code>2name</code> ❌，<code>name2</code> ✅）；</li><li>不能使用 Python 的<strong>关键字</strong>（<code>if</code>、<code>for</code>、<code>while</code>、<code>class</code> 等 30 多个被语言本身占用的词）；</li><li><strong>严格区分大小写</strong>——<code>Age</code> 和 <code>age</code> 是两个不同的变量（还记得第四章的规则四吗？）。</li></ol>
+<p><strong>软性讲究</strong>（不违反会更好）：</p>
+<ul><li><strong>见名知意</strong>：存学生年龄就叫 <code>student_age</code>，别叫 <code>a</code>、<code>x1</code>；</li><li>多个单词用<strong>下划线连接</strong>：<code>user_name</code>、<code>total_price</code>，这是 Python 官方推荐的风格；</li><li>建议用英文单词，避免拼音缩写带来的歧义。</li></ul>
+<p>还有一条常见约定：<strong>不该被修改的量</strong>用全大写命名，如 <code>PI = 3.14159</code>、<code>MAX_RETRY = 3</code>。Python 并没有真正的“常量”，全大写只是提醒读代码的人：请别改它。</p>
+<p><strong>动手试一试</strong>：故意输入 <code>2name = 1</code> 并运行，观察报错信息。学会读懂 <code>SyntaxError</code>，是你排查代码问题的第一课。</p>
+<h2>常用的数据类型</h2>
+<p>数据是有“种类”的，Python 会自动识别最常见的四种：</p>
+<div class="table-wrap"><table><thead><tr><th>类型</th><th>名称</th><th>例子</th><th>一句话说明</th></tr></thead><tbody><tr><td><code>int</code></td><td>整数</td><td><code>18</code>、<code>-5</code>、<code>0</code></td><td>不带小数点的数</td></tr><tr><td><code>float</code></td><td>浮点数</td><td><code>3.14</code>、<code>-0.5</code></td><td>带小数点的数</td></tr><tr><td><code>str</code></td><td>字符串</td><td><code>"hello"</code>、<code>"你好"</code></td><td>引号包住的一串字符</td></tr><tr><td><code>bool</code></td><td>布尔</td><td><code>True</code>、<code>False</code></td><td>只有两个值，表示“真/假”</td></tr></tbody></table></div>
+<p>用内置的 <code>type()</code> 函数可以查看任何数据的类型：</p>
+<pre><code><span class="bi">print</span>(<span class="bi">type</span>(<span class="nu">18</span>))         <span class="cm"># &lt;class 'int'&gt;</span>
+<span class="bi">print</span>(<span class="bi">type</span>(<span class="nu">3.14</span>))       <span class="cm"># &lt;class 'float'&gt;</span>
+<span class="bi">print</span>(<span class="bi">type</span>(<span class="st">"hello"</span>))    <span class="cm"># &lt;class 'str'&gt;</span>
+<span class="bi">print</span>(<span class="bi">type</span>(<span class="kw">True</span>))       <span class="cm"># &lt;class 'bool'&gt;</span></code></pre>
+<p>两个值得注意的细节：</p>
+<ul><li>布尔值的 <code>True</code> 和 <code>False</code> <strong>首字母必须大写</strong>——又一次呼应第四章：Python 严格区分大小写。</li><li>引号决定一切：<code>18</code> 是整数，<code>"18"</code> 是<strong>字符串</strong>。长得一样，类型完全不同，这也正是下面类型转换存在的原因。</li></ul>
+<blockquote><p><strong>说明</strong>：这四种是起步阶段最常用的类型。后面章节还会遇到列表、字典等能装下更多数据的“容器型”类型，现在先把这四种用熟。</p></blockquote>
+<h2>类型转换：在类型之间搭桥</h2>
+<p>不同类型的值不能随意混用。比如把字符串和整数直接相加，程序会报错：</p>
+<pre><code><span class="bi">print</span>(<span class="st">"5"</span> + <span class="nu">5</span>)    <span class="cm"># ❌ TypeError：字符串只能和字符串拼接，不能拼接整数</span></code></pre>
+<p>解决的办法是<strong>类型转换</strong>，Python 提供了三个最常用的转换函数：</p>
+<pre><code><span class="bi">int</span>(<span class="st">"5"</span>)       <span class="cm"># 字符串 → 整数，得到 5</span>
+<span class="bi">float</span>(<span class="st">"3.14"</span>)  <span class="cm"># 字符串 → 浮点数，得到 3.14</span>
+<span class="bi">str</span>(<span class="nu">100</span>)       <span class="cm"># 整数 → 字符串，得到 "100"</span></code></pre>
+<p>一个最实用的场景——先把字符串转成数字，再做数学运算：</p>
+<pre><code>age = <span class="st">"18"</span>          <span class="cm"># 此时 age 是字符串</span>
+age = <span class="bi">int</span>(age)      <span class="cm"># 转换成整数</span>
+<span class="bi">print</span>(age + <span class="nu">1</span>)      <span class="cm"># 19 ✅</span></code></pre>
+<p>反过来，想把数字拼进一句话里，就要先用 <code>str()</code> 把数字转成字符串：</p>
+<pre><code>age = <span class="nu">18</span>
+<span class="bi">print</span>(<span class="st">"我今年 "</span> + <span class="bi">str</span>(age) + <span class="st">" 岁"</span>)    <span class="cm"># 我今年 18 岁</span></code></pre>
+<blockquote><p><strong>常见问题</strong>：<code>"5" + 5</code> 报错？先看错误类型 <code>TypeError</code>（类型错误），再读提示信息——它会告诉你哪两种类型出了问题。看懂报错，比背答案更重要。</p></blockquote>
+<h2>本章挑战作业</h2>
+<p>这一章的工具是：赋值、四种类型、<code>type()</code>、类型转换。下面的题只用这些，<strong>没有参考答案</strong>——先自己挣扎 30 分钟，卡住就把问题拆小。</p>
+<p><strong>任务一：交换两个变量</strong>。程序开头是：</p>
+<pre><code>a = <span class="nu">1</span>
+b = <span class="nu">2</span></code></pre>
+<p>请通过若干条赋值语句，让程序结束时 <code>a</code> 是 2、<code>b</code> 是 1，最后用两个 <code>print</code> 验证。约束：不许直接写 <code>a = 2</code> 和 <code>b = 1</code>——你的代码要<strong>换了两个别的数也能正确交换</strong>。</p>
+<p><strong>任务二：用 <code>type()</code> 证明引号的力量</strong>。对 <code>"5"</code>、<code>5.0</code>、<code>5</code> 分别用 <code>type()</code> 查看并打印，在每行后面用注释记下结果，并用一句话回答：它们为什么是三种不同的类型？</p>
+<blockquote><p><strong>提示（任务一）</strong>：直接 <code>a = b</code> 会把 2 复制过去，1 就“丢了”。想想：怎么在覆盖之前，把旧值<strong>暂存</strong>在一个新变量里？这是几乎所有编程语言教学里的经典第一题，值得亲手推一遍。</p></blockquote>
+<p><strong>自测标准</strong>：任务一换任意两个初始值（比如 <code>a = "x"</code>、<code>b = "y"</code>）依然交换成功；任务二的三个 <code>type()</code> 结果你都解释得上来。</p>
+<h2>本章小结</h2>
+<ul><li>变量是贴在数据上的标签，<code>=</code> 是赋值号：<strong>先算右边，再赋给左边</strong>。</li><li>命名有硬规则（字母/数字/下划线、不数字开头、区分大小写、避开关键字）和软讲究（见名知意、下划线连接）。</li><li>基础数据类型四种：<code>int</code>、<code>float</code>、<code>str</code>、<code>bool</code>，用 <code>type()</code> 查看类型。</li><li><code>18</code> 和 <code>"18"</code> 类型不同；<code>int()</code>、<code>float()</code>、<code>str()</code> 负责在类型之间转换。</li></ul>
+<p><strong>下一章预告</strong>：有了变量，下一步就是“算”。下一章我们学习<strong>运算符与表达式</strong>，让 Python 帮你做算术、比较大小、处理文字。</p>
+<div class="pager"><a class="pg" href="#basics-ch4">← 第 4 章 · 代码的基本结构与规则</a><a class="pg next" href="#basics-ch6">第 6 章 · 运算符与表达式 →</a></div>
+</section>
+<section class="chapter" id="basics-ch6" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 6 章</div>
+<h1>运算符与表达式</h1>
+
+<h2>让程序开始“算”</h2>
+<p>上一章我们让程序“记住”了数据，这一章让它“干活”——<strong>运算</strong>。这本来就是计算机最擅长的事。</p>
+<p>先认识两个词：<strong>运算符（Operator）</strong>是 <code>+</code>、<code>-</code>、<code>*</code> 这些运算符号；把数据和运算符组合起来、能算出一个结果的式子叫<strong>表达式（Expression）</strong>。表达式算出的结果可以存进变量：</p>
+<pre><code>price = <span class="nu">5</span>
+count = <span class="nu">3</span>
+total = price * count    <span class="cm"># 右边是一个表达式，算出 15 赋给 total</span>
+<span class="bi">print</span>(total)             <span class="cm"># 15</span></code></pre>
+<h2>算术运算符</h2>
+<p>Python 提供了 7 个算术运算符，前三个和数学完全一样，后四个是编程特有的：</p>
+<div class="table-wrap"><table><thead><tr><th>运算符</th><th>含义</th><th>例子</th><th>结果</th></tr></thead><tbody><tr><td><code>+</code></td><td>加</td><td><code>7 + 2</code></td><td><code>9</code></td></tr><tr><td><code>-</code></td><td>减</td><td><code>7 - 2</code></td><td><code>5</code></td></tr><tr><td><code>*</code></td><td>乘</td><td><code>7 * 2</code></td><td><code>14</code></td></tr><tr><td><code>/</code></td><td>除</td><td><code>7 / 2</code></td><td><code>3.5</code></td></tr><tr><td><code>//</code></td><td>整除（只留整数部分）</td><td><code>7 // 2</code></td><td><code>3</code></td></tr><tr><td><code>%</code></td><td>取余</td><td><code>7 % 2</code></td><td><code>1</code></td></tr><tr><td><code>**</code></td><td>幂（乘方）</td><td><code>7 ** 2</code></td><td><code>49</code></td></tr></tbody></table></div>
+<p>三个要点：</p>
+<ul><li><strong><code>/</code> 的结果永远是浮点数</strong>：<code>10 / 2</code> 得到的是 <code>5.0</code>，不是 <code>5</code>——呼应上一章的类型知识。</li><li><strong><code>%</code> 取余非常实用</strong>：判断奇偶（<code>n % 2</code> 结果是 0 就是偶数）、提取个位（<code>123 % 10</code> 得到 3）都靠它。</li><li><strong><code>//</code> 是“向下取整”的整除</strong>：正数时就是“扔掉小数部分”，但负数时会往更小的方向取，如 <code>-7 // 2</code> 是 <code>-4</code>。初学阶段记住正数用法即可，见到负数结果时想起这条。</li></ul>
+<p><strong>动手试一试</strong>：在 VS Code 里把这个表格逐行敲一遍——先口算，再运行验证。全对说明你已经掌握了。</p>
+<h2>运算优先级</h2>
+<p>表达式里有多个运算符时，运算顺序和数学一致：</p>
+<ol><li><strong>括号</strong>最优先；</li><li>其次是<strong>幂</strong>（<code>**</code>）；</li><li>再是<strong>乘、除、整除、取余</strong>；</li><li>最后是<strong>加、减</strong>；同级运算从左到右。</li></ol>
+<pre><code><span class="bi">print</span>(<span class="nu">2</span> + <span class="nu">3</span> * <span class="nu">4</span>)     <span class="cm"># 14，先乘后加</span>
+<span class="bi">print</span>((<span class="nu">2</span> + <span class="nu">3</span>) * <span class="nu">4</span>)   <span class="cm"># 20，括号改变顺序</span></code></pre>
+<blockquote><p><strong>建议</strong>：不确定顺序时，<strong>加括号</strong>。括号既不会算错，还能让读代码的人一眼看懂你的意图。</p></blockquote>
+<h2>字符串也能“运算”</h2>
+<p><code>+</code> 和 <code>*</code> 对字符串同样有效，但含义变了：</p>
+<pre><code>first = <span class="st">"Hello, "</span>
+second = <span class="st">"World!"</span>
+<span class="bi">print</span>(first + second)    <span class="cm"># Hello, World!  —— + 是拼接</span>
+
+<span class="bi">print</span>(<span class="st">"-"</span> * <span class="nu">20</span>)          <span class="cm"># -------------------- —— * 是重复</span>
+<span class="bi">print</span>(<span class="st">"Ha"</span> * <span class="nu">3</span>)          <span class="cm"># HaHaHa</span></code></pre>
+<p>注意：<code>+</code> 的两边必须是<strong>同是字符串</strong>——第五章 <code>"5" + 5</code> 报的 <code>TypeError</code> 就是这个原因，需要先转换类型再运算。</p>
+<h2>比较运算符：结果是“真 / 假”</h2>
+<p>比较运算符用来比较两个值的关系，<strong>运算结果是一个布尔值</strong>——上一章学的 <code>bool</code> 类型，在这里正式派上用场：</p>
+<div class="table-wrap"><table><thead><tr><th>运算符</th><th>含义</th><th>例子</th><th>结果</th></tr></thead><tbody><tr><td><code>==</code></td><td>等于</td><td><code>7 == 7</code></td><td><code>True</code></td></tr><tr><td><code>!=</code></td><td>不等于</td><td><code>7 != 7</code></td><td><code>False</code></td></tr><tr><td><code>&gt;</code></td><td>大于</td><td><code>7 &gt; 2</code></td><td><code>True</code></td></tr><tr><td><code>&lt;</code></td><td>小于</td><td><code>7 &lt; 2</code></td><td><code>False</code></td></tr><tr><td><code>&gt;=</code></td><td>大于等于</td><td><code>7 &gt;= 7</code></td><td><code>True</code></td></tr><tr><td><code>&lt;=</code></td><td>小于等于</td><td><code>7 &lt;= 2</code></td><td><code>False</code></td></tr></tbody></table></div>
+<pre><code>age = <span class="nu">18</span>
+<span class="bi">print</span>(age &gt;= <span class="nu">18</span>)    <span class="cm"># True</span>
+<span class="bi">print</span>(age == <span class="nu">20</span>)    <span class="cm"># False</span></code></pre>
+<blockquote><p><strong>本章最重要的区别</strong>：<code>=</code> 是赋值（把值存进变量），<code>==</code> 是比较（问两者是否相等）。写成 <code>if x = 5</code> 之类的错误，大多源于把这两个弄混了。</p></blockquote>
+<p>Python 还支持数学里的<strong>连写比较</strong>：<code>18 &lt;= age &lt;= 60</code> 等价于 <code>age &gt;= 18 and age &lt;= 60</code>（<code>and</code> 下一章细讲），判断“区间”时非常好用。</p>
+<p>顺带一提，字符串也能比较大小（按字符编码顺序），这个规则用到时再细讲，现在先不深究。</p>
+<h2>简写运算符：+= 家族</h2>
+<p>“在原值基础上更新”是高频操作，Python 提供了简写形式：</p>
+<pre><code>count = <span class="nu">0</span>
+count += <span class="nu">1</span>    <span class="cm"># 等价于 count = count + 1，count 变成 1</span>
+count += <span class="nu">1</span>    <span class="cm"># count 变成 2</span>
+<span class="bi">print</span>(count)  <span class="cm"># 2</span></code></pre>
+<p><code>-=</code>、<code>*=</code>、<code>/=</code>、<code>//=</code> 都是同样的道理。其中 <code>+=</code> 出现频率最高，务必熟练。</p>
+<h2>一个著名的坑：浮点数误差</h2>
+<p>运行下面这行代码，结果可能出乎你的意料：</p>
+<pre><code><span class="bi">print</span>(<span class="nu">0.1</span> + <span class="nu">0.2</span>)    <span class="cm"># 0.30000000000000004 ？</span></code></pre>
+<p>这不是 bug，也不是你写错了——计算机内部用<strong>二进制</strong>存储小数，而很多十进制小数（比如 0.1）无法被二进制精确表示，于是产生微小的误差。所有编程语言都有这个现象。</p>
+<p>初学阶段的应对：用 <code>round()</code> 把结果保留到指定位数，如 <code>round(0.1 + 0.2, 2)</code> 得到 <code>0.3</code>。</p>
+<blockquote><p><strong>注意</strong>：<code>round()</code> 并不是严格的“四舍五入”，它用的是“四舍六入五成双”——<code>round(2.5)</code> 得到的是 <code>2</code>，不是 <code>3</code>；<code>round(3.5)</code> 才得到 <code>4</code>。所以它适合用来收拾显示上的小尾巴，<strong>不适合做精确计算</strong>。以后涉及金额等场景，我们再介绍专门的 <code>Decimal</code> 模块。</p></blockquote>
+<h2>本章挑战作业</h2>
+<p>一道流传千年的算术题，只用变量和运算符（<strong>不许用 if</strong>——下一章才学），<strong>没有参考答案</strong>：</p>
+<p><strong>鸡兔同笼</strong>。笼中有 35 个头、94 只脚。设鸡有 <code>chickens</code> 只、兔有 <code>rabbits</code> 只，用表达式算出它们各是多少只，并 <code>print</code> 出结果。</p>
+<p>要求：</p>
+<ol><li>先把解题思路写在注释里（用中文描述你的算式逻辑），再翻译成代码；</li><li>结果必须由表达式<strong>算出来</strong>，不许直接写 <code>chickens = 23</code>；</li><li>用 <code>print</code> 输出两行验证：头数之和是否为 35，脚数之和是否为 94（提示：比较表达式会输出 True/False，回忆本章的比较运算符）。</li></ol>
+<blockquote><p><strong>提示</strong>：假设 35 只全部是鸡，脚只有 70 只，比实际的 94 少了 24 只。每把一只鸡换成兔，脚就多 2 只——24 里有几个 2，就有几只兔。把这个思路用 <code>-</code>、<code>*</code>、<code>//</code> 翻译成表达式。</p></blockquote>
+<p><strong>自测标准</strong>：输出鸡 23 只、兔 12 只，且两行验证都是 <code>True</code>。</p>
+<h2>本章小结</h2>
+<ul><li>表达式 = 数据 + 运算符，总能算出一个结果；结果常被赋给变量。</li><li>七个算术运算符：<code>+ - * / // % **</code>；<code>/</code> 的结果永远是浮点数。</li><li>优先级：括号 &gt; 幂 &gt; 乘除 &gt; 加减，不确定就加括号。</li><li>字符串支持 <code>+</code>（拼接）和 <code>*</code>（重复），但 <code>+</code> 两边必须都是字符串。</li><li>比较运算符的结果是布尔值；<code>==</code> 是比较，<code>=</code> 是赋值。</li><li><code>+=</code> 等简写运算符让“在原值上更新”更简洁。</li><li>浮点误差源于二进制存储，属正常现象，可用 <code>round()</code> 缓解。</li></ul>
+<p><strong>下一章预告</strong>：还记得第四章那个“现在不用完全理解”的 <code>if</code> 吗？条件已经成熟——你掌握了比较运算符（得到 True/False），也掌握了缩进（组织代码块）。下一章我们正式学习<strong>条件语句</strong>，让程序学会“看情况办事”。</p>
+<div class="pager"><a class="pg" href="#basics-ch5">← 第 5 章 · 变量与数据类型</a><a class="pg next" href="#basics-ch7">第 7 章 · 条件语句 →</a></div>
+</section>
+<section class="chapter" id="basics-ch7" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 7 章</div>
+<h1>条件语句</h1>
+
+<h2>程序需要“看情况办事”</h2>
+<p>到目前为止，我们的代码只会一条道走到黑：从上到下逐行执行，从不拐弯。但真实的任务处处需要选择：登录时，密码对了才放行；购物结算时，满 99 元才免运费；过马路时，绿灯才能走。</p>
+<p><strong>条件语句（Conditional Statement）</strong>就是让程序学会选择的结构：<strong>某个条件成立时，才执行某段代码</strong>。还记得第四章那个“现在不用完全理解”的 <code>if</code> 吗？现在正式揭开它的面纱——你已经准备好了比较运算符和缩进这两块拼图。</p>
+<h2>if：条件成立才执行</h2>
+<pre><code>age = <span class="nu">18</span>
+
+<span class="kw">if</span> age &gt;= <span class="nu">18</span>:
+    <span class="bi">print</span>(<span class="st">"你已成年"</span>)
+    <span class="bi">print</span>(<span class="st">"欢迎注册"</span>)
+
+<span class="bi">print</span>(<span class="st">"程序结束"</span>)</code></pre>
+<p>解剖一下语法结构：</p>
+<ul><li><code>if</code> 后面跟一个<strong>条件</strong>——通常就是第六章学的比较表达式，结果只有 <code>True</code> 或 <code>False</code>；</li><li>行尾的<strong>冒号 <code>:</code></strong> 不能少（英文半角，第四章规则四）；</li><li>冒号下一行<strong>缩进 4 格</strong>的内容，是归属于 if 的<strong>代码块</strong>——第四章说过 Python 用缩进组织代码块，在这里终于用上了；</li><li>条件为 <code>True</code>：执行代码块；为 <code>False</code>：整个代码块被跳过。</li></ul>
+<p><strong>动手试一试</strong>：运行后把 <code>age</code> 改成 <code>16</code> 再运行——中间两行消失了，只有“程序结束”还在输出。</p>
+<h2>else：两种情况，必走其一</h2>
+<p>if 只处理了“成立”的情况，“不成立”时干什么？用 <code>else</code>：</p>
+<pre><code>age = <span class="nu">16</span>
+
+<span class="kw">if</span> age &gt;= <span class="nu">18</span>:
+    <span class="bi">print</span>(<span class="st">"你已成年"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"你还未成年"</span>)</code></pre>
+<p><code>else</code> 表示“其余情况”，它本身不带条件，直接跟冒号。if 和 else 二选一，必然走其中一条路。</p>
+<h2>elif：多种情况依次判断</h2>
+<p>两种情况不够用怎么办？用 <code>elif</code>（else if 的缩写）串起更多分支：</p>
+<pre><code>score = <span class="nu">85</span>
+
+<span class="kw">if</span> score &gt;= <span class="nu">90</span>:
+    <span class="bi">print</span>(<span class="st">"优秀"</span>)
+<span class="kw">elif</span> score &gt;= <span class="nu">80</span>:
+    <span class="bi">print</span>(<span class="st">"良好"</span>)
+<span class="kw">elif</span> score &gt;= <span class="nu">60</span>:
+    <span class="bi">print</span>(<span class="st">"及格"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"不及格"</span>)</code></pre>
+<p>判断规则：<strong>自上而下逐个检查条件，命中一个就执行它，然后跳过其余所有分支</strong>。</p>
+<ul><li><code>score</code> 是 85：<code>&gt;= 90</code> 不成立，<code>&gt;= 80</code> 成立 → 输出“良好”，后面的分支全部跳过；</li><li><strong>动手试一试</strong>：把 <code>score</code> 改成 <code>95</code>、<code>59</code>、<code>100</code> 各运行一次，先猜结果，再验证。</li></ul>
+<blockquote><p><strong>注意顺序</strong>：如果反过来把“及格”放在最前面判断，85 分会先命中“及格”，永远轮不到“良好”。多分支要<strong>从严到宽</strong>（从特殊到一般）排列，才能保证逻辑正确。</p></blockquote>
+<h2>and、or、not：条件的组合</h2>
+<p>单个条件常常不够用，比如“年满 18 <strong>并且</strong>持票才能入场”，需要把多个条件组合起来：</p>
+<div class="table-wrap"><table><thead><tr><th>运算符</th><th>含义</th><th>何时成立</th></tr></thead><tbody><tr><td><code>and</code></td><td>并且</td><td>两边<strong>都</strong>为 True</td></tr><tr><td><code>or</code></td><td>或者</td><td>两边<strong>至少一个</strong>为 True</td></tr><tr><td><code>not</code></td><td>取反</td><td>True 变 False，False 变 True</td></tr></tbody></table></div>
+<pre><code>age = <span class="nu">20</span>
+has_ticket = <span class="kw">True</span>
+
+<span class="kw">if</span> age &gt;= <span class="nu">18</span> <span class="kw">and</span> has_ticket:
+    <span class="bi">print</span>(<span class="st">"可以入场"</span>)
+
+vip = <span class="kw">False</span>
+amount = <span class="nu">120</span>
+
+<span class="kw">if</span> vip <span class="kw">or</span> amount &gt;= <span class="nu">99</span>:
+    <span class="bi">print</span>(<span class="st">"免运费"</span>)
+
+<span class="kw">if</span> <span class="kw">not</span> vip:
+    <span class="bi">print</span>(<span class="st">"开通会员享专属折扣"</span>)</code></pre>
+<blockquote><p><strong>提示</strong>：不要写 <code>if has_ticket == True:</code> 这样的冗余代码——<code>has_ticket</code> 本身就是布尔值，直接把它放进条件即可：<code>if has_ticket:</code>。</p></blockquote>
+<p>三个运算符的优先级是 <strong>not → and → or</strong>；和算术运算一样，拿不准就加括号。</p>
+<p><strong>顺带一提：短路</strong>。<code>and</code> 和 <code>or</code> 有个很实用的脾气——<strong>结果一旦确定，右边的表达式就根本不会被计算</strong>：</p>
+<pre><code>b = <span class="nu">0</span>
+<span class="kw">if</span> b != <span class="nu">0</span> <span class="kw">and</span> <span class="nu">10</span> / b &gt; <span class="nu">1</span>:     <span class="cm"># 左边为假，右边的 10 / b 压根不会算，所以不会报 ZeroDivisionError</span>
+    <span class="bi">print</span>(<span class="st">"成立"</span>)</code></pre>
+<p>这个脾气正好可以用来“先挡住危险，再动手”，也可以省掉一个 if：</p>
+<pre><code>name = <span class="bi">input</span>(<span class="st">"你的名字："</span>) <span class="kw">or</span> <span class="st">"游客"</span>     <span class="cm"># 输入为空（假值）时，取右边的“游客”</span></code></pre>
+<p>上面这行是常见惯用法：<code>A or B</code> 读作“A 有内容就用 A，否则用 B”。它依赖的正是下面这条真假规则。</p>
+<h2>哪些值是“真”，哪些是“假”</h2>
+<p>其实不止布尔值——<strong>任何值都能放进 if 当条件</strong>，Python 会自动按“真 / 假”来解释：</p>
+<ul><li>当作<strong>假</strong>的只有少数几个：<code>0</code>、<code>0.0</code>、<code>""</code>（空字符串）、空列表 <code>[]</code>、空元组 <code>()</code>、空字典 <code>{}</code>、空集合 <code>set()</code>、<code>None</code>；</li><li>其余的值一律当<strong>真</strong>：非零数字、非空字符串、非空容器。</li></ul>
+<p>所以 <code>if name:</code> 就能判断“名字填了没有”——空字符串算“假”。这个规则在处理容器时特别顺手：“列表非空”直接写 <code>if items:</code> 就行，后面两章会反复用到。</p>
+<h2>嵌套：if 里面还能有 if</h2>
+<p>代码块里可以再放新的 if，只需再缩进一层：</p>
+<pre><code>age = <span class="nu">20</span>
+has_ticket = <span class="kw">True</span>
+
+<span class="kw">if</span> age &gt;= <span class="nu">18</span>:
+    <span class="kw">if</span> has_ticket:
+        <span class="bi">print</span>(<span class="st">"可以入场"</span>)
+    <span class="kw">else</span>:
+        <span class="bi">print</span>(<span class="st">"请先购票"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"未满 18 岁禁止入场"</span>)</code></pre>
+<p>嵌套的层次完全靠缩进区分——缩进越深，归属越内层。但要提醒：<strong>嵌套不宜太深</strong>，超过两层往往可以用 <code>and</code> 合并条件来简化，代码更好读。</p>
+<p>顺带一提：如果只是“二选一地定一个值”，Python 还有更紧凑的写法——<strong>条件表达式</strong>：</p>
+<pre><code>age = <span class="nu">20</span>
+tag = <span class="st">"成年"</span> <span class="kw">if</span> age &gt;= <span class="nu">18</span> <span class="kw">else</span> <span class="st">"未成年"</span>
+<span class="bi">print</span>(tag)    <span class="cm"># 成年</span></code></pre>
+<p>读作“如果条件成立取 <code>if</code> 前面的值，否则取 <code>else</code> 后面的值”。它只能做“两选一赋值”，代替不了执行多条语句的 if/else 结构。</p>
+<h2>新手常见的三个坑</h2>
+<ol><li><strong>忘记冒号</strong>：<code>if age &gt;= 18</code> 后面少了 <code>:</code>，立刻报 <code>SyntaxError</code>。</li><li><strong><code>=</code> 和 <code>==</code> 混用</strong>：条件里写 <code>age = 18</code>（赋值）而不是 <code>age == 18</code>（比较）——第六章的重点，这里再强调一次。</li><li><strong>缩进不一致</strong>：同一个代码块有的缩 4 格、有的缩 2 格，会报 <code>IndentationError</code>。</li></ol>
+<h2>本章挑战作业</h2>
+<p><strong>闰年判断</strong>。这是条件逻辑的经典练习，<strong>没有参考答案</strong>。</p>
+<p>规则：某一年是闰年，当且仅当满足以下<strong>任意一条</strong>：</p>
+<ul><li>能被 4 整除，且<strong>不能</strong>被 100 整除；</li><li>能被 400 整除。</li></ul>
+<p>写一个程序，对变量 <code>year</code> 判断并输出“是闰年”或“不是闰年”。</p>
+<p>要求：</p>
+<ol><li>只用<strong>一组</strong> <code>if / elif / else</code>（可以配合 <code>and / or / not</code>），不许多次单独 <code>if</code>；</li><li>依次用 <code>2023</code>、<code>2024</code>、<code>1900</code>、<code>2000</code> 四个年份测试，先把你的预测写在注释里，再运行验证——1900 和 2000 这两个最容易翻车；</li><li>整除判断用 <code>%</code>：<code>year % 4 == 0</code> 表示能被 4 整除。</li></ol>
+<blockquote><p><strong>提示</strong>：把“任意一条满足”翻译成 <code>or</code>，把“能被 4 整除且不能被 100 整除”翻译成 <code>and</code> + <code>not</code>。想不清楚时，先把两条规则用中文写完整，再逐词替换成运算符。</p></blockquote>
+<p><strong>自测标准</strong>：四个年份的判断全部正确（2023 平年、2024 闰年、1900 平年、2000 闰年）。如果全对了，说明你已经能把一条“人话规则”精确翻译成布尔逻辑——这是条件语句的真功夫。</p>
+<h2>本章小结</h2>
+<ul><li><code>if</code> 条件成立才执行代码块；<code>else</code> 处理其余情况；<code>elif</code> 串起多分支，自上而下命中即停。</li><li>多分支条件要从严到宽排列，否则会被前面的分支“截胡”。</li><li><code>and</code> / <code>or</code> / <code>not</code> 用于组合条件；布尔变量可以直接作为条件；<code>and</code> / <code>or</code> 会短路，右边可能根本不执行。</li><li>if 可以嵌套，靠缩进区分层次，但不宜嵌套太深。</li><li>三大坑：忘冒号、<code>=</code> 与 <code>==</code> 混用、缩进不一致。</li></ul>
+<p><strong>下一章预告</strong>：条件让程序学会“选择”，循环让程序学会“重复”——让计算机做重复的事，正是它最擅长的事。下一章我们学习<strong>循环语句</strong>，用几行代码让程序干一万次的活。</p>
+<div class="pager"><a class="pg" href="#basics-ch6">← 第 6 章 · 运算符与表达式</a><a class="pg next" href="#basics-ch8">第 8 章 · 循环语句 →</a></div>
+</section>
+<section class="chapter" id="basics-ch8" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 8 章</div>
+<h1>循环语句</h1>
+
+<h2>为什么需要循环？</h2>
+<p>要打印“学习 Python 第 1 天”到“第 100 天”——复制粘贴一百行 <code>print</code>？程序员的答案永远是：<strong>让机器重复</strong>。<strong>循环（Loop）</strong>就是让一段代码反复执行的结构，Python 提供两种：<code>while</code> 和 <code>for</code>。</p>
+<h2>while：条件成立就一直做</h2>
+<pre><code>count = <span class="nu">1</span>
+
+<span class="kw">while</span> count &lt;= <span class="nu">5</span>:
+    <span class="bi">print</span>(<span class="st">"这是第 "</span> + <span class="bi">str</span>(count) + <span class="st">" 次循环"</span>)
+    count += <span class="nu">1</span>
+
+<span class="bi">print</span>(<span class="st">"循环结束"</span>)</code></pre>
+<p>一个 while 循环由三要素构成，缺一不可：</p>
+<ol><li><strong>初始化</strong>：<code>count = 1</code>，循环开始前的准备；</li><li><strong>条件</strong>：<code>count &lt;= 5</code>，每轮开始前检查，为 <code>True</code> 才继续；</li><li><strong>更新</strong>：<code>count += 1</code>，让条件最终能变成 <code>False</code>。</li></ol>
+<p>如果忘了更新会怎样？<code>count</code> 永远是 1，条件永远成立，程序陷入<strong>死循环</strong>。在终端里按 <strong>Ctrl + C</strong>（第 0 章提过的那把“救命键”）可以强制停止程序。</p>
+<p><strong>动手试一试</strong>：把 <code>count += 1</code> 注释掉（回忆第四章的注释），运行，体验死循环，然后用 Ctrl + C 停掉它。</p>
+<blockquote><p><strong>提示</strong>：<code>while True:</code> 是“故意死循环”的固定写法，配合 <code>break</code> 实现“一直运行，直到某件事发生”。这是菜单式程序的通用骨架，本篇稍后的挑战作业里你就会用到。</p></blockquote>
+<h2>for 与 range：按次数循环</h2>
+<p>已知重复次数时，<code>for</code> 配合 <code>range()</code> 更方便：</p>
+<pre><code><span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="nu">5</span>):
+    <span class="bi">print</span>(i)</code></pre>
+<p>输出：</p>
+<pre><code>0
+1
+2
+3
+4</code></pre>
+<p>变量 <code>i</code> 依次取到 range 生成的每一个整数：</p>
+<div class="table-wrap"><table><thead><tr><th>写法</th><th>生成的数</th></tr></thead><tbody><tr><td><code>range(5)</code></td><td>0, 1, 2, 3, 4</td></tr><tr><td><code>range(1, 6)</code></td><td>1, 2, 3, 4, 5</td></tr><tr><td><code>range(1, 10, 2)</code></td><td>1, 3, 5, 7, 9</td></tr></tbody></table></div>
+<p>注意<strong>上界取不到</strong>：<code>range(1, 6)</code> 到 5 就停了，这个“含头不含尾”的规则后面还会反复遇到。</p>
+<p>步长还可以是<strong>负数</strong>：<code>range(5, 0, -1)</code> 生成 5、4、3、2、1——倒着数就靠它。</p>
+<p><code>for</code> 的本意是<strong>遍历</strong>——依次取出一个序列里的每一项。它能遍历的不只是 range，列表、字符串都行，后面两章会大量用到。</p>
+<h2>break 与 continue：控制循环走向</h2>
+<ul><li><code>break</code>：立即<strong>终止</strong>整个循环；</li><li><code>continue</code>：跳过本轮，直接进入下一轮。</li></ul>
+<pre><code><span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="nu">1</span>, <span class="nu">6</span>):
+    <span class="kw">if</span> i == <span class="nu">3</span>:
+        <span class="kw">break</span>        <span class="cm"># 换成 continue 对比效果</span>
+    <span class="bi">print</span>(i)</code></pre>
+<p>用 <code>break</code> 输出 1、2；换成 <code>continue</code> 输出 1、2、4、5。</p>
+<p><strong>动手试一试</strong>：先猜结果，再运行验证。</p>
+<h2>嵌套循环：循环里套循环</h2>
+<pre><code><span class="kw">for</span> i <span class="kw">in</span> <span class="bi">range</span>(<span class="nu">1</span>, <span class="nu">4</span>):
+    line = <span class="st">""</span>
+    <span class="kw">for</span> j <span class="kw">in</span> <span class="bi">range</span>(<span class="nu">1</span>, <span class="nu">4</span>):
+        line = line + <span class="bi">str</span>(i) + <span class="st">"×"</span> + <span class="bi">str</span>(j) + <span class="st">"  "</span>
+    <span class="bi">print</span>(line)</code></pre>
+<p>输出：</p>
+<pre><code>1×1  1×2  1×3  
+2×1  2×2  2×3  
+3×1  3×2  3×3  </code></pre>
+<p>外层每走一步，内层要跑完一整轮——想象钟表：分针（外层）每走一格，秒针（内层）要走完一圈。</p>
+<p><strong>动手改一改</strong>：把内层改成 <code>range(1, i + 1)</code>，你会得到一个三角形——这正是九九乘法表的结构，试试把它补全。</p>
+<h2>新手常见的坑</h2>
+<ol><li><strong>死循环</strong>：忘了更新条件变量，程序卡住——Ctrl + C 停止；</li><li><strong>差一错误</strong>：想要 1~5 却写成 <code>range(1, 5)</code>，少了一个 5；</li><li><strong>循环里手动改循环变量</strong>：在 <code>for i in range(5)</code> 里修改 <code>i</code> 是徒劳的，下一轮它会按序列重置。</li></ol>
+<h2>本章挑战作业</h2>
+<p><strong>FizzBuzz</strong>。这是世界范围内流传最广的入门筛选题，很多公司的面试都用它——现在轮到你。规则：遍历 1 到 100 的所有整数，<strong>没有参考答案</strong>：</p>
+<ul><li>能被 3 整除的，打印 <code>Fizz</code>；</li><li>能被 5 整除的，打印 <code>Buzz</code>；</li><li><strong>既能被 3 又能被 5 整除</strong>的，打印 <code>FizzBuzz</code>；</li><li>其余的，打印数字本身。</li></ul>
+<p>要求：</p>
+<ol><li>只用一组 <code>for + if / elif / else</code>；</li><li>从 1 到 100 每个数<strong>恰好输出一行</strong>，不多不少；</li><li>写完后自查三个位置：第 15 行应输出 <code>FizzBuzz</code>，第 9 行应输出 <code>Fizz</code>，第 10 行应输出 <code>Buzz</code>。</li></ol>
+<blockquote><p><strong>提示</strong>：最容易错的是分支的<strong>顺序</strong>。回想第七章的“从严到宽”——“既是 3 又是 5 的倍数”这个条件最苛刻，它应该排在 if 链的第几位？整除判断用 <code>%</code>（第六章）。</p></blockquote>
+<p><strong>自测标准</strong>：三处抽查位置全部正确、总输出恰好 100 行。全对说明你已经能把循环和条件组合成完整的判断流程——这是流程控制的毕业题。</p>
+<h2>本章小结</h2>
+<ul><li><code>while</code> 由三要素构成：初始化、条件、更新；忘了更新就是死循环。</li><li><code>for + range()</code> 按次数循环，range 含头不含尾。</li><li><code>break</code> 终止整个循环，<code>continue</code> 跳过本轮。</li><li>循环可以嵌套，外层一步、内层一轮。</li><li><code>for</code> 的本质是遍历序列——为后面两章的容器做好了准备。</li></ul>
+<p><strong>下一章预告</strong>：程序还只会“自说自话”，数据都写死在代码里。下一章学习<strong>输入与输出</strong>——用 <code>input()</code> 听，用 <code>print()</code> 说，再做一个 BMI 计算器。</p>
+<div class="pager"><a class="pg" href="#basics-ch7">← 第 7 章 · 条件语句</a><a class="pg next" href="#basics-ch9">第 9 章 · 输入与输出 →</a></div>
+</section>
+<section class="chapter" id="basics-ch9" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 9 章</div>
+<h1>输入与输出</h1>
+
+<h2>让程序和用户对话</h2>
+<p>到目前为止，程序里用到的数据都是写死在代码里的。真正的程序要能<strong>听</strong>用户的输入，再把结果<strong>说</strong>给用户看。<code>input()</code> 和 <code>print()</code> 就是程序的耳朵和嘴。</p>
+<h2>input：听用户说</h2>
+<pre><code>name = <span class="bi">input</span>(<span class="st">"你叫什么名字？"</span>)
+<span class="bi">print</span>(<span class="st">"你好，"</span> + name + <span class="st">"！"</span>)</code></pre>
+<p><code>input()</code> 会让程序停下来等用户输入，括号里的提示语会显示在屏幕上，用户敲完回车，输入的内容就交还给了程序。</p>
+<p>一个关键规则：<strong><code>input()</code> 返回的永远是字符串</strong>——哪怕用户输入 <code>18</code>，程序拿到的也是 <code>"18"</code>。所以要参与数学运算，必须先用上一章的 <code>int()</code> 或 <code>float()</code> 转换：</p>
+<pre><code>age = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"你几岁？"</span>))
+<span class="bi">print</span>(<span class="st">"明年你就 "</span> + <span class="bi">str</span>(age + <span class="nu">1</span>) + <span class="st">" 岁了"</span>)</code></pre>
+<blockquote><p><strong>常见问题</strong>：忘记转换就直接 <code>age + 1</code>，会报 <code>TypeError</code>，说字符串不能和整数相加——这个错我们在第五章见过，现在你知道它为什么总发生了。</p></blockquote>
+<h2>print 的两个小开关</h2>
+<pre><code><span class="bi">print</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)          <span class="cm"># a b c —— 逗号分隔，默认用空格隔开</span>
+<span class="bi">print</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, sep=<span class="st">"-"</span>)      <span class="cm"># a-b —— sep 指定分隔符</span>
+<span class="bi">print</span>(<span class="st">"加载中"</span>, end=<span class="st">""</span>)        <span class="cm"># end 默认是换行，改成空串就不换行</span>
+<span class="bi">print</span>(<span class="st">"完成"</span>)                  <span class="cm"># 输出：加载中完成</span></code></pre>
+<h2>f-string：现代的输出方式</h2>
+<p>用 <code>+</code> 和 <code>str()</code> 拼句子既啰嗦又容易漏空格。<strong>f-string</strong> 是目前最推荐的写法——在字符串前加 <code>f</code>，用 <code>{}</code> 直接嵌入变量：</p>
+<pre><code>name = <span class="st">"小明"</span>
+age = <span class="nu">18</span>
+<span class="bi">print</span>(<span class="st">f"我叫 {name}，今年 {age} 岁"</span>)</code></pre>
+<p><code>{}</code> 里可以放任何表达式：</p>
+<pre><code><span class="bi">print</span>(<span class="st">f"明年 {age + 1} 岁"</span>)        <span class="cm"># 明年 19 岁</span>
+<span class="bi">print</span>(<span class="st">f"1 加 2 等于 {1 + 2}"</span>)      <span class="cm"># 1 加 2 等于 3</span></code></pre>
+<p>还能控制小数位数——<code>:.2f</code> 表示保留两位小数：</p>
+<pre><code>pi = <span class="nu">3.14159</span>
+<span class="bi">print</span>(<span class="st">f"圆周率约为 {pi:.2f}"</span>)      <span class="cm"># 圆周率约为 3.14</span></code></pre>
+<p>回忆第六章：处理浮点误差时我们用过 <code>round(0.1 + 0.2, 2)</code>；<code>{x:.2f}</code> 是在<strong>显示层面</strong>控制位数，更常用。</p>
+<h2>动手：BMI 计算器</h2>
+<p>综合运用本章和前几章的知识，做一个真正能用的小工具：</p>
+<pre><code>height = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"请输入身高（米）："</span>))
+weight = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"请输入体重（千克）："</span>))
+
+bmi = weight / height ** <span class="nu">2</span>
+
+<span class="bi">print</span>(<span class="st">f"你的 BMI 是 {bmi:.2f}"</span>)
+
+<span class="kw">if</span> bmi &gt;= <span class="nu">24</span>:
+    <span class="bi">print</span>(<span class="st">"偏重，注意饮食和运动"</span>)
+<span class="kw">elif</span> bmi &gt;= <span class="nu">18.5</span>:
+    <span class="bi">print</span>(<span class="st">"正常，保持住"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"偏轻，多吃点"</span>)</code></pre>
+<p>短短一段代码：运算优先级（<code>height ** 2</code>）、类型转换、f-string、条件语句全部上阵。输入身高 1.75、体重 65，看看结果是否约为 21.22。</p>
+<h2>本章挑战作业</h2>
+<p><strong>简易收银台</strong>。让 BMI 计算器再进一步：这次要模拟真实收银，<strong>没有参考答案</strong>。</p>
+<p>功能要求：</p>
+<ol><li>依次输入<strong>单价</strong>和<strong>数量</strong>（都可能带小数），算出总价；</li><li>优惠规则：总价满 100 元打<strong>九折</strong>，否则原价；</li><li>最后输出一张三行小票：<code>商品单价：xx.xx 元</code>、<code>购买数量：x 件</code>、<code>实付金额：xx.xx 元</code>——金额全部保留两位小数。</li></ol>
+<p>要求：</p>
+<ul><li>金额显示必须用 f-string 的 <code>:.2f</code>，不许手动补 0；</li><li>折扣判断只用一组 <code>if / else</code>；</li><li>用两组数据自测：单价 3.5、数量 20（总价 70，不打折，实付 70.00）；单价 12.6、数量 10（总价 126，打折后实付 113.40）。</li></ul>
+<blockquote><p><strong>提示</strong>：先算总价、再判断打折、最后输出——想清楚这三步的先后顺序再动笔。“打九折”就是乘以 0.9。如果 113.40 显示成了 113.4，说明你没用 <code>:.2f</code>。</p></blockquote>
+<p><strong>自测标准</strong>：两组数据的结果分别是 70.00 和 113.40，小票三行一字不差。</p>
+<h2>本章小结</h2>
+<ul><li><code>input()</code> 返回的永远是字符串，参与运算前必须用 <code>int()</code> / <code>float()</code> 转换。</li><li><code>print</code> 的 <code>sep</code> 参数指定分隔符，<code>end</code> 参数指定结尾（默认换行）。</li><li>f-string 用 <code>f"..."</code> 配 <code>{}</code> 嵌入变量和表达式，<code>{x:.2f}</code> 控制小数位数，是最推荐的输出方式。</li><li>BMI 计算器已经把输入、转换、运算、条件串成了完整程序。</li></ul>
+<p><strong>下一章预告</strong>：一个变量只能装一个值。要存全班 50 个人的成绩呢？起 50 个变量名显然不行——下一章学习<strong>列表与元组</strong>，用一个变量装下一堆数据。</p>
+<div class="pager"><a class="pg" href="#basics-ch8">← 第 8 章 · 循环语句</a><a class="pg next" href="#basics-ch10">第 10 章 · 列表与元组 →</a></div>
+</section>
+<section class="chapter" id="basics-ch10" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 10 章</div>
+<h1>列表与元组</h1>
+
+<h2>一个变量装下所有成绩</h2>
+<p>要存全班 50 个学生的成绩，起 50 个变量名？当然不。<strong>列表（List）</strong>是 Python 最常用的容器——用方括号把一组数据装进一个变量：</p>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+<span class="bi">print</span>(scores)        <span class="cm"># [90, 85, 77, 100, 66]</span></code></pre>
+<p>列表里的元素可以是任何类型，甚至混合存放，但同一类数据放一起更常见。</p>
+<h2>用索引访问：从 0 开始数</h2>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+
+<span class="bi">print</span>(scores[<span class="nu">0</span>])     <span class="cm"># 90 —— 第一个元素</span>
+<span class="bi">print</span>(scores[<span class="nu">3</span>])     <span class="cm"># 100</span>
+<span class="bi">print</span>(scores[-<span class="nu">1</span>])    <span class="cm"># 66 —— 负数表示倒数</span></code></pre>
+<p><strong>索引从 0 开始</strong>是编程世界的通用约定，也是新手第一大坑：“第 1 个”是 <code>[0]</code>，“第 5 个”是 <code>[4]</code>。</p>
+<p>索引越界会报错——只有 5 个元素，访问 <code>scores[5]</code> 就得到 <code>IndexError</code>。</p>
+<h2>遍历：配合 for 逐个处理</h2>
+<p>第八章说过 <code>for</code> 的本质是遍历序列，列表就是最典型的序列：</p>
+<pre><code><span class="kw">for</span> s <span class="kw">in</span> scores:
+    <span class="bi">print</span>(s)</code></pre>
+<p>需要序号时，最地道的工具是 <strong>enumerate()</strong>——它每轮交出一个 <code>(序号, 元素)</code>，用两个变量接住（这种写法叫解包，本章元组一节会讲）：</p>
+<pre><code><span class="kw">for</span> i, s <span class="kw">in</span> enumerate(scores):
+    <span class="bi">print</span>(<span class="st">f"第 {i + 1} 个成绩是 {s}"</span>)</code></pre>
+<p>两个列表一一对应地并行遍历，用 <strong>zip()</strong>：</p>
+<pre><code>names = [<span class="st">"小明"</span>, <span class="st">"小红"</span>]
+scores2 = [<span class="nu">90</span>, <span class="nu">85</span>]
+
+<span class="kw">for</span> name, score <span class="kw">in</span> zip(names, scores2):
+    <span class="bi">print</span>(<span class="st">f"{name}：{score} 分"</span>)</code></pre>
+<h2>增、删、改</h2>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>]
+
+scores.append(<span class="nu">100</span>)      <span class="cm"># 末尾添加 → [90, 85, 77, 100]</span>
+scores.insert(<span class="nu">0</span>, <span class="nu">60</span>)    <span class="cm"># 插到索引 0 的位置 → [60, 90, 85, 77, 100]</span>
+scores[<span class="nu">1</span>] = <span class="nu">86</span>          <span class="cm"># 修改 → [60, 86, 85, 77, 100]</span>
+scores.remove(<span class="nu">77</span>)       <span class="cm"># 按值删除 → [60, 86, 85, 100]</span>
+last = scores.pop()     <span class="cm"># 取出并返回最后一个元素 → scores 变 [60, 86, 85]，last 是 100</span></code></pre>
+<p>三个“加”各管一处：<code>append()</code> 加在末尾、<code>insert()</code> 加在指定位置、<code>extend()</code> 把另一个列表整个接上。</p>
+<p>两个“删”要分清：<code>remove()</code> 按<strong>值</strong>删，而且<strong>只删第一个匹配项</strong>（列表里有两个 77，也只删掉前面那个）；<code>pop()</code> 按<strong>位置</strong>删，并把删掉的值交给你——要“用完就删”时非常顺手。</p>
+<p>列表也支持 <code>+</code> 和 <code>*</code>（规则和字符串一样）：</p>
+<pre><code>a = [<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>]
+b = [<span class="nu">4</span>, <span class="nu">5</span>]
+
+<span class="bi">print</span>(a + b)      <span class="cm"># [1, 2, 3, 4, 5] —— 拼接</span>
+a.extend(b)       <span class="cm"># 把 b 的元素逐个塞进 a，效果类似 a = a + b；但 extend 是原地修改，不产生新列表</span></code></pre>
+<blockquote><p><strong>细节</strong>：<code>scores.append(100)</code> 这种用“点”调用的写法叫<strong>方法（Method）</strong>——挂在数据身上的函数。第十三章正式学函数，第十七章你会发现方法正是面向对象的冰山一角。</p></blockquote>
+<h2>切片：取一段</h2>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+
+<span class="bi">print</span>(scores[<span class="nu">1</span>:<span class="nu">3</span>])    <span class="cm"># [85, 77] —— 索引 1 到 2，不含 3</span>
+<span class="bi">print</span>(scores[:<span class="nu">2</span>])     <span class="cm"># [90, 85] —— 从头开始取</span>
+<span class="bi">print</span>(scores[<span class="nu">2</span>:])     <span class="cm"># [77, 100, 66] —— 一直取到结尾</span></code></pre>
+<p>规则和 <code>range</code> 一致：<strong>含头不含尾</strong>。切片还有第三个参数<strong>步长</strong>：<code>scores[::2]</code> 每两个取一个，得到 <code>[90, 77, 66]</code>；步长为 -1 时，<code>scores[::-1]</code> 就是整个列表倒过来。</p>
+<blockquote><p><strong>重要细节：赋值不是复制</strong>。<code>b = scores</code> 并不会复制列表，只是给<strong>同一个列表</strong>多贴了一个标签——通过 <code>b</code> 做的修改，<code>scores</code> 看得一清二楚。想要真正独立的副本，用切片：<code>b = scores[:]</code>。这是新手最容易踩的隐性坑，本章挑战作业会用到它。</p></blockquote>
+<h2>常用统计与成员判断</h2>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+
+<span class="bi">print</span>(<span class="bi">len</span>(scores))    <span class="cm"># 5    个数</span>
+<span class="bi">print</span>(<span class="bi">sum</span>(scores))    <span class="cm"># 418  总和</span>
+<span class="bi">print</span>(<span class="bi">max</span>(scores))    <span class="cm"># 100  最大</span>
+<span class="bi">print</span>(<span class="bi">min</span>(scores))    <span class="cm"># 66   最小</span>
+<span class="bi">print</span>(<span class="bi">sum</span>(scores) / <span class="bi">len</span>(scores))    <span class="cm"># 83.6 平均分</span></code></pre>
+<p><code>in</code> 可以判断元素是否存在，结果是布尔值——第五章学的 <code>bool</code> 又立新功：</p>
+<pre><code><span class="bi">print</span>(<span class="nu">100</span> <span class="kw">in</span> scores)    <span class="cm"># True</span>
+<span class="bi">print</span>(<span class="nu">59</span> <span class="kw">in</span> scores)     <span class="cm"># False</span></code></pre>
+<h2>排序：sort 与 sorted</h2>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+
+scores.sort()                  <span class="cm"># 原地排序，直接改自己 → [66, 77, 85, 90, 100]</span>
+scores.sort(reverse=<span class="kw">True</span>)      <span class="cm"># 倒序 → [100, 90, 85, 77, 66]</span>
+
+new_list = <span class="bi">sorted</span>(scores)      <span class="cm"># 不动原列表，返回一个排好的新列表</span></code></pre>
+<p>记住这对搭档的区别：<strong><code>sort()</code> 改自己，<code>sorted()</code> 给新列表</strong>——想保留原始顺序时用后者。另有一个 <code>reverse()</code> 方法，不做比较排序，只把现有顺序整个颠倒。</p>
+<h3>选学：按“规则”排序</h3>
+<p><code>sort()</code> 和 <code>sorted()</code> 默认按大小排。想按<strong>自己的规则</strong>排时，用 <code>key=</code> 告诉它“拿什么去比较”：</p>
+<pre><code>words = [<span class="st">"banana"</span>, <span class="st">"kiwi"</span>, <span class="st">"apple"</span>]
+<span class="bi">print</span>(<span class="bi">sorted</span>(words, key=<span class="bi">len</span>))     <span class="cm"># ['kiwi', 'apple', 'banana'] —— 按长度排</span>
+
+nums = [-<span class="nu">5</span>, <span class="nu">3</span>, -<span class="nu">1</span>, <span class="nu">4</span>]
+<span class="bi">print</span>(<span class="bi">sorted</span>(nums, key=abs))      <span class="cm"># [-1, 3, 4, -5] —— 按绝对值排</span>
+
+pairs = [(<span class="nu">2</span>, <span class="st">"b"</span>), (<span class="nu">1</span>, <span class="st">"c"</span>), (<span class="nu">3</span>, <span class="st">"a"</span>)]
+<span class="bi">print</span>(<span class="bi">sorted</span>(pairs, key=<span class="kw">lambda</span> p: p[<span class="nu">1</span>]))   <span class="cm"># [(3, 'a'), (2, 'b'), (1, 'c')] —— 按第二个元素排</span></code></pre>
+<p><code>lambda p: p[1]</code> 是“临时用一次的小函数”，等价于一个只做 <code>return p[1]</code> 的函数。现在只要<strong>看得懂</strong>，用到时会照抄 <code>key=lambda ...</code> 这个形状就够了。</p>
+<h2>元组：不可修改的列表</h2>
+<p><strong>元组（Tuple）</strong>用圆括号，用法和列表几乎一样，唯一区别：<strong>创建后不能增、删、改</strong>：</p>
+<pre><code>point = (<span class="nu">3</span>, <span class="nu">5</span>)
+
+<span class="bi">print</span>(point[<span class="nu">0</span>])       <span class="cm"># 3 —— 访问没问题</span>
+point[<span class="nu">0</span>] = <span class="nu">10</span>         <span class="cm"># ❌ TypeError！元组不可修改</span></code></pre>
+<p>什么时候用元组？<strong>数据不该被改动</strong>的时候——坐标、一年的十二个月、固定的配置项。</p>
+<p>再学一个实用语法——<strong>解包</strong>：一次把元组里的值分别赋给多个变量：</p>
+<pre><code>x, y = (<span class="nu">3</span>, <span class="nu">5</span>)
+<span class="bi">print</span>(x, y)           <span class="cm"># 3 5</span></code></pre>
+<h2>列表 vs 元组</h2>
+<div class="table-wrap"><table><thead><tr><th></th><th>列表 list</th><th>元组 tuple</th></tr></thead><tbody><tr><td>符号</td><td><code>[ ]</code></td><td><code>( )</code></td></tr><tr><td>可否修改</td><td>可以</td><td>不可以</td></tr><tr><td>典型用途</td><td>一组会变化的数据</td><td>一组固定不变的数据</td></tr></tbody></table></div>
+<h2>本章挑战作业</h2>
+<p><strong>体操评分</strong>。真实比赛里，选手的得分要<strong>去掉一个最高分、去掉一个最低分</strong>后取平均，<strong>没有参考答案</strong>：</p>
+<pre><code>scores = [<span class="nu">9.2</span>, <span class="nu">8.8</span>, <span class="nu">9.5</span>, <span class="nu">8.9</span>, <span class="nu">9.1</span>, <span class="nu">8.7</span>]    <span class="cm"># 六位裁判的打分，互不相同</span></code></pre>
+<p>请算出最终得分并输出，保留两位小数。</p>
+<p>要求：</p>
+<ol><li>最高分和最低分必须用 <code>max()</code> / <code>min()</code> 找出来，不许用眼睛看后写死 <code>9.5</code> 和 <code>8.7</code>；</li><li>原列表 <code>scores</code> 在程序结束后必须保持原样——直接在它上面 <code>remove</code> 会把它改掉，想想本章有没有办法先得到一个<strong>副本</strong>再删；</li><li><code>sum / len</code> 求平均，f-string 格式化输出。</li></ol>
+<blockquote><p><strong>提示</strong>：本章的切片可以复制列表——<code>scores[:]</code> 就是“从头到尾整段取”出来的副本。在副本上 <code>remove(max(...))</code> 和 <code>remove(min(...))</code>，再对副本求平均。如果结果出现 <code>9.000000000000002</code> 这种尾巴——回忆第六章的浮点误差，用 <code>:.2f</code> 解决。</p></blockquote>
+<p><strong>自测标准</strong>：去掉 9.5 和 8.7 后，剩余四个数之和为 36.0，最终输出 <code>9.00</code>。</p>
+<h2>本章小结</h2>
+<ul><li>列表用 <code>[]</code> 装一组数据，索引从 0 开始，负索引从后往前数。</li><li><code>for</code> 遍历列表；要序号用 <code>enumerate()</code>，两个列表并行遍历用 <code>zip()</code>。</li><li><code>append</code> 添加、<code>insert</code> 插到指定位置、<code>remove</code> 按值删（只删第一个）、<code>pop</code> 按位置删、赋值修改、<code>+ / extend</code> 拼接；“点”出来的用法叫方法。</li><li>切片含头不含尾，步长可控制方向；<code>b = a</code> 只是别名，真副本要用 <code>a[:]</code>。</li><li>排序：<code>sort()</code> 改自己，<code>sorted()</code> 返回新列表；<code>len / sum / max / min / in</code> 是高频工具。</li><li>元组是不可修改的列表，适合固定不变的数据；解包可以一次赋多个变量。</li></ul>
+<p><strong>下一章预告</strong>：列表靠“位置”找数据，但现实常常是“按名字找”——查电话簿、查词典。下一章学习<strong>字典与集合</strong>，按“键”存取数据。</p>
+<div class="pager"><a class="pg" href="#basics-ch9">← 第 9 章 · 输入与输出</a><a class="pg next" href="#basics-ch11">第 11 章 · 字典与集合 →</a></div>
+</section>
+<section class="chapter" id="basics-ch11" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 11 章</div>
+<h1>字典与集合</h1>
+
+<h2>按名字找，而不是按位置找</h2>
+<p>在电话簿里找“张三”，你不会从第一页一页数过去——直接翻到“张”开头的那页。<strong>字典（Dictionary）</strong>就是这样的容器：每个数据都挂着一个“名字”（<strong>键，key</strong>），通过键直接取值，而不是像列表那样靠位置。</p>
+<h2>字典的基本操作</h2>
+<pre><code>student = {<span class="st">"name"</span>: <span class="st">"小明"</span>, <span class="st">"age"</span>: <span class="nu">18</span>}
+
+<span class="bi">print</span>(student[<span class="st">"name"</span>])        <span class="cm"># 小明 —— 按键取值</span>
+student[<span class="st">"score"</span>] = <span class="nu">95</span>         <span class="cm"># 键不存在 → 新增键值对</span>
+student[<span class="st">"age"</span>] = <span class="nu">19</span>           <span class="cm"># 键已存在 → 修改值</span>
+<span class="kw">del</span> student[<span class="st">"score"</span>]          <span class="cm"># 删除这个键值对</span>
+<span class="bi">print</span>(<span class="bi">len</span>(student))           <span class="cm"># 2 —— 键值对的个数</span></code></pre>
+<p>注意：花括号 <code>{}</code> 定义的是字典（键值对），方括号 <code>[]</code> 定义的是列表——但<strong>访问元素时两者都用方括号</strong>：<code>student["name"]</code>。</p>
+<p>字典的键通常是字符串，值可以是任何类型，同一个字典里各值的类型也可以不同。</p>
+<h2>安全访问：.get()</h2>
+<p>访问不存在的键会报错：</p>
+<pre><code><span class="bi">print</span>(student[<span class="st">"phone"</span>])       <span class="cm"># ❌ KeyError</span></code></pre>
+<p>用 <code>.get()</code> 可以安全访问——键不存在时不报错，返回 <code>None</code>（表示“什么都没有”）：</p>
+<pre><code><span class="bi">print</span>(student.get(<span class="st">"phone"</span>))             <span class="cm"># None</span>
+<span class="bi">print</span>(student.get(<span class="st">"phone"</span>, <span class="st">"未填写"</span>))    <span class="cm"># 未填写 —— 第二个参数是默认值</span></code></pre>
+<p>判断“是不是 <code>None</code>”要用 <code>is</code>：<code>student.get("phone") is None</code>。</p>
+<blockquote><p><strong><code>is</code> 和 <code>==</code> 到底差在哪</strong>：<code>==</code> 问的是“两个值<strong>相等</strong>吗”，<code>is</code> 问的是“是不是<strong>同一个东西</strong>”。判断“有没有值”用 <code>is None</code>，判断“两个值一不一样”用 <code>==</code>。完整的区别涉及内存，以后再展开；现在记住这个固定搭配就够：<strong>判断 None 用 <code>is</code></strong>。</p></blockquote>
+<p><code>in</code> 用在字典上判断的是<strong>键</strong>是否存在：<code>"age" in student</code> 是 <code>True</code>，<code>"phone" in student</code> 是 <code>False</code>。</p>
+<h2>遍历字典</h2>
+<pre><code><span class="kw">for</span> key, value <span class="kw">in</span> student.items():
+    <span class="bi">print</span>(key + <span class="st">"："</span> + <span class="bi">str</span>(value))</code></pre>
+<p><code>items()</code> 把每个键值对拆成 <code>(键, 值)</code>，配合上一章的解包语法，一个循环同时拿到两个东西。只需要键或只需要值时，还有 <code>keys()</code> 和 <code>values()</code>：</p>
+<pre><code><span class="kw">for</span> name <span class="kw">in</span> student.keys():      <span class="cm"># 只拿键</span>
+    <span class="bi">print</span>(name)
+
+<span class="kw">for</span> value <span class="kw">in</span> student.values():   <span class="cm"># 只拿值</span>
+    <span class="bi">print</span>(value)</code></pre>
+<h2>实战：用字典计数</h2>
+<p>统计每个字符出现的次数——字典最经典的应用：</p>
+<pre><code>text = <span class="st">"hello"</span>
+
+counts = {}
+<span class="kw">for</span> ch <span class="kw">in</span> text:
+    counts[ch] = counts.get(ch, <span class="nu">0</span>) + <span class="nu">1</span>
+
+<span class="bi">print</span>(counts)        <span class="cm"># {'h': 1, 'e': 1, 'l': 2, 'o': 1}</span></code></pre>
+<p>逐行读：字符串可以被 <code>for</code> 遍历（下一章细讲）；字符第一次出现时 <code>get</code> 返回默认值 0，加 1 后存入；再次出现时，在上次的基础上加 1。</p>
+<h2>集合：去重和判断利器</h2>
+<p><strong>集合（Set）</strong>的特点：元素<strong>不重复</strong>、<strong>无顺序</strong>：</p>
+<pre><code>nums = [<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">2</span>, <span class="nu">3</span>, <span class="nu">3</span>, <span class="nu">3</span>]
+
+unique = set(nums)         <span class="cm"># 列表转集合，重复的自动消失</span>
+<span class="bi">print</span>(unique)              <span class="cm"># {1, 2, 3}</span>
+
+<span class="bi">print</span>(<span class="nu">2</span> <span class="kw">in</span> unique)         <span class="cm"># True —— 成员判断非常快</span>
+unique.add(<span class="nu">4</span>)              <span class="cm"># 添加元素</span></code></pre>
+<p>最常见的两个用途：<strong>给列表去重</strong>（<code>list(set(nums))</code> 转回列表）和<strong>快速判断某个元素存在与否</strong>。</p>
+<blockquote><p><strong>必踩的坑</strong>：空的花括号 <code>{}</code> 是<strong>空字典</strong>，不是空集合！想创建一个空集合，必须写 <code>set()</code>。</p></blockquote>
+<pre><code>a = {}          <span class="cm"># 这是空字典</span>
+b = set()       <span class="cm"># 这才是空集合</span>
+c = {<span class="nu">1</span>, <span class="nu">2</span>, <span class="nu">3</span>}   <span class="cm"># 有元素时，花括号才是集合</span></code></pre>
+<p>判断一个变量到底是哪种类型，用第五章的 <code>type()</code> 一试便知。</p>
+<h2>嵌套容器：列表装字典</h2>
+<p>真实世界的数据几乎都长这样——一个列表，每个元素是一个字典：</p>
+<pre><code>students = [
+    {<span class="st">"name"</span>: <span class="st">"小明"</span>, <span class="st">"score"</span>: <span class="nu">90</span>},
+    {<span class="st">"name"</span>: <span class="st">"小红"</span>, <span class="st">"score"</span>: <span class="nu">85</span>},
+    {<span class="st">"name"</span>: <span class="st">"小刚"</span>, <span class="st">"score"</span>: <span class="nu">77</span>},
+]
+
+<span class="kw">for</span> stu <span class="kw">in</span> students:
+    <span class="bi">print</span>(<span class="st">f"{stu['name']} 考了 {stu['score']} 分"</span>)</code></pre>
+<p>读法：<code>students</code> 是列表，<code>students[0]</code> 取出第一个字典，<code>students[0]["name"]</code> 再取出里面的值。这种“两层容器”能表达一张表格，以后接触文件和接口数据时，见到的多半还是这个形状。</p>
+<h2>四大容器对比</h2>
+<div class="table-wrap"><table><thead><tr><th>容器</th><th>符号</th><th>特点</th><th>典型用途</th></tr></thead><tbody><tr><td>列表 list</td><td><code>[ ]</code></td><td>有序、可修改</td><td>一串会变化的数据</td></tr><tr><td>元组 tuple</td><td><code>( )</code></td><td>有序、不可修改</td><td>固定不变的一组值</td></tr><tr><td>字典 dict</td><td><code>{键: 值}</code></td><td>键值对、按键存取</td><td>按名字管理数据</td></tr><tr><td>集合 set</td><td><code>{1, 2, 3}</code></td><td>不重复、无序</td><td>去重、成员判断（空集合要写 <code>set()</code>）</td></tr></tbody></table></div>
+<h2>选学：列表推导式</h2>
+<p>有一类循环特别常见——“把每个元素变换一下，收集成新列表”：</p>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+
+bonus = []
+<span class="kw">for</span> s <span class="kw">in</span> scores:
+    bonus.append(s + <span class="nu">5</span>)
+
+<span class="bi">print</span>(bonus)    <span class="cm"># [95, 90, 82, 105, 71]</span></code></pre>
+<p>Python 为这个固定模式提供了紧凑写法——<strong>列表推导式</strong>：</p>
+<pre><code>bonus = [s + <span class="nu">5</span> <span class="kw">for</span> s <span class="kw">in</span> scores]
+<span class="bi">print</span>(bonus)    <span class="cm"># [95, 90, 82, 105, 71]</span></code></pre>
+<p>还能带上 <code>if</code> 做<strong>筛选</strong>：</p>
+<pre><code>passed = [s <span class="kw">for</span> s <span class="kw">in</span> scores <span class="kw">if</span> s &gt;= <span class="nu">60</span>]
+<span class="bi">print</span>(passed)    <span class="cm"># [90, 85, 77, 100]</span></code></pre>
+<p>读法：“对 <code>scores</code> 里的每个 <code>s</code>，若满足 <code>s &gt;= 60</code>，就把 <code>s</code> 收进新列表”。本篇只要求<strong>能看懂</strong>别人的推导式；自己写时拿不准，就老老实实写 for 循环——两者完全等价，清晰永远优先。</p>
+<p>同样的形状对字典和集合也成立，各看一个例子就够：</p>
+<pre><code><span class="cm"># 字典推导式：把分数映射成等级</span>
+raw = [<span class="nu">90</span>, <span class="nu">55</span>, <span class="nu">77</span>]
+levels = {s: (<span class="st">"及格"</span> <span class="kw">if</span> s &gt;= <span class="nu">60</span> <span class="kw">else</span> <span class="st">"不及格"</span>) <span class="kw">for</span> s <span class="kw">in</span> raw}
+<span class="bi">print</span>(levels)    <span class="cm"># {90: '及格', 55: '不及格', 77: '及格'}</span>
+
+<span class="cm"># 集合推导式：收集所有出现过的首字母（集合自动去重，用 sorted 让输出顺序固定）</span>
+words = [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"avocado"</span>]
+<span class="bi">print</span>(<span class="bi">sorted</span>({w[<span class="nu">0</span>] <span class="kw">for</span> w <span class="kw">in</span> words}))    <span class="cm"># ['a', 'b']</span></code></pre>
+<h2>本章挑战作业</h2>
+<p><strong>模拟登录系统</strong>。真实软件的登录逻辑，你现在就有能力实现，<strong>没有参考答案</strong>：</p>
+<pre><code>users = {<span class="st">"admin"</span>: <span class="st">"123456"</span>, <span class="st">"xiaoming"</span>: <span class="st">"abc888"</span>}    <span class="cm"># 用户名 → 密码</span></code></pre>
+<p>功能要求：</p>
+<ol><li>循环提示输入用户名和密码，<strong>最多允许尝试 3 次</strong>；</li><li>用户名密码都对：打印欢迎语，程序正常结束；</li><li>三次都失败：打印“账号已锁定”，程序结束；</li><li>每次失败后，提示还剩几次机会。</li></ol>
+<p>要求：</p>
+<ul><li>用 <code>while</code> + 计数器实现“最多三次”（回忆第八章的三要素）；</li><li>查用户必须用 <code>.get()</code> 或 <code>in</code>，不许直接 <code>users[name]</code>——想想为什么（想想不存在的用户名）；</li><li>用户不存在和密码错误，可以只提示“用户名或密码错误”一种信息（真实网站也这么干，这是安全考虑）。</li></ul>
+<blockquote><p><strong>提示</strong>：主循环是 <code>while True</code> 还是“条件式 while”？两种都能写对，试着想清楚各自的退出条件。计数器每次失败 <code>+= 1</code>，等于 3 就锁定——把第七章的条件、第八章的循环、本章的字典串起来。</p></blockquote>
+<p><strong>自测标准</strong>：连续输错 3 次触发锁定；第 2 次输对能正常进入且剩余次数提示正确（第一次失败后应提示“还剩 2 次机会”）。</p>
+<h2>本章小结</h2>
+<ul><li>字典按“键”存取数据：<code>d[键]</code> 取值、赋值新增或修改、<code>del</code> 删除；<code>in</code> 判断的是键。</li><li>访问可能不存在的键用 <code>.get()</code>，避免 <code>KeyError</code>；判断 <code>None</code> 用 <code>is</code>。</li><li><code>items()</code> 遍历键值对，<code>keys()</code> / <code>values()</code> 只拿键或值；字典 + <code>get</code> 计数是经典套路。</li><li>集合天生去重，<code>in</code> 成员判断快；<code>list(set(...))</code> 是去重惯用法。</li><li>列表装字典的嵌套容器，能表达“表格”型数据。</li><li>推导式（列表 / 字典 / 集合）是“变换 + 收集”循环的紧凑写法，本篇要求看懂即可。</li><li>四大容器各有分工，选谁取决于数据的特点。</li></ul>
+<p><strong>下一章预告</strong>：字符串其实也是序列——能索引、能切片、能遍历。下一章学习<strong>字符串进阶</strong>，掌握处理文字的常用武器。</p>
+<div class="pager"><a class="pg" href="#basics-ch10">← 第 10 章 · 列表与元组</a><a class="pg next" href="#basics-ch12">第 12 章 · 字符串进阶 →</a></div>
+</section>
+<section class="chapter" id="basics-ch12" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 12 章</div>
+<h1>字符串进阶</h1>
+
+<h2>字符串也是序列</h2>
+<p>第十章说 <code>for</code> 可以遍历序列——列表可以，字符串同样可以，它就是一串字符组成的序列。列表学过的操作，字符串几乎全适用：</p>
+<pre><code>s = <span class="st">"Python"</span>
+
+<span class="bi">print</span>(s[<span class="nu">0</span>])       <span class="cm"># P</span>
+<span class="bi">print</span>(s[-<span class="nu">1</span>])      <span class="cm"># n —— 负索引照样有效</span>
+<span class="bi">print</span>(s[<span class="nu">1</span>:<span class="nu">4</span>])     <span class="cm"># yth —— 切片含头不含尾</span>
+<span class="bi">print</span>(<span class="bi">len</span>(s))     <span class="cm"># 6</span>
+
+<span class="kw">for</span> ch <span class="kw">in</span> s:
+    <span class="bi">print</span>(ch)</code></pre>
+<h2>字符串不可修改</h2>
+<pre><code>s = <span class="st">"Python"</span>
+s[<span class="nu">0</span>] = <span class="st">"J"</span>       <span class="cm"># ❌ TypeError：字符串不支持修改</span></code></pre>
+<p>想“改”字符串，只能创建一个新字符串：</p>
+<pre><code>s = <span class="st">"J"</span> + s[<span class="nu">1</span>:]
+<span class="bi">print</span>(s)         <span class="cm"># Jython</span></code></pre>
+<h2>常用方法：字符串的内置技能</h2>
+<p>第十章见过 <code>scores.append()</code> 这种“点”出来的方法，字符串自带一大批高频方法：</p>
+<pre><code>s = <span class="st">"  Hello, Python  "</span>
+
+<span class="bi">print</span>(s.strip())                   <span class="cm"># 去掉两端空格 → "Hello, Python"</span>
+<span class="bi">print</span>(s.strip().lower())           <span class="cm"># 全变小写 → "hello, python"（方法可以链着用）</span>
+<span class="bi">print</span>(s.replace(<span class="st">"Hello"</span>, <span class="st">"Hi"</span>))    <span class="cm"># 替换 → "  Hi, Python  "</span>
+<span class="bi">print</span>(<span class="st">"python"</span>.upper())            <span class="cm"># PYTHON —— 全大写</span></code></pre>
+<p><code>split()</code> 按分隔符把字符串<strong>拆</strong>成列表（又回到第十章）：</p>
+<pre><code>csv = <span class="st">"apple,banana,orange"</span>
+fruits = csv.split(<span class="st">","</span>)
+<span class="bi">print</span>(fruits)         <span class="cm"># ['apple', 'banana', 'orange']</span></code></pre>
+<p><code>in</code> 也能用在字符串上，判断子串是否存在：</p>
+<pre><code><span class="bi">print</span>(<span class="st">"Py"</span> <span class="kw">in</span> <span class="st">"Python"</span>)    <span class="cm"># True</span></code></pre>
+<p>再记三个高频方法：</p>
+<pre><code><span class="bi">print</span>(<span class="st">"123"</span>.isdigit())             <span class="cm"># True —— 全是数字字符才返回 True</span>
+<span class="bi">print</span>(<span class="st">"hello world"</span>.find(<span class="st">"wor"</span>))   <span class="cm"># 6 —— 子串首次出现的位置（找不到返回 -1）</span>
+
+parts = [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"orange"</span>]
+<span class="bi">print</span>(<span class="st">"-"</span>.join(parts))             <span class="cm"># apple-banana-orange</span></code></pre>
+<p><code>join()</code> 是 <code>split()</code> 的逆操作——用指定分隔符把一个<strong>字符串列表</strong>粘成一个字符串。</p>
+<blockquote><p><strong>关键细节</strong>：这些方法都<strong>不会改变原字符串</strong>（它不可修改），而是返回一个新字符串。所以执行 <code>s.strip()</code> 之后 <code>s</code> 仍是原样，要写 <code>s = s.strip()</code> 才真正更新变量。</p></blockquote>
+<h2>转义字符：\n 和它的朋友们</h2>
+<p>有些字符没法直接写进字符串，比如“换行”。用反斜杠 <code>\</code> 转义：</p>
+<pre><code><span class="bi">print</span>(<span class="st">"第一行\n第二行"</span>)       <span class="cm"># \n 换行</span>
+<span class="bi">print</span>(<span class="st">"姓名\t成绩"</span>)           <span class="cm"># \t 制表符，用于对齐</span>
+<span class="bi">print</span>(<span class="st">"他说：\"</span>你好\<span class="st">""</span>)        <span class="cm"># \" 在双引号字符串里再放双引号</span></code></pre>
+<p>回忆第四章“只用英文字符”——转义字符同样必须用英文半角 <code>\</code>，写成中文的 <code>\</code> 会直接报错。</p>
+<p>还有两个相关的实用写法：</p>
+<pre><code>text = <span class="st">""</span>"三引号字符串
+可以原样保留
+很多行的内容<span class="st">""</span>"                    <span class="cm"># 多行文本，不用自己拼 \n</span>
+
+path = r<span class="st">"C:\new\folder"</span>           <span class="cm"># 字符串前加个 r：原始字符串</span>
+<span class="bi">print</span>(path)                       <span class="cm"># C:\new\folder —— \ 原样保留</span></code></pre>
+<p><code>r"..."</code> 叫<strong>原始字符串（raw string）</strong>，反斜杠失去转义能力、按字面输出。最典型的场景是 Windows 文件路径：<code>"C:\new\test"</code> 里的 <code>\n</code> 会被当成换行符，写成 <code>r"C:\new\test"</code> 就安全了——第十六章读写文件时会用到。</p>
+<h2>动手：整理用户输入</h2>
+<p>用户的输入常常不规范——带空格、大小写混乱。处理输入的第一课：</p>
+<pre><code>answer = <span class="bi">input</span>(<span class="st">"你同意吗？(yes/no)："</span>)
+
+answer = answer.strip().lower()
+
+<span class="kw">if</span> answer == <span class="st">"yes"</span>:
+    <span class="bi">print</span>(<span class="st">"好的，继续"</span>)
+<span class="kw">else</span>:
+    <span class="bi">print</span>(<span class="st">"已取消"</span>)</code></pre>
+<p>无论用户输入 <code>" YES "</code>、<code>"Yes"</code> 还是 <code>"yes"</code>，都能正确识别。<strong>处理用户输入前先 <code>strip()</code> + <code>lower()</code></strong>，是很实用的好习惯。</p>
+<h2>本章挑战作业</h2>
+<p><strong>密码合规检查器</strong>。注册账号时网站会实时检查密码强度——现在你知道怎么实现了，<strong>没有参考答案</strong>：</p>
+<pre><code>password = <span class="st">"ab 123"</span>      <span class="cm"># 可以随意替换成别的密码来测试</span></code></pre>
+<p>检查三条规则，并输出<strong>每一条</strong>是否通过，最后给出总体结论（全部通过才算合格）：</p>
+<ol><li>长度至少 8 个字符；</li><li>不含空格；</li><li>至少包含一个数字。</li></ol>
+<p>要求：</p>
+<ul><li>每条规则的检查结果都要单独 <code>print</code> 出 True/False 或“通过/不通过”；</li><li>“至少包含一个数字”是最难的一条——不许写 10 个 <code>in</code> 挨个判断，要用循环遍历字符串的每个字符；</li><li>用三个密码测试：<code>"ab 123"</code>（规则 1、2 不过）、<code>"abcdefgh"</code>（规则 3 不过）、<code>"ab12cd34"</code>（全部通过）。</li></ul>
+<blockquote><p><strong>提示</strong>：规则 3 需要“发现过至少一个数字”这个信息——在循环前准备一个 <code>found = False</code>（布尔变量是第五章的），循环中逐个检查字符：<code>ch.isdigit()</code> 或 <code>ch in "0123456789"</code> 都能判断是不是数字字符，是就把 <code>found</code> 改成 <code>True</code>。循环结束后，<code>found</code> 就是答案。</p></blockquote>
+<p><strong>自测标准</strong>：三个测试密码的三条规则判定全部正确。这道题的新收获是“<strong>累加器/标志变量</strong>”模式——循环中收集信息、循环后使用，它是后面无数算法题的地基。</p>
+<h2>本章小结</h2>
+<ul><li>字符串是字符的序列：索引、切片、遍历、<code>len()</code> 全部适用。</li><li>字符串不可修改，“改”它实际是创建新字符串。</li><li>高频方法：<code>strip()</code>、<code>lower()/upper()</code>、<code>replace()</code>、<code>split()</code> 与 <code>join()</code>、<code>isdigit()</code>、<code>find()</code>；方法返回新字符串，可以链式调用。</li><li><code>\n</code>、<code>\t</code>、<code>\"</code> 是常用转义字符，必须用英文半角；<code>"""..."""</code> 写多行文本，<code>r"..."</code> 让反斜杠不转义（Windows 路径必备）。</li><li>用户输入先 <code>strip()</code> + <code>lower()</code> 再处理。</li></ul>
+<p><strong>下一章预告</strong>：代码越写越多，同样的逻辑反复出现怎么办？下一章学习<strong>函数</strong>——把代码打包起来，起个名字，随取随用。</p>
+<div class="pager"><a class="pg" href="#basics-ch11">← 第 11 章 · 字典与集合</a><a class="pg next" href="#basics-ch13">第 13 章 · 函数 →</a></div>
+</section>
+<section class="chapter" id="basics-ch13" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 13 章</div>
+<h1>函数</h1>
+
+<h2>把代码打包复用</h2>
+<p>同一段逻辑要在三个地方用，复制粘贴三遍——需求一改就要改三处，还容易漏。<strong>函数（Function）</strong>就是解决方案：把一段代码打包起来、起个名字、随取随用。</p>
+<p>其实我们一直在用函数：<code>print()</code>、<code>input()</code>、<code>len()</code>、<code>int()</code> 都是别人写好的函数。这一章，轮到自己写了。</p>
+<h2>定义与调用</h2>
+<pre><code><span class="kw">def</span> greet():
+    <span class="bi">print</span>(<span class="st">"你好！"</span>)
+    <span class="bi">print</span>(<span class="st">"欢迎学习 Python"</span>)
+
+greet()     <span class="cm"># 调用一次，执行一次</span>
+greet()</code></pre>
+<p><code>def</code> 是 define（定义）的缩写。注意两点：</p>
+<ul><li>函数体同样靠<strong>缩进</strong>归属——第四章的规则二在这里继续生效；</li><li><strong>定义不会执行，调用才执行</strong>。定义只是“登记”了这个函数，<code>greet()</code> 才是真正让它跑起来。</li></ul>
+<p>顺带认识一个占位语句 <strong>pass</strong>——它什么都不做，专门用来撑住语法结构：</p>
+<pre><code><span class="kw">def</span> todo():
+    <span class="kw">pass</span>          <span class="cm"># 还没想好怎么写，先占个位，保证代码能运行</span></code></pre>
+<h2>参数：给函数传数据</h2>
+<pre><code><span class="kw">def</span> greet(name):
+    <span class="bi">print</span>(<span class="st">"你好，"</span> + name + <span class="st">"！"</span>)
+
+greet(<span class="st">"小明"</span>)     <span class="cm"># 你好，小明！</span>
+greet(<span class="st">"小红"</span>)     <span class="cm"># 你好，小红！</span></code></pre>
+<p><code>name</code> 是<strong>形参</strong>（形式参数，函数内部的占位符），调用时传入的 <code>"小明"</code> 是<strong>实参</strong>（实际参数）。</p>
+<p>参数可以有多个，还可以带<strong>默认值</strong>——不传就用默认，传了就覆盖：</p>
+<pre><code><span class="kw">def</span> greet(name, greeting=<span class="st">"你好"</span>):
+    <span class="bi">print</span>(greeting + <span class="st">"，"</span> + name + <span class="st">"！"</span>)
+
+greet(<span class="st">"小明"</span>)               <span class="cm"># 你好，小明！</span>
+greet(<span class="st">"小明"</span>, <span class="st">"早上好"</span>)      <span class="cm"># 早上好，小明！</span></code></pre>
+<p>调用时还可以“指名道姓”地传参——<strong>关键字参数</strong>：</p>
+<pre><code>greet(greeting=<span class="st">"早上好"</span>, name=<span class="st">"小明"</span>)    <span class="cm"># 早上好，小明！—— 顺序随意</span></code></pre>
+<p>参数一多时，关键字参数能明显减少传错顺序的概率。</p>
+<h2>返回值：把结果交回去</h2>
+<p>函数可以把计算结果<strong>返回</strong>给调用处：</p>
+<pre><code><span class="kw">def</span> add(a, b):
+    <span class="kw">return</span> a + b
+
+result = add(<span class="nu">3</span>, <span class="nu">5</span>)     <span class="cm"># 函数算出 8，“交回”给调用处，存进 result</span>
+<span class="bi">print</span>(result)          <span class="cm"># 8</span></code></pre>
+<p><strong><code>return</code> 和 <code>print</code> 是两回事</strong>——这是新手最容易混淆的地方：</p>
+<ul><li><code>print()</code> 只是把结果显示在屏幕上，程序内部并没有拿到这个值；</li><li><code>return</code> 才是把结果真正交回调用处，可以存进变量、继续参与运算。</li></ul>
+<pre><code><span class="kw">def</span> bad_add(a, b):
+    <span class="bi">print</span>(a + b)        <span class="cm"># 只打印，没有返回</span>
+
+x = bad_add(<span class="nu">3</span>, <span class="nu">5</span>)       <span class="cm"># 屏幕上显示 8，但 x 是 None！</span>
+<span class="bi">print</span>(x)                <span class="cm"># None</span></code></pre>
+<p>没有 <code>return</code> 的函数，返回值是 <code>None</code>——第十一章 <code>get()</code> 里见过的那个“什么都没有”。</p>
+<p><code>return</code> 还能一次返回<strong>多个值</strong>——其实是打包成元组，配合第十章的解包接收：</p>
+<pre><code><span class="kw">def</span> min_max(nums):
+    <span class="kw">return</span> <span class="bi">min</span>(nums), <span class="bi">max</span>(nums)
+
+low, high = min_max([<span class="nu">3</span>, <span class="nu">1</span>, <span class="nu">4</span>, <span class="nu">1</span>, <span class="nu">5</span>])
+<span class="bi">print</span>(low, high)        <span class="cm"># 1 5</span></code></pre>
+<h2>变量的作用范围</h2>
+<p>函数内部定义的变量，外面看不到：</p>
+<pre><code><span class="kw">def</span> test():
+    inner = <span class="nu">42</span>
+
+test()
+<span class="bi">print</span>(inner)          <span class="cm"># ❌ NameError：外部不存在 inner</span></code></pre>
+<p>只在函数内部有效的变量叫<strong>局部变量</strong>。反过来，函数<strong>可以读取</strong>外面定义的变量。初学阶段记住一句话即可：函数自己的事自己了，别依赖外部的临时变量。</p>
+<h2>动手：写一个判断偶数的函数</h2>
+<p>把第七章的奇偶判断打包成函数：</p>
+<pre><code><span class="kw">def</span> is_even(n):
+    <span class="kw">return</span> n % <span class="nu">2</span> == <span class="nu">0</span>
+
+<span class="bi">print</span>(is_even(<span class="nu">4</span>))     <span class="cm"># True</span>
+<span class="bi">print</span>(is_even(<span class="nu">7</span>))     <span class="cm"># False</span></code></pre>
+<p>注意函数名的 <code>is</code> 前缀——返回布尔值的函数常用这种命名，调用起来像在读一句话：“4 是偶数吗？True”。</p>
+<h2>本章挑战作业</h2>
+<p><strong>质数猎手</strong>。质数是只能被 1 和它本身整除的数（2、3、5、7、11……）。这一题是函数 + 循环 + 条件的综合体，<strong>没有参考答案</strong>：</p>
+<p>任务一：写一个函数 <code>is_prime(n)</code>，返回 <code>True</code> 或 <code>False</code>，表示 <code>n</code> 是不是质数。</p>
+<p>任务二：用这个函数，打印 2 到 50 之间<strong>所有的质数</strong>。</p>
+<p>要求：</p>
+<ol><li><code>is_prime</code> 内部用循环：让 <code>n</code> 除以 2 到 n-1 之间的每个数，只要有一个能整除就<strong>立刻 <code>return False</code></strong>——回忆本章“return 可以提前结束函数”；</li><li>循环全部跑完都没找到因数，才 <code>return True</code>；</li><li>特殊值要单独处理：<code>n</code> 小于 2 时直接返回 <code>False</code>（1 和 0 都不是质数）；</li><li>任务二用 <code>for + range</code> 配合你的函数完成，输出一行一个质数。</li></ol>
+<blockquote><p><strong>提示</strong>：任务二就是在“遍历候选者，挑出合格的”——和遍历列表挑出及格成绩是同一个套路，只不过“合格”的判断被你封装进了函数里。如果想验证对错：2 到 50 之间共有 15 个质数，最后一个是 47。</p></blockquote>
+<p><strong>自测标准</strong>：<code>is_prime(2)</code> 为 <code>True</code>、<code>is_prime(9)</code> 为 <code>False</code>、<code>is_prime(1)</code> 为 <code>False</code>；任务二恰好输出 15 行。</p>
+<h2>本章小结</h2>
+<ul><li><code>def</code> 定义函数，调用才执行；函数体靠缩进归属，没想好时用 <code>pass</code> 占位。</li><li>形参是占位符，实参是调用时传入的值；参数可带默认值，也可用“参数名=值”指名传参。</li><li><code>return</code> 把结果交回调用处，可以一次返回多个值；<code>print</code> 只是显示——没有 <code>return</code> 的函数返回 <code>None</code>。</li><li>函数内定义的是局部变量，外部访问不到。</li><li>返回布尔值的函数常用 <code>is_</code> 前缀命名。</li></ul>
+<p><strong>下一章预告</strong>：算平方根、生成随机数……很多工具别人早就写好了。下一章学习<strong>模块与标准库</strong>——站在巨人的肩膀上编程。</p>
+<div class="pager"><a class="pg" href="#basics-ch12">← 第 12 章 · 字符串进阶</a><a class="pg next" href="#basics-ch14">第 14 章 · 模块与标准库 →</a></div>
+</section>
+<section class="chapter" id="basics-ch14" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 14 章</div>
+<h1>模块与标准库</h1>
+
+<h2>不必重复造轮子</h2>
+<p>有些代码几乎每个程序员都要用——算平方根、生成随机数、处理时间。Python 把这些常用工具打包成<strong>模块（Module）</strong>，一行 <code>import</code> 就能拿来就用。</p>
+<p><strong>标准库</strong>是随 Python 一起安装的模块集合——回忆第二章：安装 Python 时装的除了解释器，还有“标准库和配套工具”，说的就是它。标准库不需要额外安装，<code>import</code> 即可使用。</p>
+<h2>import 的两种常用姿势</h2>
+<pre><code><span class="kw">import</span> math
+
+<span class="bi">print</span>(math.sqrt(<span class="nu">16</span>))    <span class="cm"># 4.0 —— 平方根</span>
+<span class="bi">print</span>(math.pi)          <span class="cm"># 3.141592653589793 —— 圆周率</span></code></pre>
+<p>用“模块名.工具名”的方式访问。如果某个工具用得频繁，可以单独导入，省掉前缀：</p>
+<pre><code><span class="kw">from</span> math <span class="kw">import</span> sqrt
+
+<span class="bi">print</span>(sqrt(<span class="nu">16</span>))         <span class="cm"># 4.0 —— 不用再写 math.</span></code></pre>
+<p>还有第三种 <code>import math as m</code>（起别名），遇到名字很长的模块才用，初学少见。</p>
+<h2>实用模块巡礼</h2>
+<p><strong>random</strong> —— 随机数，猜数字、抽卡这类程序全靠它：</p>
+<pre><code><span class="kw">import</span> random
+
+<span class="bi">print</span>(random.randint(<span class="nu">1</span>, <span class="nu">100</span>))                  <span class="cm"># 1~100 的随机整数（含两端）</span>
+<span class="bi">print</span>(random.choice([<span class="st">"石头"</span>, <span class="st">"剪刀"</span>, <span class="st">"布"</span>]))     <span class="cm"># 随机选一个</span></code></pre>
+<p><strong>time</strong> —— 时间：</p>
+<pre><code><span class="kw">import</span> time
+
+<span class="bi">print</span>(time.time())     <span class="cm"># 当前时间戳（从 1970 年到现在的秒数）</span>
+time.sleep(<span class="nu">1</span>)          <span class="cm"># 程序暂停 1 秒</span></code></pre>
+<p>标准库有几百个模块：处理日期的 <code>datetime</code>、读写 csv 表格的 <code>csv</code>、压缩文件的 <code>zipfile</code>……不需要背，用到时查官方文档即可。</p>
+<blockquote><p><strong>提醒</strong>：给自己的文件起名时，别用 <code>random.py</code> 这类和标准库撞名的名字——否则 <code>import random</code> 会导入你自己的文件而不是标准库，报出莫名其妙的错误。</p></blockquote>
+<h2>第三方库：生态的力量</h2>
+<p>标准库之外，全世界的开发者还贡献了海量<strong>第三方库</strong>——第一章提到过的 NumPy、Pandas、PyTorch 都是。它们需要先安装：</p>
+<pre><code>pip install requests</code></pre>
+<p><code>pip</code> 是随 Python 一起安装的安装工具（也是第二章说过的“配套工具”之一）。总结两者的区别：<strong>标准库装好 Python 就有，第三方库要先用 pip 安装</strong>。</p>
+<p><code>pip</code> 本身只有几条命令，值得现在就记住：</p>
+<div class="table-wrap"><table><thead><tr><th>命令</th><th>作用</th></tr></thead><tbody><tr><td><code>pip install 包名</code></td><td>安装</td></tr><tr><td><code>pip list</code></td><td>看看已经装了哪些包</td></tr><tr><td><code>pip install --upgrade 包名</code></td><td>升级到最新版</td></tr><tr><td><code>pip uninstall 包名</code></td><td>卸载</td></tr></tbody></table></div>
+<blockquote><p><strong>下载太慢？</strong> 加上国内镜像源即可：<code>pip install requests -i https://pypi.tuna.tsinghua.edu.cn/simple</code>，速度通常快很多。</p></blockquote>
+<h3>选学：虚拟环境 venv</h3>
+<p>装第三方库之前，有件事最好先知道。假设 A 项目要用 <code>requests</code> 的旧版本，B 项目要用新版本——都装进同一个 Python 里，必然打架。</p>
+<p><strong>虚拟环境（venv）</strong>的思路是：<strong>给每个项目配一个独立的“小 Python”</strong>，各装各的，互不干扰。用法只有三步：</p>
+<pre><code>python -m venv .venv                  # 1. 在项目文件夹里创建虚拟环境
+.venv\Scripts\activate                # 2. 激活（Windows）
+# source .venv/bin/activate           #    激活（macOS / Linux）
+pip install requests                  # 3. 之后的 pip 都会装进这个环境里</code></pre>
+<p>激活成功后，命令行的提示符前面会出现 <code>(.venv)</code> 字样——这就是“当前处在该环境中”的标志。退出用 <code>deactivate</code>。</p>
+<p>初学阶段不做这一步也能跑通本教程，但只要你开始正式做一个项目，就该用它。VS Code 会自动识别项目里的 <code>.venv</code>，并在你新建终端时替你激活。</p>
+<h2>动手：掷骰子模拟器</h2>
+<pre><code><span class="kw">import</span> random
+
+<span class="kw">while</span> <span class="kw">True</span>:
+    dice = random.randint(<span class="nu">1</span>, <span class="nu">6</span>)
+    <span class="bi">print</span>(<span class="st">f"掷出了 {dice} 点"</span>)
+    again = <span class="bi">input</span>(<span class="st">"再来一次？(y/n)："</span>)
+    <span class="kw">if</span> again != <span class="st">"y"</span>:
+        <span class="kw">break</span></code></pre>
+<p><code>while + break</code>（第八章）、<code>input</code>（第九章）、random（本章）——八行代码串起三章知识。</p>
+<h2>选学：<code>if __name__ == "__main__":</code></h2>
+<p>你可能在别人的代码里见过这一行，看着像咒语，删掉好像也不报错。它和“模块”直接相关。</p>
+<p>在任何一个 Python 文件里，<code>__name__</code> 都是一个自动存在的变量：<strong>直接运行这个文件时，它的值是 <code>"__main__"</code></strong>；被别人 <code>import</code> 时，它的值是模块名（文件名去掉 <code>.py</code>）。所以下面这个套路的意思是“只在直接运行本文件时才执行这一段”：</p>
+<pre><code><span class="bi">print</span>(__name__)          <span class="cm"># 直接运行本文件时，输出 __main__</span>
+
+<span class="kw">if</span> __name__ == <span class="st">"__main__"</span>:
+    <span class="bi">print</span>(<span class="st">"我是被直接运行的，不是被 import 的"</span>)</code></pre>
+<p>它常用来把“给别人用的函数”和“给自己测试的代码”放进同一个文件：别人 <code>import</code> 你的模块时，只会拿到函数，不会顺带执行你的测试代码。</p>
+<h2>本章挑战作业</h2>
+<p><strong>石头剪刀布</strong>。和电脑对战，赢了它算你本事，<strong>没有参考答案</strong>：</p>
+<p>功能要求：</p>
+<ol><li>电脑每一局用 <code>random.choice(["石头", "剪刀", "布"])</code> 随机出拳；</li><li>用户输入自己的出拳，程序判定并输出这一局的结果：赢了 / 输了 / 平局；</li><li>可以连续玩多局，输入 <code>q</code> 退出；</li><li>退出时报告战绩：赢了几局、输了几局（用 <code>+=</code> 累加，回忆第六章）。</li></ol>
+<p>要求：</p>
+<ul><li>用户输入先 <code>strip()</code>（第十二章），不然输入带个空格就输了；</li><li>平局要正确判定：两边出一样的时候不许算输；</li><li>战绩统计不能用“每局重新清零”的变量——想想变量该定义在循环里面还是外面。</li></ul>
+<blockquote><p><strong>提示</strong>：胜负判断有两种写法：一是写全 3×3 的九种组合（又长又容易漏）；二是找规律——你赢的组合只有固定三种：“石头→剪刀、剪刀→布、布→石头”。把它翻译成一个 <code>or</code> 连接的条件（回忆第七章）。这道题真正练的是：<strong>把游戏规则翻译成布尔逻辑</strong>。</p></blockquote>
+<p><strong>自测标准</strong>：连续玩 10 局以上，三种结果都出现过；<code>q</code> 能随时退出且战绩数字正确。</p>
+<h2>本章小结</h2>
+<ul><li>模块是打包好的工具集，<code>import 模块名</code> 后用“模块名.工具名”访问，或 <code>from 模块 import 工具</code> 单独导入。</li><li>标准库随 Python 自带；第三方库要用 <code>pip install</code> 安装。</li><li><code>pip list / --upgrade / uninstall</code> 分别对应查看、升级、卸载；正式项目用 venv 给每个项目隔离一套依赖。</li><li><code>random.randint(a, b)</code> 生成 a~b 的随机整数（含两端），<code>random.choice()</code> 随机选一个。</li><li>别用标准库的名字给自己的文件命名。</li></ul>
+<p><strong>下一章预告</strong>：程序总会遇到意外——用户输错、文件不存在。这一路我们一直在“读报错”，下一章学习<strong>异常处理</strong>，让程序在意外面前不崩溃。</p>
+<div class="pager"><a class="pg" href="#basics-ch13">← 第 13 章 · 函数</a><a class="pg next" href="#basics-ch15">第 15 章 · 异常处理 →</a></div>
+</section>
+<section class="chapter" id="basics-ch15" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 15 章</div>
+<h1>异常处理</h1>
+
+<h2>意外总会发生</h2>
+<p>这本教程一直在教你看报错：<code>TypeError</code>、<code>IndentationError</code>、<code>KeyError</code>……报错的正式名字叫<strong>异常（Exception）</strong>。默认情况下，异常一旦发生，程序立刻终止。</p>
+<p>但用户是不可控的：你让他输数字，他偏输 <code>"abc"</code>。好的程序要能<strong>接住意外</strong>，给用户一条退路，而不是自己崩溃——这就是<strong>异常处理</strong>。</p>
+<h2>try / except：尝试与兜底</h2>
+<pre><code><span class="kw">try</span>:
+    age = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"请输入年龄："</span>))      <span class="cm"># 这行可能报错</span>
+    <span class="bi">print</span>(<span class="st">f"明年你就 {age + 1} 岁"</span>)
+<span class="kw">except</span> ValueError:
+    <span class="bi">print</span>(<span class="st">"输入的不是数字，请重试！"</span>)       <span class="cm"># 报错时执行这里</span>
+
+<span class="bi">print</span>(<span class="st">"程序继续运行"</span>)                      <span class="cm"># 两种情况都会走到这里</span></code></pre>
+<p>结构规则：</p>
+<ul><li><strong>try 里放“可能出错的代码”，except 里放“出错后的对策”</strong>；</li><li>try 块中一旦发生异常，剩下的代码不再执行，直接跳到对应的 except；</li><li>没有异常发生，except 就被跳过；</li><li>无论哪种情况，程序都不会崩溃，继续往下运行。</li></ul>
+<p><code>except</code> 后面写的是<strong>异常类型</strong>，只接住指定的类型。<code>ValueError</code> 是“值不合适”——<code>"abc"</code> 转不成 <code>int</code> 就是它。</p>
+<h2>一个 try 可以接多种异常</h2>
+<pre><code><span class="kw">try</span>:
+    a = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"被除数："</span>))
+    b = <span class="bi">int</span>(<span class="bi">input</span>(<span class="st">"除数："</span>))
+    <span class="bi">print</span>(<span class="st">f"结果为 {a / b}"</span>)
+<span class="kw">except</span> ValueError:
+    <span class="bi">print</span>(<span class="st">"请输入数字"</span>)
+<span class="kw">except</span> ZeroDivisionError:
+    <span class="bi">print</span>(<span class="st">"除数不能为 0"</span>)</code></pre>
+<p>输入 <code>10</code> 和 <code>0</code>，会得到“除数不能为 0”，程序稳如泰山。</p>
+<h3>还有 finally 和 assert</h3>
+<p><strong><code>finally</code></strong>：不管有没有出错都会执行的收尾代码。它最常见的搭档是文件——无论中途成功还是失败，都要有个收尾动作：</p>
+<pre><code><span class="kw">try</span>:
+    f = <span class="bi">open</span>(<span class="st">"不存在的文件.txt"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>)   <span class="cm"># 这里一定失败</span>
+    <span class="bi">print</span>(f.read())
+<span class="kw">except</span> FileNotFoundError:
+    <span class="bi">print</span>(<span class="st">"文件不存在"</span>)
+<span class="kw">finally</span>:
+    <span class="bi">print</span>(<span class="st">"无论成功还是失败，这句都会执行"</span>)</code></pre>
+<blockquote><p><strong>提示</strong>：下一章会学到 <code>with open(...)</code>，它把“自动关闭文件”做成了语法，所以实际写文件时 <code>finally</code> 用得比这里少——但“无论如何都要收尾”这个想法很重要。</p></blockquote>
+<p><strong><code>assert</code>（断言）</strong>：给“我认为这里一定是这样”加一道自动检查，条件不成立就直接报 <code>AssertionError</code>：</p>
+<pre><code>age = <span class="nu">18</span>
+<span class="kw">assert</span> age &gt;= <span class="nu">18</span>, <span class="st">"年龄必须满 18"</span>    <span class="cm"># 不成立就报错，并带上这句说明</span>
+<span class="bi">print</span>(<span class="st">"断言通过"</span>)</code></pre>
+<p>它适合写在<strong>调试和自测</strong>里（比如验证自己的函数返回值对不对），不适合用来处理用户输入错误——用户乱输要用 <code>try / except</code>，那才是本章前面讲的正事。</p>
+<h2>常见异常速查表</h2>
+<p>前面各章见过的报错，在这里全部对上号：</p>
+<div class="table-wrap"><table><thead><tr><th>异常</th><th>触发场景</th><th>首次出现在</th></tr></thead><tbody><tr><td><code>SyntaxError</code></td><td>语法写错（如少冒号）</td><td>第四章</td></tr><tr><td><code>IndentationError</code></td><td>缩进不一致</td><td>第四章</td></tr><tr><td><code>NameError</code></td><td>使用了未定义的变量</td><td>第十三章</td></tr><tr><td><code>TypeError</code></td><td>类型不匹配（如 <code>"5" + 5</code>）</td><td>第五、六章</td></tr><tr><td><code>ValueError</code></td><td>类型对但值不合适（如 <code>int("abc")</code>）</td><td>本章</td></tr><tr><td><code>IndexError</code></td><td>列表索引越界</td><td>第十章</td></tr><tr><td><code>KeyError</code></td><td>字典键不存在</td><td>第十一章</td></tr><tr><td><code>ZeroDivisionError</code></td><td>除数为 0</td><td>本章</td></tr><tr><td><code>FileNotFoundError</code></td><td>文件不存在</td><td>下一章</td></tr></tbody></table></div>
+<p>看报错的第一步永远是：<strong>找到最后一行——异常类型 + 说明文字</strong>，这一章让它从“读”升级为“接住”。</p>
+<h2>动手：给 BMI 计算器加保护</h2>
+<p>第九章的 BMI 计算器，用户乱输就会崩。加上异常处理：</p>
+<pre><code><span class="kw">try</span>:
+    height = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"请输入身高（米）："</span>))
+    weight = <span class="bi">float</span>(<span class="bi">input</span>(<span class="st">"请输入体重（千克）："</span>))
+    bmi = weight / height ** <span class="nu">2</span>
+    <span class="bi">print</span>(<span class="st">f"你的 BMI 是 {bmi:.2f}"</span>)
+<span class="kw">except</span> ValueError:
+    <span class="bi">print</span>(<span class="st">"请输入合法的数字！"</span>)
+<span class="kw">except</span> ZeroDivisionError:
+    <span class="bi">print</span>(<span class="st">"身高不能为 0！"</span>)</code></pre>
+<p>分别输入 <code>abc</code> 和 <code>1.6 / 0</code> 的情况试一试——程序不再崩溃，而是给出友好提示。</p>
+<h2>选学：从“读报错”到“调试”</h2>
+<p>到这里你已经会读报错了。但如果程序<strong>不报错、只是结果不对</strong>呢？这时需要<strong>调试（Debug）</strong>——主动去观察程序运行中每一步的真实情况。</p>
+<p><strong>第一步：缩小范围。</strong> 在可疑的位置插一句 <code>print()</code>，把中间变量的值打出来，看它是不是你以为的那个值。这是最朴素也最有效的手段，写十年代码也还在用：</p>
+<pre><code>total = <span class="nu">0</span>
+<span class="kw">for</span> s <span class="kw">in</span> scores:
+    total += s
+    <span class="bi">print</span>(<span class="st">f"加上 {s} 后，total = {total}"</span>)     <span class="cm"># 每一步都摊开看</span></code></pre>
+<p><strong>第二步：用断点。</strong> 在 VS Code 里，直接点行号左边的空白处，会出现一个红点——这就是<strong>断点（Breakpoint）</strong>。按 <code>F5</code> 启动调试，程序会跑到这一行<strong>停下来</strong>，这时你可以：</p>
+<ul><li>在左侧的“变量（VARIABLES）”面板里看到<strong>当前所有变量</strong>的值；</li><li>按 <code>F10</code>（单步跳过）一行一行往下走，每走一步都看变量怎么变；</li><li>按 <code>F5</code>（继续）直接跑到下一个断点。</li></ul>
+<blockquote><p><strong>调试的核心只有一句话：不要靠猜，去看真实的值。</strong> 程序的行为和你以为的不一样，永远是某个变量的值和你以为的不一样——断点就是让你亲眼看到它的工具。这一招配合本章的异常处理，程序再出问题你也不至于束手无策。</p></blockquote>
+<h2>本章挑战作业</h2>
+<p><strong>造一个“永不崩溃”的输入函数</strong>。真实软件里“请你输入一个数字”的对话，背后都有一个反复要求重试的机制。现在把它封装成函数，<strong>没有参考答案</strong>：</p>
+<p>任务一：写函数 <code>ask_int(prompt)</code>：</p>
+<ol><li>显示 <code>prompt</code> 提示语，读取用户输入并尝试转成整数；</li><li>转换失败就提示“请输入一个整数”，然后<strong>再次</strong>要求输入——直到成功为止；</li><li>成功后把这个整数<strong>返回</strong>给调用处。</li></ol>
+<p>任务二：用这个函数写一个除法程序：先后询问被除数和除数，输出商。要求除数为 0 时不崩溃，单独提示“除数不能为 0”。</p>
+<p>要求：</p>
+<ul><li>任务二的除数为 0 属于另一种异常（回忆本章速查表），要在调用处单独接住；</li><li>主程序里不许出现裸的 <code>int(input(...))</code>——所有整数输入都必须走你的 <code>ask_int</code>。</li></ul>
+<blockquote><p><strong>提示</strong>：<code>while True + try/except + return</code> 三件套：try 里转换成功就 <code>return</code>（回忆第十三章：return 会立刻结束函数，正好也跳出了循环）；转换失败会跳到 except，提示后循环自动进行下一轮。想通“return 能同时结束函数和循环”这一层，这道题就通了。</p></blockquote>
+<p><strong>自测标准</strong>：输入 <code>abc</code>、<code>1.5</code>、空回车都不会崩，程序坚持要到一个整数为止；除数输 0 时得到友好提示而不是红色报错。</p>
+<h2>本章小结</h2>
+<ul><li>异常发生时程序默认终止；<code>try / except</code> 可以接住异常，让程序继续运行。</li><li>try 放可能出错的代码，except 按异常类型写对策；一个 try 可以接多种异常。</li><li><code>ValueError</code> 是“值不合适”，与 <code>TypeError</code>（类型不匹配）不同。</li><li>遇到新异常，先读最后一行的类型和说明，再决定是改代码还是加处理。</li><li>程序不报错但结果不对时，用 <code>print</code> 缩小范围，或用断点 + <code>F10</code> 单步观察真实的值。</li></ul>
+<p><strong>下一章预告</strong>：变量活在内存里，程序一关就全部蒸发。下一章学习<strong>文件读写</strong>，让数据真正“留下来”。</p>
+<div class="pager"><a class="pg" href="#basics-ch14">← 第 14 章 · 模块与标准库</a><a class="pg next" href="#basics-ch16">第 16 章 · 文件读写 →</a></div>
+</section>
+<section class="chapter" id="basics-ch16" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 16 章</div>
+<h1>文件读写</h1>
+
+<h2>让数据留下来</h2>
+<p>程序里的变量都活在内存中——程序一关，全部蒸发。想让数据长期保存（用户记录、配置、统计结果），就要写到<strong>文件</strong>里。Python 读写文件，只需要一个 <code>open()</code> 函数。</p>
+<h2>写文件与读文件</h2>
+<pre><code><span class="cm"># 写：模式 "w" 是 write</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"diary.txt"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    f.write(<span class="st">"第一天：学了变量\n"</span>)
+    f.write(<span class="st">"第二天：学了循环\n"</span>)
+
+<span class="cm"># 读：模式 "r" 是 read</span>
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"diary.txt"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    content = f.read()
+    <span class="bi">print</span>(content)</code></pre>
+<p>逐个拆解：</p>
+<ul><li><code>open("文件名", "模式")</code> 打开文件，返回一个文件对象，这里起名叫 <code>f</code>；</li><li><code>with</code> 语句会在代码块结束时<strong>自动关闭文件</strong>——这是标准写法，不用担心忘记关闭；</li><li><code>encoding="utf-8"</code> 指定编码，<strong>要写中文务必加上</strong>，否则 Windows 上容易出现乱码；</li><li><code>\n</code> 是换行符（第十二章的转义字符），一行写一条，方便以后逐行读。</li></ul>
+<p><strong>打开模式速查</strong>：</p>
+<div class="table-wrap"><table><thead><tr><th>模式</th><th>含义</th><th>注意</th></tr></thead><tbody><tr><td><code>r</code></td><td>读</td><td>文件不存在会报 <code>FileNotFoundError</code></td></tr><tr><td><code>w</code></td><td>写（清空重写）</td><td><strong>会清空文件原有内容！</strong></td></tr><tr><td><code>a</code></td><td>追加</td><td>在文件末尾续写，不清空</td></tr></tbody></table></div>
+<blockquote><p><strong>常见事故</strong>：想给文件“补充”几行，却用了 <code>"w"</code> 模式——旧内容被全部清空。往已有文件续写，用 <code>"a"</code> 模式。</p></blockquote>
+<h2>逐行读取</h2>
+<p>文件很大时，<code>f.read()</code> 一次读完可能吃力，更常用逐行遍历——循环又来了：</p>
+<pre><code><span class="kw">with</span> <span class="bi">open</span>(<span class="st">"diary.txt"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> line <span class="kw">in</span> f:
+        <span class="bi">print</span>(line, end=<span class="st">""</span>)     <span class="cm"># line 自带换行符，end="" 避免双重换行</span></code></pre>
+<p>回忆第九章：<code>print</code> 的 <code>end</code> 参数默认是换行 <code>\n</code>，这里改成空字符串。</p>
+<h2>和异常处理配合</h2>
+<p>文件可能不存在——被用户删了，或者名字写错了。上一章学的 <code>try / except</code> 立刻派上用场：</p>
+<pre><code><span class="kw">try</span>:
+    <span class="kw">with</span> <span class="bi">open</span>(<span class="st">"notes.txt"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+        <span class="bi">print</span>(f.read())
+<span class="kw">except</span> FileNotFoundError:
+    <span class="bi">print</span>(<span class="st">"文件不存在，先创建它吧"</span>)</code></pre>
+<h2>动手：成绩存档</h2>
+<p>把成绩写进文件，再读出来统计——一条完整的“存储—读取—计算”链路：</p>
+<pre><code>scores = [<span class="nu">90</span>, <span class="nu">85</span>, <span class="nu">77</span>, <span class="nu">100</span>, <span class="nu">66</span>]
+
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"scores.txt"</span>, <span class="st">"w"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    <span class="kw">for</span> s <span class="kw">in</span> scores:
+        f.write(<span class="bi">str</span>(s) + <span class="st">"\n"</span>)          <span class="cm"># 文件里只能放文本，先转字符串</span>
+
+<span class="kw">with</span> <span class="bi">open</span>(<span class="st">"scores.txt"</span>, <span class="st">"r"</span>, encoding=<span class="st">"utf-8"</span>) <span class="kw">as</span> f:
+    total = <span class="nu">0</span>
+    count = <span class="nu">0</span>
+    <span class="kw">for</span> line <span class="kw">in</span> f:
+        total += <span class="bi">int</span>(line.strip())      <span class="cm"># 去掉换行符再转回整数</span>
+        count += <span class="nu">1</span>
+
+<span class="bi">print</span>(<span class="st">f"共 {count} 条成绩，总分 {total}，平均分 {total / count:.1f}"</span>)</code></pre>
+<p>输出：<code>共 5 条成绩，总分 418，平均分 83.6</code>。写入时 <code>str()</code> 转成文本（第十二章），读出时 <code>strip()</code> 去换行、<code>int()</code> 转回数字（第五、十二章）——写、读、算一气呵成。</p>
+<h3>选学：更省心的路径写法</h3>
+<p>本章一直用字符串表示文件名：<code>open("diary.txt", ...)</code>。文件一多、目录一深，靠字符串拼路径很容易出错。Python 自带了专门管路径的模块 <code>pathlib</code>：</p>
+<pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+p = Path(<span class="st">"data"</span>) / <span class="st">"diary.txt"</span>     <span class="cm"># 用 / 拼路径，比手写字符串清楚</span>
+<span class="bi">print</span>(p)                            <span class="cm"># data\diary.txt（Windows；macOS/Linux 上是 data/diary.txt）</span>
+
+<span class="bi">print</span>(p.exists())                   <span class="cm"># False —— 文件在不在，一句话就能问</span>
+<span class="bi">print</span>(p.name)                       <span class="cm"># diary.txt —— 只要文件名</span>
+<span class="bi">print</span>(p.suffix)                     <span class="cm"># .txt —— 只要扩展名</span></code></pre>
+<p><code>p.exists()</code> 能在打开文件<strong>之前</strong>先问一句“你在不在”，很多场合比 <code>try / except</code> 更顺手。本章的记账本作业用 <code>try / except</code> 完全够用，等你开始处理多层目录时再回来用它。</p>
+<h2>本章挑战作业</h2>
+<p><strong>简易记账本</strong>。做一个“每次运行都记得上一次”的支出记录程序——这是文件最典型的用途，<strong>没有参考答案</strong>：</p>
+<p>功能要求：</p>
+<ol><li>程序启动时，读取 <code>ledger.txt</code>：显示已有的每一笔支出和<strong>历史总额</strong>；文件不存在就当作 0 笔账，正常开始（不许崩）；</li><li>循环询问用户输入一笔支出（数字）或 <code>q</code> 退出；</li><li>每输入一笔，立刻以<strong>追加模式</strong>写入文件，一行一笔；</li><li>输入 <code>q</code> 退出前，显示本次新增的笔数和本次总额。</li></ol>
+<p>要求：</p>
+<ul><li>读文件必须配合 <code>try / except</code>（回忆上一章的 <code>FileNotFoundError</code>）；</li><li>写入用 <code>"a"</code> 模式——想想为什么用 <code>"w"</code> 是灾难（回忆本章的模式表）；</li><li>读取时逐行处理：先 <code>strip()</code> 再转数字，回忆本章“成绩存档”的处理链路。</li></ul>
+<blockquote><p><strong>提示</strong>：历史总额需要“读文件时累加”——准备一个 <code>total</code> 变量，循环累加（第八章的套路）。本次新增笔数是另一个独立计数器。两种计数器谁在循环外初始化、谁每轮归零，想清楚这一点，程序就对了。</p></blockquote>
+<p><strong>自测标准</strong>：运行程序记三笔账退出，再运行一次——历史账目和总额都在，而且新账接着旧账记，没有被清空。</p>
+<h2>本章小结</h2>
+<ul><li><code>open()</code> + <code>with</code> 读写文件，代码块结束自动关闭。</li><li>三种模式：<code>r</code> 读、<code>w</code> 写（会清空！）、<code>a</code> 追加；写中文加 <code>encoding="utf-8"</code>。</li><li><code>f.read()</code> 整体读，<code>for line in f</code> 逐行读；<code>f.write()</code> 只能写字符串。</li><li>文件不存在会报 <code>FileNotFoundError</code>，用 <code>try / except</code> 接住。</li></ul>
+<p><strong>下一章预告</strong>：变量、列表、函数都学了，怎么把它们组织成更大的程序？下一章进入<strong>面向对象编程入门</strong>——用“类”把数据和操作装在一起。</p>
+<div class="pager"><a class="pg" href="#basics-ch15">← 第 15 章 · 异常处理</a><a class="pg next" href="#basics-ch17">第 17 章 · 面向对象编程入门 →</a></div>
+</section>
+<section class="chapter" id="basics-ch17" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 17 章</div>
+<h1>面向对象编程入门</h1>
+
+<h2>从“散装数据”到“对象”</h2>
+<p>描述一只狗，你需要几个变量：名字、年龄；再写几个函数：叫、吃。一只狗还好，一百只呢？变量满天飞，数据和操作互不关联。</p>
+<p><strong>面向对象编程（OOP）</strong>的思路：把“数据”和“操作这些数据的函数”打包成一个整体——<strong>对象（Object）</strong>。狗的名字、年龄和“叫”这个行为，都属于这只狗。</p>
+<p><strong>类（Class）</strong>是对象的“图纸”：先定义图纸，再按图纸造出一个个对象（也叫<strong>实例</strong>）。</p>
+<h2>定义一个类</h2>
+<pre><code><span class="kw">class</span> Dog:
+    <span class="kw">def</span> __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    <span class="kw">def</span> bark(self):
+        <span class="bi">print</span>(self.name + <span class="st">"：汪汪！"</span>)
+
+my_dog = Dog(<span class="st">"旺财"</span>, <span class="nu">3</span>)      <span class="cm"># 按图纸造一只狗</span>
+<span class="bi">print</span>(my_dog.name)           <span class="cm"># 旺财</span>
+my_dog.bark()                <span class="cm"># 旺财：汪汪！</span></code></pre>
+<p>这段代码信息量大，逐条解剖：</p>
+<ul><li><code>class Dog:</code> 定义类，类名按惯例<strong>首字母大写</strong>（多个单词连写，如 <code>MyDog</code>，称为大驼峰）；</li><li><code>__init__</code> 是特殊方法：每次造新对象时<strong>自动执行</strong>，负责初始化。<code>Dog("旺财", 3)</code> 里的两个实参传给它；</li><li><code>self</code> 指“当前这个对象自己”。执行 <code>my_dog.bark()</code> 时，<code>self</code> 就是 <code>my_dog</code>；</li><li><code>self.name = name</code> 把传入的值挂在这个对象身上，成为它的<strong>属性</strong>；</li><li><code>bark</code> 是<strong>方法</strong>——写在类里面的函数。第十章的 <code>scores.append()</code> 正是列表对象的方法，现在你知道它的由来了。</li></ul>
+<h2>为什么要这么麻烦</h2>
+<p>用散装变量描述三只狗：<code>name1</code>、<code>name2</code>、<code>name3</code>……每只狗的数据和操作互不关联，改一处容易漏一片。用类，数据和操作绑定在一起，多少只都不乱：</p>
+<pre><code>dogs = [Dog(<span class="st">"旺财"</span>, <span class="nu">3</span>), Dog(<span class="st">"小黑"</span>, <span class="nu">2</span>), Dog(<span class="st">"豆豆"</span>, <span class="nu">5</span>)]
+
+<span class="kw">for</span> dog <span class="kw">in</span> dogs:
+    dog.bark()</code></pre>
+<p>输出：</p>
+<pre><code>旺财：汪汪！
+小黑：汪汪！
+豆豆：汪汪！</code></pre>
+<h2>继承：站在类的肩膀上</h2>
+<p>类可以继承另一个类的全部能力，只需补充自己特有的部分：</p>
+<pre><code><span class="kw">class</span> Puppy(Dog):          <span class="cm"># 幼犬“是一种”狗 —— 继承 Dog</span>
+    <span class="kw">def</span> roll(self):
+        <span class="bi">print</span>(self.name + <span class="st">" 打了个滚"</span>)
+
+p = Puppy(<span class="st">"团子"</span>, <span class="nu">1</span>)
+p.bark()        <span class="cm"># 团子：汪汪！ —— 从 Dog 继承来的</span>
+p.roll()        <span class="cm"># 团子 打了个滚 —— 自己新增的</span></code></pre>
+<p>“幼犬是一种狗”——继承表达的就是这种 <strong>is-a</strong>（是一种）关系。</p>
+<blockquote><p><strong>说明</strong>：OOP 是个大话题，本章只求达到两个目标：看得懂别人写的类、自己会定义简单的类。封装、多态等深入内容，进阶时再学。</p></blockquote>
+<h2>动手：写一个 Student 类</h2>
+<pre><code><span class="kw">class</span> Student:
+    <span class="kw">def</span> __init__(self, name, score):
+        self.name = name
+        self.score = score
+
+    <span class="kw">def</span> introduce(self):
+        <span class="bi">print</span>(<span class="st">f"我叫 {self.name}，考了 {self.score} 分"</span>)
+
+    <span class="kw">def</span> is_passed(self):
+        <span class="kw">return</span> self.score &gt;= <span class="nu">60</span>
+
+stu = Student(<span class="st">"小明"</span>, <span class="nu">85</span>)
+stu.introduce()               <span class="cm"># 我叫 小明，考了 85 分</span>
+<span class="bi">print</span>(stu.is_passed())        <span class="cm"># True</span></code></pre>
+<p><code>is_passed</code> 返回布尔值（第十三章的 <code>is_</code> 前缀惯例），<code>introduce</code> 用了 f-string（第九章）——一个小小的类，浓缩了大半本教程。</p>
+<h2>本章挑战作业</h2>
+<p><strong>银行账户类</strong>。把本章的知识组合成一个真正有用的类，<strong>没有参考答案</strong>：</p>
+<p>写一个 <code>BankAccount</code> 类：</p>
+<ol><li>属性：<code>owner</code>（户主姓名）、<code>balance</code>（余额，<strong>新建账户时必须为 0</strong>）；</li><li>方法 <code>deposit(amount)</code>：存钱，余额增加；</li><li>方法 <code>withdraw(amount)</code>：取钱——余额够就扣减并输出新余额；<strong>余额不足时输出提示，并且余额一分不变</strong>；</li><li>方法 <code>show()</code>：输出“户主：xxx，余额：xxx 元”。</li></ol>
+<p>验证流程（写在你自己的代码里）：</p>
+<pre><code>acc = BankAccount(<span class="st">"小明"</span>)
+acc.deposit(<span class="nu">100</span>)
+acc.withdraw(<span class="nu">30</span>)
+acc.withdraw(<span class="nu">500</span>)     <span class="cm"># 应该被拒绝</span>
+acc.show()            <span class="cm"># 户主：小明，余额：70 元</span></code></pre>
+<p>要求：</p>
+<ul><li>余额不足的判断用 <code>if / else</code>（第七章），条件是 <code>amount &gt; self.balance</code>（比较运算符是第六章的）；</li><li>新建账户时调用方只传姓名：<code>BankAccount("小明")</code>——想想 <code>__init__</code> 的参数怎么设计；</li><li>三次操作后余额必须恰好是 70，分毫不能差。</li></ul>
+<blockquote><p><strong>提示</strong>：对照 Dog 类的结构：<code>__init__</code> 里两个属性，一个由实参传入、一个固定为 0。<code>withdraw</code> 里的“拒绝”不是 return False 那种复杂操作——打印一句提示、什么都不改，就是拒绝。</p></blockquote>
+<p><strong>自测标准</strong>：四次调用后输出余额 70；把 <code>withdraw(500)</code> 换成 <code>withdraw(70)</code> 再跑一遍，余额应为 0，且继续取钱会被拒绝。</p>
+<h2>本章小结</h2>
+<ul><li>类是图纸，对象（实例）是按图纸造的产品；数据和函数打包在一起。</li><li><code>__init__</code> 负责初始化，<code>self</code> 指对象自己，属性挂在 <code>self</code> 上，方法写在类里。</li><li>类名用大驼峰；<code>.</code> 用来访问对象的属性和方法。</li><li>继承用 <code>class 子类(父类)</code> 表达“是一种”的关系，子类自动拥有父类的能力。</li></ul>
+<p><strong>下一章预告</strong>：最后一章——回顾你在基础篇完成的一切，做一次毕业自查。</p>
+<div class="pager"><a class="pg" href="#basics-ch16">← 第 16 章 · 文件读写</a><a class="pg next" href="#basics-ch18">第 18 章 · 结语 →</a></div>
+</section>
+<section class="chapter" id="basics-ch18" data-vol="basics">
+<div class="chapter-badge">基础篇 · 第 18 章</div>
+<h1>结语：基础篇完结</h1>
+
+<h2>你完成了什么</h2>
+<p>从第一章的那行 <code>Hello, World!</code>，到现在你能独立写出带函数、能保存数据的程序。逐项盘点，这些是你亲手完成的：</p>
+<ul><li>认识了 Python，亲手装好解释器和 VS Code，跑通了第一行代码（第 1~3 章）</li><li>掌握了代码的基本规则：逐行执行、缩进即语法、注释、只用英文字符（第 4 章）</li><li>会用变量记住数据，分得清 <code>int / float / str / bool</code>，会在类型之间转换（第 5 章）</li><li>会用算术、比较、逻辑运算符写出正确的表达式，知道浮点误差是怎么回事（第 6 章）</li><li>让程序学会了“选择”：<code>if / elif / else</code>、<code>and / or / not</code>、嵌套与短路（第 7 章）</li><li>让程序学会了“重复”：<code>while</code> 三要素、<code>for + range</code>、<code>break / continue</code>（第 8 章）</li><li>程序能“听”会说：<code>input</code>、<code>print</code>、f-string 格式化（第 9 章）</li><li>掌握了四大容器：列表、元组、字典、集合，知道什么数据用什么装（第 10~11 章）</li><li>会索引、切片、遍历字符串，用熟了 <code>strip / replace / split</code> 等高频方法（第 12 章）</li><li>会定义自己的函数：参数、默认值、<code>return</code>（第 13 章）</li><li>会 <code>import</code> 借力标准库和第三方库，会用 <code>pip</code> 装卸、用 venv 隔离项目依赖（第 14 章）</li><li>程序不再一碰就碎：<code>try / except</code> 接得住用户的乱输入（第 15 章）</li><li>结果不对时会自己排查：用 <code>print</code> 缩小范围，或用断点单步看真实的值（第 15 章）</li><li>数据能落盘长期保存：<code>open + with</code>、<code>r / w / a</code> 三种模式（第 16 章）</li><li>初识面向对象：会定义类、创建对象，理解 <code>self</code> 和继承（第 17 章）</li></ul>
+<p>每一章末尾的挑战作业，你都亲手做过——它们没有统一答案，因为答案在你自己敲出来的程序里。</p>
+<h2>毕业自查</h2>
+<p>基础篇的目标不是“看过”，而是<strong>不查资料也能写出来</strong>。对照下面这张清单逐条自测：能独立做到的，打个勾；做不到的，回到对应章节，把那一章的<strong>挑战作业再做一遍</strong>——重做旧题直到秒杀，是夯实基础最有效的方式。</p>
+<div class="table-wrap"><table><thead><tr><th>自测项</th><th>达标标准</th><th>章节</th></tr></thead><tbody><tr><td>会读报错</td><td>看到 <code>TypeError</code> / <code>NameError</code> 能说出原因</td><td>4、15</td></tr><tr><td>变量与类型</td><td><code>18</code> 和 <code>"18"</code> 的区别张口就来</td><td>5</td></tr><tr><td>条件逻辑</td><td>能把一句“人话规则”翻译成布尔表达式</td><td>7</td></tr><tr><td>循环控制</td><td><code>while</code> 三要素、<code>for</code> 遍历、<code>break</code> 的时机</td><td>8</td></tr><tr><td>输入输出</td><td>记得 <code>input</code> 永远返回字符串，会用 f-string 控制小数位</td><td>9</td></tr><tr><td>选对容器</td><td>给一组真实数据，能选出 list / dict / set</td><td>10~11</td></tr><tr><td>会写函数</td><td>参数、默认值、<code>return</code> 用得不假思索</td><td>13</td></tr><tr><td>程序健壮</td><td>用户乱输不崩溃、文件不存在不崩溃</td><td>15~16</td></tr><tr><td>会调试</td><td>程序不报错但结果不对时，能用 <code>print</code> 或断点找到真正出错的那一步</td><td>15</td></tr><tr><td>会定义类</td><td>独立写出一个带属性和方法的类</td><td>17</td></tr><tr><td>会拆问题</td><td>拿到小需求先想：什么数据、什么流程、要不要拆函数</td><td>贯穿全篇</td></tr></tbody></table></div>
+<p>全部打勾，你就不是“学过 Python”，而是“能用 Python 做事了”。</p>
+<h2>交作业前的易错点速查</h2>
+<p>下面每一条，正文里<strong>都已经提醒过</strong>——这里只是把它们集中起来，方便你卡住时对号入座。它不告诉你答案，只帮你定位自己踩的是哪个坑。</p>
+<div class="table-wrap"><table><thead><tr><th>症状</th><th>大概率是这个坑</th><th>提醒在哪</th></tr></thead><tbody><tr><td>程序卡住不动</td><td>忘了更新循环条件（死循环），按 <code>Ctrl + C</code> 停</td><td>第 8 章</td></tr><tr><td>该循环 5 次却少了一次</td><td><code>range</code> 含头不含尾</td><td>第 8 章</td></tr><tr><td>多分支判断的结果不对</td><td><code>if / elif</code> 的顺序该从严到宽</td><td>第 7 章</td></tr><tr><td>字符串和数字相加报错</td><td><code>input()</code> 返回的永远是字符串</td><td>第 9 章</td></tr><tr><td>交换两个变量后有一个值丢了</td><td>覆盖之前没先暂存旧值</td><td>第 5 章</td></tr><tr><td>原列表被改得面目全非</td><td><code>b = a</code> 是别名不是副本，要复制用 <code>a[:]</code></td><td>第 10 章</td></tr><tr><td>访问字典的某个键就崩</td><td>键可能不存在，先用 <code>.get()</code></td><td>第 11 章</td></tr><tr><td>想追加却把文件清空了</td><td>用了 <code>"w"</code>，追加要用 <code>"a"</code></td><td>第 16 章</td></tr><tr><td>报错说语法不对，但看着没错</td><td>混进了中文标点，或漏了冒号</td><td>第 0、4 章</td></tr><tr><td>报错说名字没定义</td><td>变量名拼错，或函数内外的变量搞混了</td><td>第 13、15 章</td></tr><tr><td>循环里改了循环变量却不生效</td><td><code>for</code> 每轮都会按序列重新赋值</td><td>第 8 章</td></tr></tbody></table></div>
+<blockquote><p><strong>卡住了怎么办</strong>：先读报错的<strong>最后一行</strong>（第 15 章有速查表），再回来对号入座；还不行就用第 15 章的调试办法——把中间变量 <code>print</code> 出来，看它是不是你以为的那个值。<strong>不要靠猜，去看真实的值。</strong></p></blockquote>
+<h2>下一步：往哪走</h2>
+<p>基础打好了，接下来有三件事值得按顺序做。</p>
+<p><strong>第一件：把工具链补齐。</strong> 这几样东西基础篇只点了名、没展开，但它们都是“会了立刻提高效率”的，以你现在的基础完全能自己看懂：</p>
+<div class="table-wrap"><table><thead><tr><th>工具</th><th>解决什么问题</th><th>从哪入手</th></tr></thead><tbody><tr><td>调试器</td><td>程序不报错，但结果不对</td><td>第 15 章的“调试”一节，把 <code>F5</code> / <code>F10</code> 练熟</td></tr><tr><td>虚拟环境 venv</td><td>不同项目的库版本互相打架</td><td>第 14 章的 venv 一节</td></tr><tr><td>Git</td><td>代码改坏了想回到昨天</td><td>先 <code>git init</code> / <code>git add</code> / <code>git commit</code> 三件套，原理后补</td></tr><tr><td>测试</td><td>改一处功能，怕弄坏另一处</td><td>先用 <code>assert</code> 起步，再学 <code>pytest</code></td></tr></tbody></table></div>
+<p><strong>第二件：继续进阶语法。</strong> 装饰器、生成器、迭代器、类型注解、上下文管理器、并发……它们是“能写”和“写得优雅、写得快”之间的分水岭，本教程的<strong>进阶篇</strong>会接着讲。</p>
+<p><strong>第三件：挑一条主线做下去。</strong> 语法只是工具，真正的成长来自“用 Python 解决一个你真在乎的问题”：</p>
+<ul><li><strong>数据分析</strong>：NumPy、Pandas、Matplotlib——处理表格、画图、从数据里找规律；</li><li><strong>Web 与爬虫</strong>：requests、Flask / FastAPI——抓数据、写接口、搭网站；</li><li><strong>自动化办公</strong>：openpyxl、python-docx、pyautogui——批量处理 Excel、Word 和重复操作。</li></ul>
+<p>三条路都不必“先学完再动手”。挑一条，从一个最小的需求开始做。</p>
+<blockquote><p><strong>一个忠告</strong>：不要陷入“教程循环”——学完一本赶紧学下一本。<strong>能力是在项目里长出来的，不是在教程里。</strong></p></blockquote>
+<h2>完结语</h2>
+<p>基础篇到此<strong>完结</strong>。</p>
+<p>所谓基础，不是“简单”，而是之后一切的承重墙——无论你将来写什么程序，用的都是这一篇里的东西。检验基础是否扎实的标准只有一个：<strong>合上教程，你还能不能把每一章的挑战作业重新写出来</strong>。</p>
+<p>把旧作业重做一遍、给自己的旧程序加新功能，都是极好的巩固方式；哪天卡住了，随时回到这本教程里来。</p>
+<p>祝你敲下的每一行代码，都算数。</p>
+<p>—— 基础篇，完结。</p>
+<div class="pager"><a class="pg" href="#basics-ch17">← 第 17 章 · 面向对象编程入门</a><a class="pg next home" href="#home">返回主页 ⌂</a></div>
+</section>
+<footer class="page-foot">TZQ-Py-Tutorial · <a href="https://github.com/AquanSpring/TZQ-Py-Tutorial" target="_blank" rel="noopener">GitHub 仓库</a> · <a href="https://github.com/AquanSpring" target="_blank" rel="noopener">作者主页 @AquanSpring</a></footer>
+</main>
+</div>
+
+<button id="backtop" title="回到顶部">↑</button>
+<script>
+const VOLNAMES={"basics": "基础篇"};
+const sidebar=document.getElementById("sidebar");
+const menuBtn=document.getElementById("menuBtn");
+const home=document.getElementById("home");
+const tut=document.getElementById("tutorial");
+const sub=document.getElementById("topbarSub");
+const progress=document.getElementById("progress");
+const backtop=document.getElementById("backtop");
+const links=[...document.querySelectorAll('#sidebar a.item')];
+const chapters=[...document.querySelectorAll("section.chapter")];
+const overlay=document.getElementById("overlay");
+function closeDrawer(){
+sidebar.classList.remove("open");
+document.body.classList.remove("drawer-open");}
+menuBtn.addEventListener("click",()=>{
+const open=!sidebar.classList.contains("open");
+sidebar.classList.toggle("open");
+document.body.classList.toggle("drawer-open",open);});
+overlay.addEventListener("click",closeDrawer);
+document.querySelectorAll('#sidebar a[href^="#"]').forEach(a=>{
+a.addEventListener("click",closeDrawer);});
+/* ---------- 侧边栏搜索：跨篇章搜标题和正文 ---------- */
+const searchBox=document.getElementById("searchBox");
+const searchResults=document.getElementById("searchResults");
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function clearSearch(){
+searchBox.value="";
+searchResults.hidden=true;
+searchResults.innerHTML="";
+document.querySelectorAll(".vol-nav").forEach(v=>v.hidden=(v.dataset.vol!==sidebar.dataset.vol));
+}
+function searchHits(q){
+const hits=[];
+chapters.forEach(sec=>{
+const h1=sec.querySelector("h1");
+const title=h1?h1.textContent.trim():"";
+if(sec._txt===undefined){
+const clone=sec.cloneNode(true);
+clone.querySelectorAll(".pager,.chapter-badge").forEach(n=>n.remove());
+sec._txt=clone.textContent.replace(/\s+/g," ");
+}
+const text=sec._txt;
+const inTitle=title.toLowerCase().indexOf(q)>=0;
+const i=text.toLowerCase().indexOf(q);
+if(!inTitle&&i<0)return;
+let ctx="";
+if(i>=0){const s=Math.max(0,i-16);ctx=(s>0?"…":"")+text.substr(s,54).trim()+"…";}
+const mt=sec.id.match(/-ch(\d+)$/);
+hits.push({vol:sec.dataset.vol,num:mt?mt[1]:"",title:title,ctx:ctx});
+});
+return hits;
+}
+function runSearch(){
+const q=searchBox.value.trim().toLowerCase();
+if(!q){clearSearch();return;}
+document.querySelectorAll(".vol-nav").forEach(v=>v.hidden=true);
+const hits=searchHits(q);
+if(!hits.length){
+searchResults.innerHTML='<div id="searchEmpty">没有匹配的章节</div>';
+searchResults.hidden=false;
+return;
+}
+searchResults.innerHTML=hits.map(h=>
+'<a class="item" href="#'+h.vol+'-ch'+h.num+'"><span class="n">'+h.num+'</span>'+
+'<span class="t">'+esc(h.title)+
+'<span class="hit-ctx"><span class="hit-vol">'+esc(VOLNAMES[h.vol]||"")+'</span>'+
+esc(h.ctx)+'</span></span></a>').join("");
+searchResults.hidden=false;
+}
+searchBox.addEventListener("input",runSearch);
+searchBox.addEventListener("keydown",e=>{
+if(e.key==="Escape"){clearSearch();searchBox.blur();}});
+/* 搜索结果里的链接是动态生成的，用事件委托关抽屉 */
+sidebar.addEventListener("click",e=>{
+if(e.target.closest&&e.target.closest('a[href^="#"]'))closeDrawer();});
+function route(){
+const m=location.hash.match(/^#([a-z]+)-ch(\d+)$/);
+if(m&&VOLNAMES[m[1]]){
+home.hidden=true;tut.hidden=false;
+sub.textContent="Python "+VOLNAMES[m[1]];
+const vol=m[1],id=vol+"-ch"+m[2];
+sidebar.dataset.vol=vol;
+clearSearch();
+chapters.forEach(s=>s.classList.toggle("current",s.id===id));
+links.forEach(l=>l.classList.toggle("active",l.getAttribute("href")==="#"+id));
+document.querySelectorAll(".vol-nav").forEach(v=>v.hidden=(v.dataset.vol!==vol));
+document.querySelectorAll(".vol-chip").forEach(c=>c.classList.toggle("active",c.dataset.vol===vol));
+window.scrollTo(0,0);
+closeDrawer();
+}else{
+tut.hidden=true;home.hidden=false;
+sub.textContent="从零开始的 Python 之旅";
+progress.style.width="0";
+clearSearch();
+window.scrollTo(0,0);
+}
+}
+window.addEventListener("hashchange",route);
+window.addEventListener("load",route);
+route();
+window.addEventListener("scroll",()=>{
+if(tut.hidden){progress.style.width="0";backtop.classList.remove("show");return;}
+const h=document.documentElement;
+progress.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+"%";
+backtop.classList.toggle("show",h.scrollTop>600);});
+backtop.addEventListener("click",()=>window.scrollTo({top:0,behavior:"smooth"}));
+document.querySelectorAll("#tutorial pre").forEach(pre=>{
+const btn=document.createElement("button");
+btn.className="copy-btn";btn.textContent="复制";
+btn.addEventListener("click",async()=>{
+const t=pre.innerText.replace(/\n$/,"");
+try{await navigator.clipboard.writeText(t);}
+catch(err){
+const ta=document.createElement("textarea");ta.value=t;
+document.body.appendChild(ta);ta.select();
+document.execCommand("copy");ta.remove();}
+btn.textContent="已复制 ✓";setTimeout(()=>btn.textContent="复制",1500);});
+pre.appendChild(btn);});
+</script>
+</body>
+</html>
