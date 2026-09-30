@@ -46,6 +46,34 @@ p.roll()        # 团子 打了个滚 —— 自己新增的
 
 
 # ---------------------------------------------------------------
+# 子类想改掉父类的初始化？用 super()
+# ---------------------------------------------------------------
+
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def bark(self):
+        print(self.name + "：汪汪！")
+
+
+class Puppy(Dog):
+    def __init__(self, name, age, weaned):
+        super().__init__(name, age)     # 先让父类把 name、age 安排好
+        self.weaned = weaned            # 再补自己特有的属性
+
+    def bark(self):
+        super().bark()                  # 也能调用父类的同名方法
+        print("（奶声奶气）")
+
+
+p = Puppy("团子", 1, False)
+print(p.name, p.age, p.weaned)     # 团子 1 False
+p.bark()
+
+
+# ---------------------------------------------------------------
 # 动手：写一个 Student 类
 # ---------------------------------------------------------------
 

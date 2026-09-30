@@ -111,8 +111,16 @@ except FileNotFoundError as e:
 
 
 # ---------------------------------------------------------------
-# 还有 finally 和 assert
+# 还有 else、finally 和 assert
 # ---------------------------------------------------------------
+
+# else：只有没出错时才执行
+try:
+    age = int("18")
+except ValueError:
+    print("输入的不是数字")
+else:
+    print("转换成功，年龄是", age)   # 只有没出错才走到这里
 
 # finally：无论成功还是失败都会执行的收尾代码
 try:

@@ -72,6 +72,20 @@ print(a + b)      # [1, 2, 3, 4, 5] —— 拼接，产生一个新列表
 a.extend(b)       # 把 b 的元素逐个塞进 a，效果类似 a = a + b；但 extend 是原地修改
 print(a)          # [1, 2, 3, 4, 5]
 
+# del：按位置删元素（甚至一整段），也能把变量本身抹掉
+nums = [1, 2, 3, 4, 5]
+
+del nums[0]        # 删掉索引 0 → [2, 3, 4, 5]
+del nums[1:3]      # 删一段 → [2, 5]
+print(nums)        # [2, 5]
+
+tmp = 10
+del tmp
+try:
+    print(tmp)     # ❌ NameError：tmp 已经不存在了
+except NameError as e:
+    print("NameError:", e)
+
 
 # ---------------------------------------------------------------
 # 切片：取一段
@@ -116,8 +130,9 @@ print(max(scores))    # 100  最大
 print(min(scores))    # 66   最小
 print(sum(scores) / len(scores))    # 83.6 平均分
 
-print(100 in scores)    # True
-print(59 in scores)     # False
+print(100 in scores)     # True
+print(59 in scores)      # False
+print(59 not in scores)  # True —— 前面加个 not，就是“不在里面”
 
 
 # ---------------------------------------------------------------
@@ -154,6 +169,20 @@ print(sorted(pairs, key=lambda p: p[1]))   # [(3, 'a'), (2, 'b'), (1, 'c')] —�
 
 
 # ---------------------------------------------------------------
+# 顺手记几个内置函数
+# ---------------------------------------------------------------
+
+print(min(nums, key=abs))     # -1 —— key= 对 min / max 同样有效
+print(max(nums, key=abs))     # -5 —— 绝对值最大的那个
+
+scores = [90, 85, 77, 100, 66]
+print(list(reversed(scores)))    # [66, 100, 77, 85, 90] —— 倒序视图，用 list() 看内容
+
+for i, s in enumerate(scores, start=1):    # start 指定从几开始编号
+    print(f"第 {i} 名：{s}")
+
+
+# ---------------------------------------------------------------
 # 元组：不可修改的列表
 # ---------------------------------------------------------------
 
@@ -170,3 +199,17 @@ except TypeError as e:
 # 解包：一次把元组里的值分别赋给多个变量
 x, y = (3, 5)
 print(x, y)           # 3 5
+
+# 变量前加 *，把剩下的都收进一个列表
+first, *rest = [1, 2, 3, 4]
+print(first)     # 1
+print(rest)      # [2, 3, 4]
+
+*init, last = [1, 2, 3, 4]
+print(init)      # [1, 2, 3]
+print(last)      # 4
+
+# 不用临时变量就能交换——靠的也是解包（第 5 章那道作业的更地道写法）
+a, b = 1, 2
+a, b = b, a
+print(a, b)      # 2 1

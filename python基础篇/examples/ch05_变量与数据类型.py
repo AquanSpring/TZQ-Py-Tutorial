@@ -32,6 +32,13 @@ print(type(3.14))       # <class 'float'>
 print(type("hello"))    # <class 'str'>
 print(type(True))       # <class 'bool'>
 
+# 整数的几种写法：0b 二进制、0o 八进制、0x 十六进制，下划线只是给人看的
+print(0b1010)       # 10
+print(0o17)         # 15
+print(0xFF)         # 255
+print(1_000_000)    # 1000000
+print(type(0xFF))   # <class 'int'> —— 写法变了，类型没变
+
 
 # ---------------------------------------------------------------
 # 类型转换：在类型之间搭桥
@@ -48,6 +55,12 @@ print(int("5"))        # 字符串 → 整数，得到 5
 print(float("3.14"))   # 字符串 → 浮点数，得到 3.14
 print(str(100))        # 整数 → 字符串，得到 100
 print(type(str(100)))  # 用 type() 验证它真的是字符串：<class 'str'>
+
+# 一条规律：每个类型名都能当转换函数用
+print(bool(""))        # False —— 空字符串是假值
+print(list("abc"))     # ['a', 'b', 'c']
+print(tuple([1, 2]))   # (1, 2)
+print(set([1, 1, 2]))  # {1, 2} —— 顺便去重了
 
 age = "18"          # 此时 age 是字符串
 age = int(age)      # 转换成整数
