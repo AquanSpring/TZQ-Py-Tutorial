@@ -3,12 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 页面本身就是深色主题：声明 color-scheme 后，浏览器的“强制深色/夜间模式”
+     不会再对页面改色——否则渐变文字（background-clip:text）会被当成浅色背景压暗 -->
+<meta name="color-scheme" content="dark">
 <meta name="description" content="TZQ-Py-Tutorial —— 写给初学者的 Python 基础教程">
 <title>TZQ-Py-Tutorial</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐍</text></svg>">
 <style>
 :root{--accent:#4B8BBE;--gold:#FFD43B;--bg:#0b1220;--card:#111a2c;--card2:#0d1526;
---text:#dbe4f0;--muted:#8aa0b8;--border:#1e293b;--code-bg:#0a1020}
+--text:#dbe4f0;--muted:#8aa0b8;--border:#1e293b;--code-bg:#0a1020;color-scheme:dark}
 *{box-sizing:border-box}
 html{scrollbar-width:thin;scrollbar-color:#223047 transparent}
 body{margin:0;font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
@@ -132,9 +135,12 @@ linear-gradient(180deg,#0d1830 0%,var(--bg) 88%)}
 .hero-inner{max-width:1140px;margin:0 auto;display:grid;
 grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
 .hero-tag{color:#7dd3fc;letter-spacing:3px;font-size:13px;margin-bottom:14px}
-.hero h1{font-size:46px;line-height:1.25;margin:0 0 16px;
+.hero h1{font-size:46px;line-height:1.25;margin:0 0 16px;color:#f8fafc;
 background:linear-gradient(95deg,#f8fafc 30%,var(--gold));
--webkit-background-clip:text;background-clip:text;color:transparent}
+-webkit-background-clip:text;background-clip:text;
+/* 用 text-fill-color 而不是 color:transparent：不支持裁剪的浏览器显示纯色回退，
+   强制深色模式改写 color 时也动不到填充色，渐变文字不会被压灰 */
+-webkit-text-fill-color:transparent}
 .hero-sub{color:#9fb3cc;font-size:17px;margin:0 0 26px}
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
 .btn{display:inline-block;padding:12px 28px;border-radius:11px;font-size:16px;
