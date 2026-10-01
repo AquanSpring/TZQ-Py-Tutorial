@@ -10,11 +10,14 @@ TZQ-Py-Tutorial 构建脚本（多篇章版）。
 
 【写 md 时注意：本转换器不支持下面这几种写法】
   1. 引用块（>）里不能放代码围栏——围栏会被当成普通文本原样输出；
-  2. 只支持 **粗体**，不支持 *斜体*，写单星号会原样显示出来；
+  2. 只支持 **粗体**，不支持 *斜体*，写单星号会原样显示出来；粗体两星内侧不能贴空格
+     （** x ** 会原样显示），这样正文里的 2 ** 3 这类幂运算才不会被误认成粗体；
   3. 标题最多到 ###，#### 会退化成普通段落；
-  4. 代码块内部的 markdown 一律原样显示（比如 # 注释里写 **粗体**，读者会看到星号本身）。
+  4. 代码块内部的 markdown 一律原样显示（比如 # 注释里写 **粗体**，读者会看到星号本身）；
+  5. 不支持 --- 水平线和 *** 粗斜体/星号线。
 
-这几种写法构建时会自动检查（lint_md），发现即报错退出、不出页面，不会静默出错。
+1、3、5 以及单星号斜体写超了，构建时会由 lint_md 自动拦下，报错退出、不出页面，
+不会静默出错；2 的贴空格粗体和 4 不报错，但会按上面的方式原样显示。
 """
 import html
 import json
@@ -47,13 +50,20 @@ def inline(s):
         codes.append(content)
         return "\x00" + str(len(codes) - 1) + "\x00"
 
+    def make_link(url, text):
+        # 走到这里 &、<、> 已经转义，唯独双引号还裸着——不补上就能逃出 href 属性
+        url = url.replace('"', "&quot;")
+        return '<a href="%s" target="_blank" rel="noopener">%s</a>' % (url, text)
+
     s = re.sub(r"`([^`]+)`", stash, s)
     s = html.escape(s, quote=False)
-    s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
+    # 粗体两星内侧不许贴空格：正文里的 2 ** 3 这类幂运算才不会被误认成粗体
+    s = re.sub(r"\*\*(?=\S)([^*]+?)(?<=\S)\*\*", r"<strong>\1</strong>", s)
     s = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)",
-               r'<a href="\2" target="_blank" rel="noopener">\1</a>', s)
-    s = re.sub(r"&lt;(https?://[^&\s]+)&gt;",
-               r'<a href="\1" target="_blank" rel="noopener">\1</a>', s)
+               lambda m: make_link(m.group(2), m.group(1)), s)
+    # <网址> 自动链接：匹配到转义后的 &gt; 为止，URL 里的 &amp;（原文 &）才不会被截断
+    s = re.sub(r"&lt;(https?://(?:(?!&gt;)\S)+)&gt;",
+               lambda m: make_link(m.group(1), m.group(1)), s)
 
     def unstash(m):
         return "<code>" + html.escape(codes[int(m.group(1))], quote=False) + "</code>"
@@ -64,7 +74,9 @@ def inline(s):
 
 HL = re.compile(
     r'(?P<comment>#[^\n]*)'
-    r'|(?P<string>f?"[^"\n]*"|f?\'[^\'\n]*\')'
+    r'|(?P<string>f?"""[\s\S]*?"""'          # 三引号字符串可跨行，放在单引号前面优先匹配
+    r'|f?\'\'\'[\s\S]*?\'\'\''
+    r'|f?"[^"\n]*"|f?\'[^\'\n]*\')'
     r'|(?P<number>\b\d+(?:\.\d+)?\b)'
     r'|(?P<kw>\b(?:False|None|True|and|as|assert|break|class|continue|def|del|elif|else'
     r'|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return'
@@ -109,31 +121,24 @@ def render_table(header, rows):
 
 
 def render_list(items):
-    # 嵌套列表必须用它自己开出来的标签闭合，不能拿下一个顶层项的 marker 来猜
-    parts, cur, nested = [], None, None   # cur: 顶层列表标签  nested: 嵌套列表标签
+    # 缩进栈支持任意层级嵌套：新列表永远开在上一层尚未闭合的 <li> 里，
+    # 所以 <li> 要等确认后面没有更深层（来了同级新项，或该层收尾）才补 </li>
+    parts, stack = [], []   # stack: 从外到内依次打开的 (缩进, 标签)，stack[0] 是顶层
     for indent, marker, text in items:
         tag = "ol" if marker == "1." else "ul"
-        if indent == 0:
-            if nested is not None:
-                parts.append("</%s></li>" % nested)
-                nested = None
-            elif cur is not None:
-                parts.append("</li>")
-            if cur != tag:
-                if cur is not None:
-                    parts.append("</%s>" % cur)
-                parts.append("<%s>" % tag)
-                cur = tag
-            parts.append("<li>%s" % inline(text))
-        else:
-            if nested is None:
-                parts.append("<%s>" % tag)
-                nested = tag
-            parts.append("<li>%s</li>" % inline(text))
-    if nested is not None:
-        parts.append("</%s>" % nested)
-    if cur is not None:
-        parts.append("</li></%s>" % cur)
+        while stack and indent < stack[-1][0]:      # 缩进退回：逐层闭合嵌套列表
+            parts.append("</li></%s>" % stack.pop()[1])
+        if not stack or indent > stack[-1][0]:      # 开新列表（顶层，或更深一层）
+            stack.append((indent, tag))
+            parts.append("<%s><li>%s" % (tag, inline(text)))
+        elif stack[-1][1] == tag:                   # 同级同标签：接一个新列表项
+            parts.append("</li><li>%s" % inline(text))
+        else:                                       # 同级换标签：闭旧开新，仍在上一层 <li> 里
+            parts.append("</li></%s>" % stack.pop()[1])
+            stack.append((indent, tag))
+            parts.append("<%s><li>%s" % (tag, inline(text)))
+    while stack:                                    # 收尾：从最内层逐层闭合
+        parts.append("</li></%s>" % stack.pop()[1])
     return "".join(parts)
 
 
@@ -216,11 +221,17 @@ def lint_md(text, where):
     if re.search(r"(?m)^#{4,} ", outside):
         errors.append("出现了 #### 及更深的标题——转换器最多支持 ###，请降一级或改用粗体")
     # 行内代码里的 * 不是排版符号，先整体挖掉再查斜体；* 前后贴空格的是乘号不是斜体
-    m = re.search(r"(?<!\*)\*(?!\s|\*)[^*\n]+?(?<!\s)\*(?!\*)",
-                  re.sub(r"`[^`\n]*`", "", outside))
+    no_code = re.sub(r"`[^`\n]*`", "", outside)
+    m = re.search(r"(?<!\*)\*(?!\s|\*)[^*\n]+?(?<!\s)\*(?!\*)", no_code)
     if m:
         errors.append("出现了单星号斜体（如 %s）——转换器只支持 **粗体**，单星号会原样显示"
                       % m.group(0)[:20])
+    # 三连星要查挖代码之前的原文：**`x`** 这种“粗体包行内代码”挖掉代码后
+    # 会拼出假的三连星；而三连星本身只可能是粗斜体/分隔线，星号在代码里则无关排版
+    if "***" in outside:
+        errors.append("出现了连续三个星号 ***——转换器不支持粗斜体/星号分隔线，请只用 **粗体**")
+    if re.search(r"(?m)^\s*>?\s*-{3,}\s*$", outside):
+        errors.append("出现了 --- 水平线——转换器不支持，会原样输出成一段文本，请改用标题或空行分隔")
     if re.search(r"(?m)^>\s*```", outside):
         errors.append("引用块里放了代码围栏——不会被解析，代码会原样显示，请把代码块移出引用块")
     return ["%s：%s" % (where, e) for e in errors]

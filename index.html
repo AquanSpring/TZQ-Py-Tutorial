@@ -1200,9 +1200,9 @@ parts = [<span class="st">"apple"</span>, <span class="st">"banana"</span>, <spa
 <span class="bi">print</span>(<span class="st">"他说：\"</span>你好\<span class="st">""</span>)        <span class="cm"># \" 在双引号字符串里再放双引号</span></code></pre>
 <p>回忆第四章“只用英文字符”——转义字符同样必须用英文半角 <code>\</code>，写成中文的 <code>\</code> 会直接报错。</p>
 <p>还有两个相关的实用写法：</p>
-<pre><code>text = <span class="st">""</span>"三引号字符串
+<pre><code>text = <span class="st">"""三引号字符串
 可以原样保留
-很多行的内容<span class="st">""</span>"                    <span class="cm"># 多行文本，不用自己拼 \n</span>
+很多行的内容"""</span>                    <span class="cm"># 多行文本，不用自己拼 \n</span>
 
 path = r<span class="st">"C:\new\folder"</span>           <span class="cm"># 字符串前加个 r：原始字符串</span>
 <span class="bi">print</span>(path)                       <span class="cm"># C:\new\folder —— \ 原样保留</span></code></pre>
@@ -1263,7 +1263,7 @@ greet()</code></pre>
     <span class="kw">pass</span>          <span class="cm"># 还没想好怎么写，先占个位，保证代码能运行</span></code></pre>
 <p>函数开头还可以放一段字符串，专门说明<strong>这个函数是干什么的</strong>，这叫<strong>文档字符串（docstring）</strong>：</p>
 <pre><code><span class="kw">def</span> add(a, b):
-    <span class="st">""</span><span class="st">"把两个数相加并返回结果。"</span><span class="st">""</span>
+    <span class="st">"""把两个数相加并返回结果。"""</span>
     <span class="kw">return</span> a + b
 
 <span class="bi">print</span>(add.__doc__)     <span class="cm"># 把两个数相加并返回结果。</span></code></pre>
