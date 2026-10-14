@@ -194,7 +194,9 @@ def convert_md(text):
         if not line.strip():
             i += 1
             continue
-        para = []
+        # 未命中块级规则的行按普通文本处理，每轮至少消耗一行，避免卡在孤立的 | 或 # 上。
+        para = [line.strip()]
+        i += 1
         while i < n and lines[i].strip() and not re.match(
                 r"^(#{1,3} |>|```|\||\s*([-*]|\d+\.) )", lines[i]):
             para.append(lines[i].strip())
@@ -780,7 +782,7 @@ document.querySelectorAll("#tutorial pre").forEach(pre=>{
 const btn=document.createElement("button");
 btn.className="copy-btn";btn.textContent="复制";
 btn.addEventListener("click",async()=>{
-const t=pre.innerText.replace(/\n$/,"");
+const t=pre.querySelector("code").textContent;
 try{await navigator.clipboard.writeText(t);}
 catch(err){
 const ta=document.createElement("textarea");ta.value=t;

@@ -1024,11 +1024,12 @@ student[<span class="st">"age"</span>] = <span class="nu">19</span>           <s
 <span class="bi">print</span>(<span class="bi">len</span>(student))           <span class="cm"># 2 —— 键值对的个数</span></code></pre>
 <p>注意：花括号 <code>{}</code> 定义的是字典（键值对），方括号 <code>[]</code> 定义的是列表——但<strong>访问元素时两者都用方括号</strong>：<code>student["name"]</code>。</p>
 <p>字典的键通常是字符串，值可以是任何类型，同一个字典里各值的类型也可以不同。</p>
-<p>但键有个<strong>硬性要求</strong>：必须是<strong>不可变</strong>的类型。数字、字符串、元组都行，列表和字典不行：</p>
+<p>但键有个<strong>硬性要求</strong>：必须<strong>可哈希</strong>。数字、字符串可以；元组只有在<strong>每个元素都可哈希</strong>时才可以，列表和字典不行：</p>
 <pre><code>ok = {<span class="st">"name"</span>: <span class="st">"小明"</span>, (<span class="nu">1</span>, <span class="nu">2</span>): <span class="st">"元组当键也可以"</span>}    <span class="cm"># ✅</span>
 
-bad = {[<span class="nu">1</span>, <span class="nu">2</span>]: <span class="st">"列表当键"</span>}      <span class="cm"># ❌ TypeError: unhashable type: 'list'</span></code></pre>
-<p>原因：字典要靠键算出一个“位置”来快速查找，而可变的东西一旦改了内容，算出来的位置就对不上了。</p>
+bad = {[<span class="nu">1</span>, <span class="nu">2</span>]: <span class="st">"列表当键"</span>}      <span class="cm"># ❌ TypeError: unhashable type: 'list'</span>
+bad = {([<span class="nu">1</span>, <span class="nu">2</span>],): <span class="st">"含列表的元组当键"</span>}  <span class="cm"># ❌ 元组里的列表不可哈希</span></code></pre>
+<p>原因：字典靠键的<strong>哈希值</strong>帮助快速查找。可哈希要求对象的哈希值在其生命周期内保持不变，而且相等的对象必须有相同的哈希值。不能简单地把“不可变”当成“可哈希”：元组本身不能修改，但里面装了列表时，整个元组仍不能作为键。</p>
 <h3>还有几个字典方法</h3>
 <p>用到时查得到就行，先认识一下：</p>
 <pre><code>student = {<span class="st">"name"</span>: <span class="st">"小明"</span>, <span class="st">"age"</span>: <span class="nu">18</span>}
@@ -2008,7 +2009,7 @@ document.querySelectorAll("#tutorial pre").forEach(pre=>{
 const btn=document.createElement("button");
 btn.className="copy-btn";btn.textContent="复制";
 btn.addEventListener("click",async()=>{
-const t=pre.innerText.replace(/\n$/,"");
+const t=pre.querySelector("code").textContent;
 try{await navigator.clipboard.writeText(t);}
 catch(err){
 const ta=document.createElement("textarea");ta.value=t;

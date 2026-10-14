@@ -9,7 +9,8 @@ TZQ-Py-Tutorial 示例代码校验（CI 用）。
    不污染仓库；同时也能验证脚本不依赖“从哪个目录运行”。
 
 2. 【核对】把 print(...) 行末注释里声称的“值”抽出来，要求它确实作为一整行
-   出现在实际输出里。注释里带中文说明的（如 `# [1, 2] —— 筛选结果`）只取
+   出现在同一源码行的 print 输出里；函数或循环中同一行可产生多个结果，至少命中一次。
+   注释里带中文说明的（如 `# [1, 2] —— 筛选结果`）只取
    说明之前的部分；认不出是纯值的注释直接跳过——宁可漏检，也不误报。
 
 除了 examples/，正文 md 里的 ```python 代码块也按章拼接后跑一遍并核对注释，
@@ -17,8 +18,12 @@ TZQ-Py-Tutorial 示例代码校验（CI 用）。
 
 用法：python -X utf8 _check_examples.py
 """
+import builtins
+import io
+import json
 import os
 import re
+import runpy
 import shutil
 import subprocess
 import sys
@@ -66,15 +71,48 @@ def claimed_value(line):
     return claim if VALUE.match(claim) else None
 
 
+def capture_output(filename, output_path):
+    """子进程入口：记录目标脚本各源码行的 print 输出，并保持正常输出与输入。"""
+    target = os.path.abspath(filename)
+    outputs = {}
+    original_print = builtins.print
+
+    def recorded_print(*args, **kwargs):
+        caller = sys._getframe(1)
+        stream = kwargs.get("file")
+        if caller.f_code.co_filename != target or (stream is not None and stream is not sys.stdout):
+            return original_print(*args, **kwargs)
+        buffer = io.StringIO()
+        original_print(*args, **dict(kwargs, file=buffer))
+        text = buffer.getvalue()
+        sys.stdout.write(text)
+        if kwargs.get("flush"):
+            sys.stdout.flush()
+        outputs.setdefault(str(caller.f_lineno), []).extend(
+            line.strip() for line in text.splitlines() if line.strip())
+
+    sys.path.insert(0, os.path.dirname(target))
+    sys.argv = [filename]
+    builtins.print = recorded_print
+    try:
+        runpy.run_path(target, run_name="__main__")
+    finally:
+        builtins.print = original_print
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(outputs, f, ensure_ascii=False)
+
+
 def run_script(work, filename, code_text, problems, where, feed=DEFAULT_FEED):
-    """在 work 目录下运行代码，返回 stdout 行集合；出错时记入 problems 并返回 None。"""
+    """在 work 目录下运行代码，返回源码行到输出的映射；出错时记入 problems。"""
     path = os.path.join(work, filename)
     with open(path, "w", encoding="utf-8") as f:
         f.write(code_text)
     env = dict(os.environ, PYTHONIOENCODING="utf-8")
     env.pop("PYTHONUTF8", None)          # 让子进程用真实的系统默认编码
+    output_path = os.path.join(work, "_print_output.json")
     try:
-        p = subprocess.run([sys.executable, filename], input=feed,
+        p = subprocess.run([sys.executable, os.path.abspath(__file__),
+                            "--capture-output", filename, output_path], input=feed,
                            capture_output=True, text=True, encoding="utf-8",
                            errors="replace", cwd=work, env=env, timeout=180)
     except subprocess.TimeoutExpired:
@@ -84,7 +122,8 @@ def run_script(work, filename, code_text, problems, where, feed=DEFAULT_FEED):
         tail = (p.stderr or "").strip().splitlines()[-6:]
         problems.append("%s：退出码 %d\n      %s" % (where, p.returncode, "\n      ".join(tail)))
         return None
-    return {ln.strip() for ln in p.stdout.splitlines() if ln.strip()}
+    with open(output_path, encoding="utf-8") as f:
+        return json.load(f)
 
 
 def check_source(source, out_lines, problems, where):
@@ -97,8 +136,8 @@ def check_source(source, out_lines, problems, where):
         if claim is None:
             continue
         checked += 1
-        if claim not in out_lines:
-            problems.append("%s:%d：注释声称 %s，但实际输出里没有这一行"
+        if claim not in out_lines.get(str(i), []):
+            problems.append("%s:%d：注释声称 %s，但该行 print 的实际输出中没有这个值"
                             % (where, i, claim))
     return checked
 
@@ -166,4 +205,7 @@ def main():
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    if len(sys.argv) == 4 and sys.argv[1] == "--capture-output":
+        capture_output(sys.argv[2], sys.argv[3])
+    else:
+        sys.exit(main())

@@ -20,12 +20,18 @@ student["age"] = 19           # 键已存在 → 修改值
 del student["score"]          # 删除这个键值对
 print(len(student))           # 2 —— 键值对的个数
 
-# 键的硬性要求：必须是不可变类型。数字 / 字符串 / 元组都行，列表不行
+# 键的硬性要求：必须可哈希。数字 / 字符串可以，元组要求每个元素都可哈希
 ok = {"name": "小明", (1, 2): "元组当键也可以"}
 print(ok[(1, 2)])             # 元组当键也可以
 
 try:
-    bad = {[1, 2]: "列表当键"}     # ❌ 列表是可变类型，不能当键
+    bad = {[1, 2]: "列表当键"}     # ❌ 列表不可哈希，不能当键
+except TypeError as e:
+    print("TypeError:", e)
+
+# 元组本身不可修改，但含有列表时仍不可哈希
+try:
+    bad = {([1, 2],): "含列表的元组当键"}  # ❌ TypeError
 except TypeError as e:
     print("TypeError:", e)
 

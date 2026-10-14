@@ -18,6 +18,16 @@ jobs:
         with:
           python-version: "3.11"
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: 校验构建与输出检查的回归用例
+        run: python -X utf8 -m unittest discover -s tests -v
+
+      - name: 校验代码复制与兼容回退
+        run: node --test tests/test_copy.js
+
       - name: 编译检查全部示例代码
         run: python -m compileall -q "python基础篇/examples" _build_index.py _check_examples.py _check_docs.py
 
